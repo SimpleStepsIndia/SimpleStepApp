@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">SimpleStepApp</string>
+
+    <string name="reg_Name">Enter Name</string>
+    <string name="reg_Email">Enter Email</string>
+    <string name="reg_Mobile">Enter Mobile Number</string>
+    <string name="reg_Age">Enter Age</string>
+</resources>
