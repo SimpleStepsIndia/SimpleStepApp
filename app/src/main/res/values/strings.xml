@@ -4,5 +4,18 @@
     <string name="reg_Name">Enter Name</string>
     <string name="reg_Email">Enter Email</string>
     <string name="reg_Mobile">Enter Mobile Number</string>
-    <string name="reg_Age">Enter Age</string>
+    <string name="reg_Age">Enter DOB</string>
+    <string name="slctTimeslot">Select Time Slot</string>
+    <string name="rBtnTxtOption1">This is my routine, I think I am doing right.</string>
+    <string name="rBtnTxtOption2">This is my routine, not sure about advantages/ disadvantages. </string>
+    <string name="rBtnTxtOption3">I wish to improve but not able to manage.</string>
+
+    <string name="brush_Q1">Do you massage your gums regularly</string>
+    <string name="filetype">Select a Type</string>
+    <string name="greterthan_30"> &gt; 30 mins  </string>
+    <string name="lesthan_5">&lt; 5 mins</string>
+    <string-array name="filetypes">
+        <item>Camera</item>
+        <item>Gallery</item>
+    </string-array>
 </resources>
