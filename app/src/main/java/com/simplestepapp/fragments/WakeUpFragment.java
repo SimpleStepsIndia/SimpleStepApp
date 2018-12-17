@@ -1,0 +1,101 @@
+package com.simplestepapp.fragments;
+
+import android.os.Bundle;
+import android.support.annotation.Nullable;
+import android.support.v4.app.Fragment;
+import android.support.v7.widget.AppCompatButton;
+import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.GridView;
+import android.widget.LinearLayout;
+import android.widget.TextView;
+
+import com.simplestepapp.R;
+import com.simplestepapp.activities.MainActivity;
+import com.simplestepapp.activities.ViewPagerActivity;
+import com.simplestepapp.adapters.CustomAdapter;
+
+import java.util.ArrayList;
+
+/**
+ * Created by Srinivas on 12/17/2018.
+ */
+
+public class WakeUpFragment extends Fragment {
+    private static WakeUpFragment instance = null;
+
+    GridView grid_view;
+
+    ArrayList<String> timeSlots;
+
+    CustomAdapter customAdapter;
+
+    LinearLayout lyt_list_Why;
+
+
+    AppCompatButton btn_Next;
+    @Nullable
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        View v = inflater.inflate(R.layout.frag_wakeup, container, false);
+        initviews(v);
+        timeSlots = new ArrayList<>();
+        timeSlots.add("5:00");
+        timeSlots.add("5:15");
+        timeSlots.add("5:30");
+        timeSlots.add("5:45");
+        timeSlots.add("6:00");
+        timeSlots.add("6:15");
+        timeSlots.add("6:30");
+        timeSlots.add("6:45");
+        timeSlots.add("7:00");
+        timeSlots.add("7:15");
+        timeSlots.add("7:30");
+        timeSlots.add("7:45");
+        customAdapter = new CustomAdapter(getActivity().getApplicationContext(), timeSlots);
+        grid_view.setAdapter(customAdapter);
+        grid_view.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                customAdapter.setSelectedIndex(position);
+                String s_Time=(String) parent.getItemAtPosition(position);
+                Log.d("Fragment",""+s_Time);
+                lyt_list_Why.setVisibility(View.VISIBLE);
+            }
+        });
+
+
+        return v;
+    }
+
+    private void initviews(View v) {
+        grid_view=v.findViewById(R.id.grid_view);
+        lyt_list_Why=v.findViewById(R.id.lyt_list_Why);
+    }
+
+
+    public static WakeUpFragment newInstance(String text){
+
+        if(instance == null){
+            // new instance
+            instance = new WakeUpFragment();
+
+            // sets data to bundle
+            Bundle bundle = new Bundle();
+            bundle.putString("msg", text);
+
+            // set data to fragment
+            instance.setArguments(bundle);
+
+            return instance;
+        } else {
+
+            return instance;
+        }
+
+    }
+
+}
