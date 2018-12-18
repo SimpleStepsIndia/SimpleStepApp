@@ -25,6 +25,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.content.FileProvider;
 import android.support.v4.view.ViewPager;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -49,6 +50,8 @@ import com.simplestepapp.R;
 import com.simplestepapp.adapters.CustomAdapter;
 import com.simplestepapp.utils.ConnectivityUtils;
 import com.simplestepapp.utils.HorizontalListView;
+import com.simplestepapp.utils.Toaster;
+import com.simplestepapp.utils.ValidationUtils;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -66,13 +69,13 @@ import static android.provider.Settings.Secure.LOCATION_MODE_HIGH_ACCURACY;
 
 public class MainActivity extends AppCompatActivity {
 
-    CustomAdapter customAdapter,customTimeAdapter;
+    CustomAdapter customAdapter, customTimeAdapter;
 
     AppCompatButton btn_SignUp;
 
     AppCompatImageView img_DOB;
 
-    AppCompatEditText edt_Txt_DOB;
+    AppCompatEditText edtTxt_Name, edtTxt_EmailId, edtTxt_MobNumber, edt_Txt_DOB;
 
     AppCompatTextView txt_WkUP_Next, txt_Next, txt_Back;
 
@@ -80,7 +83,7 @@ public class MainActivity extends AppCompatActivity {
 
     public double latitude = 0.0, longitude = 0.0;
 
-    ArrayList<String> timeSlots;
+    public static ArrayList<String> timeSlots = new ArrayList<>();
 
     HorizontalListView hlvCustomList, hlvCustomListStartTime, hlvCustomListEndTime;
 
@@ -100,29 +103,46 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        toolbarsetUp();
         timeSlots = new ArrayList<>();
-        timeSlots.add("5:00 AM");
-        timeSlots.add("5:15 AM");
-        timeSlots.add("5:30 AM");
-        timeSlots.add("5:45 AM");
-        timeSlots.add("6:00 AM");
-        timeSlots.add("6:15 AM");
-        timeSlots.add("6:30 AM");
-        timeSlots.add("6:45 AM");
-        timeSlots.add("7:00 AM");
-        timeSlots.add("7:15 AM");
-        timeSlots.add("7:30 AM");
-        timeSlots.add("7:45 AM");
-        timeSlots.add("8:00 AM");
-        timeSlots.add("8:15 AM");
-        timeSlots.add("8:30 AM");
-        timeSlots.add("8:45 AM");
-        timeSlots.add("9:00 AM");
+        timeSlots.add("5:00");
+        timeSlots.add("5:15");
+        timeSlots.add("5:30");
+        timeSlots.add("5:45");
+        timeSlots.add("6:00");
+        timeSlots.add("6:15");
+        timeSlots.add("6:30");
+        timeSlots.add("6:45");
+        timeSlots.add("7:00");
+        timeSlots.add("7:15");
+        timeSlots.add("7:30");
+        timeSlots.add("7:45");
         initviews();
         btn_SignUp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                wakeupDialog();
+
+                /*if (edtTxt_Name.getText().toString().isEmpty()) {
+                    edtTxt_Name.setError("Please Enter the Name !");
+                    edtTxt_Name.requestFocus();
+                } else if (edtTxt_EmailId.getText().toString().isEmpty() ||
+                        !ValidationUtils.isValidEmaillId(edtTxt_EmailId.getText().toString().trim())) {
+                    edtTxt_EmailId.setError("Please Enter valid Email !");
+                    edtTxt_EmailId.requestFocus();
+                } else if (edtTxt_MobNumber.getText().toString().trim().isEmpty() ||
+                        !ValidationUtils.isValidMobile(edtTxt_MobNumber.getText().toString().trim())) {
+                    edtTxt_MobNumber.setError("Please Enter the Valid Mobile Number !");
+                } else if (edt_Txt_DOB.getText().toString().isEmpty()) {
+                    edt_Txt_DOB.setError("Please Enter the DOB !");
+                    edt_Txt_DOB.requestFocus();
+                } else if (imageStatus.equals("0")) {
+                    Toaster.showWarningMessage("Please Capture the Image !");
+                } else {
+                    Intent intent_Pager = new Intent(getApplicationContext(), ViewPagerActivity.class);
+                    startActivity(intent_Pager);
+                }*/
+                Intent intent_Pager = new Intent(getApplicationContext(), ViewPagerActivity.class);
+                startActivity(intent_Pager);
             }
         });
         img_Profile.setOnClickListener(new View.OnClickListener() {
@@ -157,10 +177,20 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void initviews() {
+        edtTxt_Name = findViewById(R.id.edtTxt_Name);
+        edtTxt_EmailId = (AppCompatEditText) findViewById(R.id.edtTxt_EmailId);
+        edtTxt_MobNumber = (AppCompatEditText) findViewById(R.id.edtTxt_MobNumber);
+        edt_Txt_DOB = (AppCompatEditText) findViewById(R.id.edt_Txt_DOB);
         btn_SignUp = (AppCompatButton) findViewById(R.id.btn_SignUp);
         img_Profile = (CircleImageView) findViewById(R.id.img_Profile);
         img_DOB = (AppCompatImageView) findViewById(R.id.img_DOB);
-        edt_Txt_DOB = (AppCompatEditText) findViewById(R.id.edt_Txt_DOB);
+
+    }
+
+    public void toolbarsetUp() {
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
+        getSupportActionBar().setIcon(R.drawable.logo);
+        getSupportActionBar().setDisplayUseLogoEnabled(true);
     }
 
     public void requestPermissions() {
@@ -291,8 +321,7 @@ public class MainActivity extends AppCompatActivity {
                         outFile.flush();
                         outFile.close();
                         bitmapCaptredImg = mutableBitmap;
-                        img_Profile.setImageURI(outputFileUri);
-                        //img_Profile.setImageBitmap(mutableBitmap);
+                        img_Profile.setImageBitmap(mutableBitmap);
                     } catch (FileNotFoundException e) {
                         e.printStackTrace();
                         bitmapCaptredImg = null;
@@ -352,7 +381,7 @@ public class MainActivity extends AppCompatActivity {
         alertDialog = builder.create();
         alertDialog.show();
         hlvCustomList = (HorizontalListView) alertDialog.findViewById(R.id.hlvCustomList);
-        txt_WkUP_Next = (AppCompatTextView) alertDialog.findViewById(R.id.txt_WkUP_Next);
+        txt_WkUP_Next = (AppCompatTextView) alertDialog.findViewById(R.id.txt_Next);
         lyt_list_Why = (LinearLayout) alertDialog.findViewById(R.id.lyt_list_Why);
         customAdapter = new CustomAdapter(MainActivity.this, timeSlots);
         hlvCustomList.setAdapter(customAdapter);
@@ -528,7 +557,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        customTimeAdapter=new CustomAdapter(MainActivity.this,timeSlots);
+        customTimeAdapter = new CustomAdapter(MainActivity.this, timeSlots);
         hlvCustomListEndTime.setAdapter(customTimeAdapter);
 
         hlvCustomListEndTime.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -584,7 +613,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        customTimeAdapter=new CustomAdapter(MainActivity.this,timeSlots);
+        customTimeAdapter = new CustomAdapter(MainActivity.this, timeSlots);
         hlvCustomListEndTime.setAdapter(customTimeAdapter);
 
         hlvCustomListEndTime.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -640,7 +669,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        customTimeAdapter=new CustomAdapter(MainActivity.this,timeSlots);
+        customTimeAdapter = new CustomAdapter(MainActivity.this, timeSlots);
         hlvCustomListEndTime.setAdapter(customTimeAdapter);
         hlvCustomListEndTime.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -662,14 +691,12 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 alertDialog.dismiss();
-                Toast.makeText(getApplicationContext(),"Registarton Succeessfully Completed !",Toast.LENGTH_LONG).show();
-                Intent intent_Home=new Intent(MainActivity.this,HomeActivity.class);
+                Toast.makeText(getApplicationContext(), "Registarton Succeessfully Completed !", Toast.LENGTH_LONG).show();
+                Intent intent_Home = new Intent(MainActivity.this, HomeActivity.class);
                 startActivity(intent_Home);
             }
         });
     }
-
-
 
 
 }

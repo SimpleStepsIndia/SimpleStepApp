@@ -6,133 +6,171 @@
     android:background="#ffffff"
     android:orientation="vertical">
 
+    <include
+        android:id="@+id/lyt_Hdr"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        layout="@layout/lyt_header"/>
+
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_below="@+id/lyt_Hdr"
         android:fillViewport="true"
         android:fitsSystemWindows="true">
 
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical">
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:background="#2e72fa"
-            android:gravity="center">
-
-            <android.support.v7.widget.AppCompatTextView
-                android:id="@+id/hdr"
-                style="@style/style_Hdr_Txt"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:text="Wake Up"
-                android:textColor="#FFFFFF"
-                android:textSize="16sp" />
-
-        </LinearLayout>
-
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="10dp"
             android:orientation="vertical">
 
-            <android.support.v7.widget.AppCompatTextView
-                style="@style/style_Hdr_Txt"
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/slctTimeslot" />
+                android:layout_height="50dp"
+                android:gravity="center">
 
-            <android.support.v7.widget.CardView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:cardBackgroundColor="#f1ae8b"
-                app:cardCornerRadius="5dp"
-                android:elevation="5dp">
-
-                <GridView
-                    android:id="@+id/grid_view"
-                    android:layout_width="fill_parent"
-                    android:layout_height="fill_parent"
-                    android:columnWidth="90dp"
+                <android.support.v7.widget.AppCompatTextView
+                    android:id="@+id/hdr"
+                    style="@style/style_Hdr_Txt"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
                     android:gravity="center"
-                    android:horizontalSpacing="10dp"
-                    android:numColumns="4"
-                    android:stretchMode="columnWidth"
-                    android:verticalSpacing="10dp"
-                    android:padding="5dp">
+                    android:text="@string/txtHdng_Q1"
+                    android:textColor="#021a45"
+                    android:textSize="16sp" />
 
-                </GridView>
-            </android.support.v7.widget.CardView>
+            </LinearLayout>
 
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/lyt_list_Why"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="10dp"
-            android:orientation="vertical"
-            android:visibility="invisible">
-
-            <android.support.v7.widget.AppCompatTextView
-                style="@style/style_Hdr_Txt"
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Why:" />
-
-            <RadioGroup
-                android:id="@+id/rGrp_Options"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
                 android:orientation="vertical">
 
-                <RadioButton
-                    android:id="@+id/rBtn_op1"
+                <android.support.v7.widget.AppCompatTextView
+                    style="@style/style_Hdr_Txt"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="@string/rBtnTxtOption1" />
+                    android:text="@string/slctTimeslot" />
 
-                <RadioButton
-                    android:id="@+id/rBtn_op2"
+                <android.support.v7.widget.CardView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="@string/rBtnTxtOption2" />
+                    android:elevation="5dp"
+                    app:cardBackgroundColor="#f76f34"
+                    app:cardCornerRadius="5dp">
 
-                <RadioButton
-                    android:id="@+id/rBtn_op3"
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+
+                    <GridView
+                        android:id="@+id/grid_view"
+                        android:layout_width="fill_parent"
+                        android:layout_height="fill_parent"
+                        android:columnWidth="10dp"
+                        android:gravity="center"
+                        android:horizontalSpacing="2dp"
+                        android:numColumns="4"
+                        android:padding="3dp"
+                        android:stretchMode="columnWidth"
+                        android:verticalSpacing="2dp">
+
+                    </GridView>
+
+
+                        <android.support.v7.widget.AppCompatTextView
+                            style="@style/style_Hdr_Txt"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:padding="20dp"
+                            android:text="@string/txt_Quatn1"
+                            android:gravity="center"
+                            android:background="#bfa053"/>
+
+                    </LinearLayout>
+
+
+
+                </android.support.v7.widget.CardView>
+
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/lyt_list_Why"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:orientation="vertical"
+                android:visibility="invisible">
+
+                <android.support.v7.widget.CardView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="@string/rBtnTxtOption3" />
+                    android:elevation="5dp"
+                    android:padding="5dp"
+                    app:cardBackgroundColor="#8ec9a4"
+                    app:cardCornerRadius="5dp">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+
+                        <android.support.v7.widget.AppCompatTextView
+                            style="@style/style_Hdr_Txt"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="Why:" />
+
+                        <RadioGroup
+                            android:id="@+id/rGrp_Options"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical">
+
+                            <RadioButton
+                                android:id="@+id/rBtn_op1"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:text="@string/rBtnTxtOption1" />
+
+                            <RadioButton
+                                android:id="@+id/rBtn_op2"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:text="@string/rBtnTxtOption2" />
+
+                            <RadioButton
+                                android:id="@+id/rBtn_op3"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:text="@string/rBtnTxtOption3" />
 
 
-            </RadioGroup>
+                        </RadioGroup>
+                    </LinearLayout>
+
+                </android.support.v7.widget.CardView>
+
+            </LinearLayout>
 
         </LinearLayout>
-
-
-
-    </LinearLayout>
 
     </ScrollView>
 
-
     <android.support.v7.widget.AppCompatTextView
-        android:id="@+id/txt_WkUP_Next"
+        android:id="@+id/txt_Next"
         style="@style/style_Hdr_Txt"
         android:layout_width="wrap_content"
         android:layout_height="50dp"
-        android:layout_alignParentEnd="true"
         android:layout_alignParentBottom="true"
+        android:layout_alignParentEnd="true"
         android:layout_margin="20dp"
         android:text="Next" />
-
 
 
 </RelativeLayout>

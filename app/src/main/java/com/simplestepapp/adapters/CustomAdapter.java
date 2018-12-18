@@ -21,7 +21,7 @@ public class CustomAdapter extends BaseAdapter {
     private Context context;
     public List<Integer> selectedPositions;
 
-    private static int selectedIndex=0;
+    private int selectedIndex;
 
 
     private LayoutInflater inflater;
@@ -30,6 +30,7 @@ public class CustomAdapter extends BaseAdapter {
         this.context=context;
         this.timeSlots=timeSlots;
         selectedPositions=new ArrayList<>();
+        selectedIndex=-1;
         inflater = (LayoutInflater) context
                 .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     }

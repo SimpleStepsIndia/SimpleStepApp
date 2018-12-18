@@ -10,30 +10,11 @@
         android:layout_height="wrap_content"
         tools:ignore="UselessParent">
 
-        <LinearLayout
+        <include
             android:id="@+id/lyt_Hdr"
+            layout="@layout/lyt_header"
             android:layout_width="match_parent"
-            android:layout_height="60dp"
-            android:gravity="center"
-            android:background="@color/selected_color"
-            android:orientation="horizontal">
-            <android.support.v7.widget.AppCompatImageView
-                android:layout_width="50dp"
-                android:layout_height="50dp"
-                android:background="@drawable/logo"/>
-
-            <android.support.v7.widget.AppCompatTextView
-                android:id="@+id/txt_Hdng"
-                style="@style/style_Hdr_Txt"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:text="SimpleSteps"
-                android:textSize="20dp"
-                android:textColor="#FFFFFF"/>
-
-        </LinearLayout>
-
+            android:layout_height="wrap_content" />
 
 
         <ScrollView

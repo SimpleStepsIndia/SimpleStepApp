@@ -6,6 +6,22 @@
     <string name="reg_Mobile">Enter Mobile Number</string>
     <string name="reg_Age">Enter DOB</string>
     <string name="slctTimeslot">Select Time Slot</string>
+
+    <string name="txtHdng_Q1">Wakeup time </string>
+    <string name="txtHdng_Q2">Brushing</string>
+    <string name="txtHdng_Q3">Colon cleansing</string>
+    <string name="txtHdng_Q4">Water Intake in one go</string>
+    <string name="txtHdng_Q5">Physical Fitness (Workout/Yoga) will keep you healthy</string>
+    <string name="txtHdng_Q6">Mental Fitness (Meditation)</string>
+    <string name="txtHdng_Q7">Sun Bath(Free D vitamin intake)</string>
+
+    <string name="txt_Quatn1">Your precious 12 slots of 15 minutes </string>
+    <string name="txt_Quatn2">Proper brushing will Prevent your bad breath &amp; tooth decay</string>
+    <string name="txt_Quatn3">Will hydrate your body </string>
+    <string name="txt_Quatn4">will detox your body</string>
+    <string name="txt_Quatn5">Energise your body for the day</string>
+    <string name="txt_Quatn6">Keeps you calm &amp; focused for the day</string>
+    <string name="txt_Quatn7">Best way to get Vitamin D </string>
     <string name="rBtnTxtOption1">This is my routine, I think I am doing right.</string>
     <string name="rBtnTxtOption2">This is my routine, not sure about advantages/ disadvantages. </string>
     <string name="rBtnTxtOption3">I wish to improve but not able to manage.</string>

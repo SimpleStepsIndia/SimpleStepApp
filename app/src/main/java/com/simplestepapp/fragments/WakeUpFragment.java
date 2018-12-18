@@ -1,9 +1,11 @@
 package com.simplestepapp.fragments;
 
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.AppCompatButton;
+import android.support.v7.widget.AppCompatTextView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,20 +13,14 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.GridView;
 import android.widget.LinearLayout;
-import android.widget.TextView;
 
 import com.simplestepapp.R;
-import com.simplestepapp.activities.MainActivity;
 import com.simplestepapp.activities.ViewPagerActivity;
 import com.simplestepapp.adapters.CustomAdapter;
-
 import java.util.ArrayList;
 
-/**
- * Created by Srinivas on 12/17/2018.
- */
-
 public class WakeUpFragment extends Fragment {
+
     private static WakeUpFragment instance = null;
 
     GridView grid_view;
@@ -36,10 +32,10 @@ public class WakeUpFragment extends Fragment {
     LinearLayout lyt_list_Why;
 
 
-    AppCompatButton btn_Next;
+   AppCompatTextView txt_Next;
     @Nullable
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.frag_wakeup, container, false);
         initviews(v);
         timeSlots = new ArrayList<>();
@@ -62,18 +58,22 @@ public class WakeUpFragment extends Fragment {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 customAdapter.setSelectedIndex(position);
                 String s_Time=(String) parent.getItemAtPosition(position);
-                Log.d("Fragment",""+s_Time);
                 lyt_list_Why.setVisibility(View.VISIBLE);
             }
         });
-
-
+        txt_Next.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ViewPagerActivity.pager.setCurrentItem(1);
+            }
+        });
         return v;
     }
 
     private void initviews(View v) {
         grid_view=v.findViewById(R.id.grid_view);
         lyt_list_Why=v.findViewById(R.id.lyt_list_Why);
+        txt_Next=v.findViewById(R.id.txt_Next);
     }
 
 
