@@ -10,12 +10,6 @@
         android:layout_height="wrap_content"
         tools:ignore="UselessParent">
 
-        <include
-            android:id="@+id/lyt_Hdr"
-            layout="@layout/lyt_header"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
-
 
         <ScrollView
 

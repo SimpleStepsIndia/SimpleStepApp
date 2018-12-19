@@ -33,6 +33,7 @@ import android.support.v7.widget.AppCompatButton;
 import android.support.v7.widget.AppCompatEditText;
 import android.support.v7.widget.AppCompatImageView;
 import android.support.v7.widget.AppCompatTextView;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Display;
 import android.view.LayoutInflater;
@@ -97,6 +98,8 @@ public class MainActivity extends AppCompatActivity {
 
     Calendar calendar;
     private int year, month, day, hour, minute;
+
+    Toolbar toolbar;
 
 
     @Override
@@ -188,9 +191,13 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void toolbarsetUp() {
-        getSupportActionBar().setDisplayShowHomeEnabled(true);
-        getSupportActionBar().setIcon(R.drawable.logo);
-        getSupportActionBar().setDisplayUseLogoEnabled(true);
+        ActionBar mActionBar = getSupportActionBar();
+        mActionBar.setDisplayShowHomeEnabled(false);
+        mActionBar.setDisplayShowTitleEnabled(false);
+        LayoutInflater mInflater = LayoutInflater.from(this);
+        View mCustomView = mInflater.inflate(R.layout.lyt_header, null);
+        mActionBar.setCustomView(mCustomView);
+        mActionBar.setDisplayShowCustomEnabled(true);
     }
 
     public void requestPermissions() {

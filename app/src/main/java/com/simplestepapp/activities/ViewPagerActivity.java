@@ -8,7 +8,10 @@ import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
+import android.view.LayoutInflater;
+import android.view.View;
 import android.widget.RadioGroup;
 
 import com.simplestepapp.R;
@@ -47,18 +50,21 @@ public class ViewPagerActivity extends AppCompatActivity
         timeSlots.add("7:45");
 
         pager = (ViewPager) findViewById(R.id.viewPager);
-        pager.beginFakeDrag();
+        //pager.beginFakeDrag();
         pager.setAdapter(new MyPagerAdapter(getSupportFragmentManager()));
         pager.addOnPageChangeListener(this);
     }
 
     public void toolbarsetUp() {
-        getSupportActionBar().setDisplayShowHomeEnabled(true);
-        getSupportActionBar().setDisplayShowTitleEnabled(true);
-        getSupportActionBar().setDisplayUseLogoEnabled(true);
-        getSupportActionBar().setTitle("SimpleSteps");
-        getSupportActionBar().setLogo(R.drawable.logo);
+        ActionBar mActionBar = getSupportActionBar();
+        mActionBar.setDisplayShowHomeEnabled(false);
+        mActionBar.setDisplayShowTitleEnabled(false);
+        LayoutInflater mInflater = LayoutInflater.from(this);
+        View mCustomView = mInflater.inflate(R.layout.lyt_header, null);
+        mActionBar.setCustomView(mCustomView);
+        mActionBar.setDisplayShowCustomEnabled(true);
     }
+
 
     @Override
     public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
@@ -96,9 +102,9 @@ public class ViewPagerActivity extends AppCompatActivity
                 case 0:
                     return WakeUpFragment.newInstance("FirstFragment, Instance 1");
                 case 1:
-                    return BrushingFragment.newInstance("SecondFragment, Instance 1");
+                    return BrushingFragment.newInstance("SecondFragment, Instance2");
                 case 2:
-                    return ColonCleanFragment.newInstance("ThirdFragment, Instance 1");
+                    return ColonCleanFragment.newInstance("ThirdFragment, Instance3");
                 default:
                     return WakeUpFragment.newInstance("FirstFragment, Default");
             }
