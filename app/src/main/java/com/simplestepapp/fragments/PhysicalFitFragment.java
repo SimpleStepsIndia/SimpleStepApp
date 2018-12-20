@@ -20,11 +20,10 @@ import com.simplestepapp.utils.MyGridView;
 import java.util.ArrayList;
 
 /**
- * Created by Srinivas on 12/17/2018.
+ * Created by Srinivas on 12/20/2018.
  */
 
-public class ColonCleanFragment extends Fragment{
-
+public class PhysicalFitFragment extends Fragment {
 
     MyGridView grid_view;
 
@@ -39,7 +38,7 @@ public class ColonCleanFragment extends Fragment{
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View v = inflater.inflate(R.layout.frag_colonclean, container, false);
+        View v = inflater.inflate(R.layout.frag_pfitness, container, false);
         initviews(v);
         timeSlots = new ArrayList<>();
         timeSlots.add("5:00");
@@ -67,7 +66,7 @@ public class ColonCleanFragment extends Fragment{
         txt_Next.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-               ViewPagerActivity.pager.setCurrentItem(3);
+                ViewPagerActivity.pager.setCurrentItem(5);
             }
         });
         return v;
@@ -79,14 +78,14 @@ public class ColonCleanFragment extends Fragment{
         lyt_list_Why=v.findViewById(R.id.lyt_list_Why);
         txt_Next=v.findViewById(R.id.txt_Next);
     }
+    private static PhysicalFitFragment instance = null;
 
-    private static ColonCleanFragment instance = null;
 
-    public static ColonCleanFragment newInstance(String text){
+    public static PhysicalFitFragment newInstance(String text){
 
         if(instance == null){
             // new instance
-            instance = new ColonCleanFragment();
+            instance = new PhysicalFitFragment();
 
             // sets data to bundle
             Bundle bundle = new Bundle();

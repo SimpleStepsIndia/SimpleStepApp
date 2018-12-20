@@ -28,7 +28,7 @@
 
     <string name="brush_Q1">Do you massage your gums regularly</string>
     <string name="filetype">Select a Type</string>
-    <string name="greterthan_30"> &gt; 30 mins  </string>
+    <string name="greterthan_30"> &gt; 30 mins </string>
     <string name="lesthan_5">&lt; 5 mins</string>
     <string-array name="filetypes">
         <item>Camera</item>

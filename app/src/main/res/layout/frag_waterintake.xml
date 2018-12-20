@@ -6,11 +6,12 @@
     android:background="#ffffff"
     android:orientation="vertical">
 
-    <android.support.v7.widget.CardView
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:elevation="3dp"
-        app:cardCornerRadius="5dp">
+        android:layout_height="match_parent"
+        android:fillViewport="true"
+        android:fitsSystemWindows="true"
+        android:layout_above="@+id/txt_Next">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -20,7 +21,6 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
-                android:background="#2e72fa"
                 android:gravity="center">
 
                 <android.support.v7.widget.AppCompatTextView
@@ -29,8 +29,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:gravity="center"
-                    android:text="Water InTake"
-                    android:textColor="#FFFFFF"
+                    android:text="@string/txtHdng_Q4"
                     android:textSize="16sp" />
 
             </LinearLayout>
@@ -47,14 +46,48 @@
                     android:layout_height="wrap_content"
                     android:text="@string/slctTimeslot" />
 
-                <com.simplestepapp.utils.HorizontalListView
-                    android:id="@+id/hlvCustomList"
+                <android.support.v7.widget.CardView
                     android:layout_width="match_parent"
-                    android:layout_height="50dp"
-                    android:layout_gravity="center_vertical"
-                    android:layout_marginTop="10dp">
+                    android:layout_height="wrap_content"
+                    android:elevation="5dp"
+                    app:cardBackgroundColor="#f76f34"
+                    app:cardCornerRadius="5dp">
 
-                </com.simplestepapp.utils.HorizontalListView>
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+
+                        <com.simplestepapp.utils.MyGridView
+                            android:id="@+id/grid_view"
+                            android:layout_width="fill_parent"
+                            android:layout_height="wrap_content"
+                            android:columnWidth="10dp"
+                            android:gravity="center"
+                            android:horizontalSpacing="2dp"
+                            android:numColumns="4"
+                            android:padding="3dp"
+                            android:stretchMode="columnWidth"
+                            android:verticalSpacing="2dp">
+
+                        </com.simplestepapp.utils.MyGridView>
+
+
+                        <android.support.v7.widget.AppCompatTextView
+                            style="@style/style_Hdr_Txt"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:background="#bfa053"
+                            android:gravity="center"
+                            android:padding="20dp"
+                            android:text="@string/txt_Quatn4" />
+
+                    </LinearLayout>
+
+
+                </android.support.v7.widget.CardView>
+
+
             </LinearLayout>
 
             <LinearLayout
@@ -62,6 +95,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
+
                 <RadioGroup
                     android:id="@+id/rG_WaterINTake"
                     android:layout_width="match_parent"
@@ -138,33 +172,20 @@
 
             </LinearLayout>
 
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:layout_margin="20dp">
-
-                <android.support.v7.widget.AppCompatTextView
-                    android:id="@+id/txt_Back"
-                    android:layout_width="wrap_content"
-                    android:layout_height="50dp"
-                    android:layout_alignParentStart="true"
-                    android:gravity="center"
-                    android:text="Back" />
-
-                <android.support.v7.widget.AppCompatTextView
-                    android:id="@+id/txt_Next"
-                    android:layout_width="wrap_content"
-                    android:layout_height="50dp"
-                    android:layout_alignParentEnd="true"
-                    android:gravity="center"
-                    android:text="Next" />
-            </RelativeLayout>
-
-
         </LinearLayout>
 
-    </android.support.v7.widget.CardView>
+    </ScrollView>
+
+    <android.support.v7.widget.AppCompatTextView
+        android:id="@+id/txt_Next"
+        style="@style/style_Hdr_Txt"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentEnd="true"
+        android:layout_margin="15dp"
+        android:text="Next" />
+
 
 
 </RelativeLayout>

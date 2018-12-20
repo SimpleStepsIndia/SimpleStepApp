@@ -17,7 +17,11 @@ import android.widget.RadioGroup;
 import com.simplestepapp.R;
 import com.simplestepapp.fragments.BrushingFragment;
 import com.simplestepapp.fragments.ColonCleanFragment;
+import com.simplestepapp.fragments.MentalFitFragment;
+import com.simplestepapp.fragments.PhysicalFitFragment;
+import com.simplestepapp.fragments.SunBothFragment;
 import com.simplestepapp.fragments.WakeUpFragment;
+import com.simplestepapp.fragments.WaterInTakeFragment;
 
 import java.util.ArrayList;
 
@@ -105,6 +109,14 @@ public class ViewPagerActivity extends AppCompatActivity
                     return BrushingFragment.newInstance("SecondFragment, Instance2");
                 case 2:
                     return ColonCleanFragment.newInstance("ThirdFragment, Instance3");
+                case 3:
+                    return WaterInTakeFragment.newInstance("FirstFragment, Instance 1");
+                case 4:
+                    return PhysicalFitFragment.newInstance("SecondFragment, Instance2");
+                case 5:
+                    return MentalFitFragment.newInstance("ThirdFragment, Instance3");
+                case 6:
+                    return SunBothFragment.newInstance("ThirdFragment, Instance3");
                 default:
                     return WakeUpFragment.newInstance("FirstFragment, Default");
             }

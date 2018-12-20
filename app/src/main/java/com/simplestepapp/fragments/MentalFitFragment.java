@@ -11,6 +11,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.GridView;
 import android.widget.LinearLayout;
+import android.widget.ListAdapter;
 
 import com.simplestepapp.R;
 import com.simplestepapp.activities.ViewPagerActivity;
@@ -20,11 +21,10 @@ import com.simplestepapp.utils.MyGridView;
 import java.util.ArrayList;
 
 /**
- * Created by Srinivas on 12/17/2018.
+ * Created by Srinivas on 12/20/2018.
  */
 
-public class ColonCleanFragment extends Fragment{
-
+public class MentalFitFragment extends Fragment {
 
     MyGridView grid_view;
 
@@ -39,7 +39,7 @@ public class ColonCleanFragment extends Fragment{
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View v = inflater.inflate(R.layout.frag_colonclean, container, false);
+        View v = inflater.inflate(R.layout.frag_mentalfitness, container, false);
         initviews(v);
         timeSlots = new ArrayList<>();
         timeSlots.add("5:00");
@@ -67,7 +67,7 @@ public class ColonCleanFragment extends Fragment{
         txt_Next.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-               ViewPagerActivity.pager.setCurrentItem(3);
+                ViewPagerActivity.pager.setCurrentItem(6);
             }
         });
         return v;
@@ -79,14 +79,41 @@ public class ColonCleanFragment extends Fragment{
         lyt_list_Why=v.findViewById(R.id.lyt_list_Why);
         txt_Next=v.findViewById(R.id.txt_Next);
     }
+    private static MentalFitFragment instance = null;
 
-    private static ColonCleanFragment instance = null;
+    private void setDynamicHeight(GridView gridView) {
+        ListAdapter gridViewAdapter = gridView.getAdapter();
+        if (gridViewAdapter == null) {
+            // pre-condition
+            return;
+        }
 
-    public static ColonCleanFragment newInstance(String text){
+        int totalHeight = 0;
+        int items = gridViewAdapter.getCount();
+        int rows = 0;
+
+        View listItem = gridViewAdapter.getView(0, null, gridView);
+        listItem.measure(0, 0);
+        totalHeight = listItem.getMeasuredHeight();
+
+        float x = 1;
+        if( items > 4 ){
+            x = items/4;
+            rows = (int) (x + 1);
+            totalHeight *= rows;
+        }
+
+        ViewGroup.LayoutParams params = gridView.getLayoutParams();
+        params.height = totalHeight;
+        gridView.setLayoutParams(params);
+    }
+
+
+    public static MentalFitFragment newInstance(String text){
 
         if(instance == null){
             // new instance
-            instance = new ColonCleanFragment();
+            instance = new MentalFitFragment();
 
             // sets data to bundle
             Bundle bundle = new Bundle();

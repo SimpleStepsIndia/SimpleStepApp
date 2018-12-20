@@ -9,12 +9,14 @@
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_above="@+id/txt_Next"
         android:fillViewport="true"
         android:fitsSystemWindows="true">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_margin="10dp"
             android:orientation="vertical">
 
             <LinearLayout
@@ -28,7 +30,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:gravity="center"
-                    android:text="Brushing"
+                    android:text="@string/txtHdng_Q2"
                     android:textSize="16sp" />
 
             </LinearLayout>
@@ -36,7 +38,6 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="10dp"
                 android:orientation="vertical">
 
                 <android.support.v7.widget.AppCompatTextView
@@ -57,10 +58,10 @@
                         android:layout_height="wrap_content"
                         android:orientation="vertical">
 
-                        <GridView
+                        <com.simplestepapp.utils.MyGridView
                             android:id="@+id/grid_view"
                             android:layout_width="fill_parent"
-                            android:layout_height="fill_parent"
+                            android:layout_height="wrap_content"
                             android:columnWidth="10dp"
                             android:gravity="center"
                             android:horizontalSpacing="2dp"
@@ -69,7 +70,7 @@
                             android:stretchMode="columnWidth"
                             android:verticalSpacing="2dp">
 
-                        </GridView>
+                        </com.simplestepapp.utils.MyGridView>
 
 
                         <android.support.v7.widget.AppCompatTextView
@@ -90,10 +91,11 @@
             </LinearLayout>
 
             <LinearLayout
-
+                android:id="@+id/lyt_RgGrp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                android:visibility="gone">
 
                 <android.support.v7.widget.AppCompatTextView
                     style="@style/style_Hdr_Txt"
@@ -175,10 +177,10 @@
         android:id="@+id/txt_Next"
         style="@style/style_Hdr_Txt"
         android:layout_width="wrap_content"
-        android:layout_height="50dp"
+        android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_alignParentEnd="true"
-        android:layout_margin="20dp"
+        android:layout_margin="15dp"
         android:text="Next" />
 
 </RelativeLayout>

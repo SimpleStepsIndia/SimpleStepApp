@@ -18,7 +18,7 @@ import java.util.List;
  * Created by Srinivas on 12/14/2018.
  */
 
-public class CustomTimesAdapter extends BaseAdapter {
+public class ConclusionAdapter extends BaseAdapter {
     private ArrayList<String> timeSlots;
     private Context context;
     public List<Integer> selectedPositions;
@@ -28,7 +28,7 @@ public class CustomTimesAdapter extends BaseAdapter {
 
     private LayoutInflater inflater;
 
-    public CustomTimesAdapter(Context context,ArrayList<String> timeSlots) {
+    public ConclusionAdapter(Context context, ArrayList<String> timeSlots) {
         this.context=context;
         this.timeSlots=timeSlots;
         selectedPositions=new ArrayList<>();
@@ -59,16 +59,16 @@ public class CustomTimesAdapter extends BaseAdapter {
     @SuppressLint({"ViewHolder", "InflateParams"})
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        CustomTimesAdapter.Holder holder;
+        ConclusionAdapter.Holder holder;
         View view = convertView;
         if (view == null) {
-            view = inflater.inflate(R.layout.list_item, null);
-            holder = new CustomTimesAdapter.Holder();
+            view = inflater.inflate(R.layout.conclusion_item, null);
+            holder = new ConclusionAdapter.Holder();
             holder.txt_Timeslot =view.findViewById(R.id.txt_Timeslot);
 
             view.setTag(holder);
         } else {
-            holder = (CustomTimesAdapter.Holder) view.getTag();
+            holder = (ConclusionAdapter.Holder) view.getTag();
         }
         holder.txt_Timeslot.setText(timeSlots.get(position));
 

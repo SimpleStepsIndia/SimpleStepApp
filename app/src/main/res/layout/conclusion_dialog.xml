@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical">
+
+    <android.support.v7.widget.AppCompatTextView
+        android:id="@+id/txt_Con"
+        style="@style/style_Hdr_Txt"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Conclusion"
+        android:gravity="center"/>
+
+    <GridView
+        android:id="@+id/conclusin_Grid"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:columnWidth="10dp"
+        android:gravity="center"
+        android:horizontalSpacing="2dp"
+        android:numColumns="3"
+        android:stretchMode="columnWidth"
+        android:verticalSpacing="2dp"
+        tools:ignore="NestedScrolling"
+        android:layout_above="@+id/lyt_sub"
+        android:layout_below="@+id/txt_Con">
+
+    </GridView>
+
+    <LinearLayout
+        android:id="@+id/lyt_sub"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_alignParentBottom="true"
+        android:gravity="center">
+
+        <android.support.v7.widget.AppCompatButton
+            android:id="@+id/btn_Submit"
+            android:layout_width="200dp"
+            android:layout_height="45dp"
+            android:layout_gravity="center"
+            android:text="SUBMIT"/>
+
+    </LinearLayout>
+
+
+</RelativeLayout>

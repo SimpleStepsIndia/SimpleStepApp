@@ -10,7 +10,8 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:fillViewport="true"
-        android:fitsSystemWindows="true">
+        android:fitsSystemWindows="true"
+        android:layout_above="@+id/txt_Next">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -28,7 +29,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:gravity="center"
-                    android:text="Colon Cleaning"
+                    android:text="@string/txtHdng_Q3"
                     android:textSize="16sp" />
 
             </LinearLayout>
@@ -57,10 +58,10 @@
                         android:layout_height="wrap_content"
                         android:orientation="vertical">
 
-                        <GridView
+                        <com.simplestepapp.utils.MyGridView
                             android:id="@+id/grid_view"
                             android:layout_width="fill_parent"
-                            android:layout_height="fill_parent"
+                            android:layout_height="wrap_content"
                             android:columnWidth="10dp"
                             android:gravity="center"
                             android:horizontalSpacing="2dp"
@@ -69,7 +70,7 @@
                             android:stretchMode="columnWidth"
                             android:verticalSpacing="2dp">
 
-                        </GridView>
+                        </com.simplestepapp.utils.MyGridView>
 
 
                         <android.support.v7.widget.AppCompatTextView
@@ -184,7 +185,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_alignParentEnd="true"
-        android:layout_margin="10dp"
+        android:layout_margin="15dp"
         android:text="Next" />
 
 

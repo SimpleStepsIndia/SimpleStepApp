@@ -17,13 +17,17 @@ import android.widget.LinearLayout;
 import com.simplestepapp.R;
 import com.simplestepapp.activities.ViewPagerActivity;
 import com.simplestepapp.adapters.CustomAdapter;
+import com.simplestepapp.utils.MyGridView;
+
 import java.util.ArrayList;
 
 public class WakeUpFragment extends Fragment {
 
     private static WakeUpFragment instance = null;
 
-    GridView grid_view;
+
+
+    MyGridView grid_view;
 
     ArrayList<String> timeSlots;
 

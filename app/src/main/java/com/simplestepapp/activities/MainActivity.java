@@ -8,23 +8,14 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.Canvas;
 import android.graphics.Color;
-import android.graphics.Matrix;
-import android.graphics.Paint;
 import android.graphics.drawable.ColorDrawable;
-import android.location.LocationManager;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.provider.Settings;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentActivity;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.content.FileProvider;
-import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -35,7 +26,6 @@ import android.support.v7.widget.AppCompatImageView;
 import android.support.v7.widget.AppCompatTextView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
-import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AdapterView;
@@ -125,7 +115,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                /*if (edtTxt_Name.getText().toString().isEmpty()) {
+                if (edtTxt_Name.getText().toString().isEmpty()) {
                     edtTxt_Name.setError("Please Enter the Name !");
                     edtTxt_Name.requestFocus();
                 } else if (edtTxt_EmailId.getText().toString().isEmpty() ||
@@ -143,9 +133,9 @@ public class MainActivity extends AppCompatActivity {
                 } else {
                     Intent intent_Pager = new Intent(getApplicationContext(), ViewPagerActivity.class);
                     startActivity(intent_Pager);
-                }*/
-                Intent intent_Pager = new Intent(getApplicationContext(), ViewPagerActivity.class);
-                startActivity(intent_Pager);
+                }
+                /*Intent intent_Pager = new Intent(getApplicationContext(), ViewPagerActivity.class);
+                startActivity(intent_Pager);*/
             }
         });
         img_Profile.setOnClickListener(new View.OnClickListener() {
@@ -180,6 +170,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void initviews() {
+
         edtTxt_Name = findViewById(R.id.edtTxt_Name);
         edtTxt_EmailId = (AppCompatEditText) findViewById(R.id.edtTxt_EmailId);
         edtTxt_MobNumber = (AppCompatEditText) findViewById(R.id.edtTxt_MobNumber);
@@ -375,334 +366,6 @@ public class MainActivity extends AppCompatActivity {
                 imageStatus = "0";
             }
         }
-    }
-
-    private void wakeupDialog() {
-        final AlertDialog alertDialog;
-        AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
-        LayoutInflater inflater = LayoutInflater.from(MainActivity.this);
-        @SuppressLint("InflateParams")
-        View view = inflater.inflate(R.layout.frag_wakeup, null);
-        builder.setView(view);
-        builder.setCancelable(false);
-        alertDialog = builder.create();
-        alertDialog.show();
-        hlvCustomList = (HorizontalListView) alertDialog.findViewById(R.id.hlvCustomList);
-        txt_WkUP_Next = (AppCompatTextView) alertDialog.findViewById(R.id.txt_Next);
-        lyt_list_Why = (LinearLayout) alertDialog.findViewById(R.id.lyt_list_Why);
-        customAdapter = new CustomAdapter(MainActivity.this, timeSlots);
-        hlvCustomList.setAdapter(customAdapter);
-
-        hlvCustomList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                customAdapter.setSelectedIndex(position);
-                String selectedTime = (String) parent.getItemAtPosition(position);
-                lyt_list_Why.setVisibility(View.VISIBLE);
-                Log.d("TimeSlot", "" + selectedTime);
-            }
-        });
-        txt_WkUP_Next.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                alertDialog.dismiss();
-                brushingDialog();
-            }
-        });
-    }
-
-    private void brushingDialog() {
-        final AlertDialog alertDialog;
-        AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
-        LayoutInflater inflater = LayoutInflater.from(MainActivity.this);
-        @SuppressLint("InflateParams")
-        View view = inflater.inflate(R.layout.frag_brushing, null);
-        builder.setView(view);
-        builder.setCancelable(false);
-        alertDialog = builder.create();
-        alertDialog.show();
-        hlvCustomList = (HorizontalListView) alertDialog.findViewById(R.id.hlvCustomList);
-        txt_Next = (AppCompatTextView) alertDialog.findViewById(R.id.txt_Next);
-        txt_Back = (AppCompatTextView) alertDialog.findViewById(R.id.txt_Back);
-        lyt_list_Why = (LinearLayout) alertDialog.findViewById(R.id.lyt_list_Why);
-        customAdapter = new CustomAdapter(MainActivity.this, timeSlots);
-        hlvCustomList.setAdapter(customAdapter);
-
-        hlvCustomList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                customAdapter.setSelectedIndex(position);
-                String selectedTime = (String) parent.getItemAtPosition(position);
-                lyt_list_Why.setVisibility(View.VISIBLE);
-                Log.d("TimeSlot", "" + selectedTime);
-            }
-        });
-        txt_Back.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                alertDialog.dismiss();
-                wakeupDialog();
-            }
-        });
-        txt_Next.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                alertDialog.dismiss();
-                colonCleanDialog();
-            }
-        });
-    }
-
-    private void colonCleanDialog() {
-        final AlertDialog alertDialog;
-        AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
-        LayoutInflater inflater = LayoutInflater.from(MainActivity.this);
-        @SuppressLint("InflateParams")
-        View view = inflater.inflate(R.layout.frag_colonclean, null);
-        builder.setView(view);
-        builder.setCancelable(false);
-        alertDialog = builder.create();
-        alertDialog.show();
-        hlvCustomList = (HorizontalListView) alertDialog.findViewById(R.id.hlvCustomList);
-        txt_Next = (AppCompatTextView) alertDialog.findViewById(R.id.txt_Next);
-        txt_Back = (AppCompatTextView) alertDialog.findViewById(R.id.txt_Back);
-        lyt_list_Why = (LinearLayout) alertDialog.findViewById(R.id.lyt_list_Why);
-        customAdapter = new CustomAdapter(MainActivity.this, timeSlots);
-        hlvCustomList.setAdapter(customAdapter);
-
-        hlvCustomList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                customAdapter.setSelectedIndex(position);
-                String selectedTime = (String) parent.getItemAtPosition(position);
-                lyt_list_Why.setVisibility(View.VISIBLE);
-                Log.d("TimeSlot", "" + selectedTime);
-            }
-        });
-        txt_Back.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                alertDialog.dismiss();
-                brushingDialog();
-            }
-        });
-        txt_Next.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                alertDialog.dismiss();
-                waterInTakeDialog();
-            }
-        });
-    }
-
-    private void waterInTakeDialog() {
-        final AlertDialog alertDialog;
-        AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
-        LayoutInflater inflater = LayoutInflater.from(MainActivity.this);
-        @SuppressLint("InflateParams")
-        View view = inflater.inflate(R.layout.waterintake, null);
-        builder.setView(view);
-        builder.setCancelable(false);
-        alertDialog = builder.create();
-        alertDialog.show();
-        hlvCustomList = (HorizontalListView) alertDialog.findViewById(R.id.hlvCustomList);
-        txt_Next = (AppCompatTextView) alertDialog.findViewById(R.id.txt_Next);
-        txt_Back = (AppCompatTextView) alertDialog.findViewById(R.id.txt_Back);
-        lyt_list_Why = (LinearLayout) alertDialog.findViewById(R.id.lyt_list_Why);
-        customAdapter = new CustomAdapter(MainActivity.this, timeSlots);
-        hlvCustomList.setAdapter(customAdapter);
-
-        hlvCustomList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                customAdapter.setSelectedIndex(position);
-                String selectedTime = (String) parent.getItemAtPosition(position);
-                lyt_list_Why.setVisibility(View.VISIBLE);
-                Log.d("TimeSlot", "" + selectedTime);
-            }
-        });
-        txt_Back.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                alertDialog.dismiss();
-                colonCleanDialog();
-            }
-        });
-        txt_Next.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                alertDialog.dismiss();
-                physcalFitnessDialog();
-            }
-        });
-    }
-
-    private void physcalFitnessDialog() {
-        final AlertDialog alertDialog;
-        AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
-        LayoutInflater inflater = LayoutInflater.from(MainActivity.this);
-        @SuppressLint("InflateParams")
-        View view = inflater.inflate(R.layout.pfitness, null);
-        builder.setView(view);
-        builder.setCancelable(false);
-        alertDialog = builder.create();
-        alertDialog.show();
-        hlvCustomListStartTime = (HorizontalListView) alertDialog.findViewById(R.id.hlvCustomListStartTime);
-        hlvCustomListEndTime = (HorizontalListView) alertDialog.findViewById(R.id.hlvCustomListEndTime);
-        txt_Next = (AppCompatTextView) alertDialog.findViewById(R.id.txt_Next);
-        txt_Back = (AppCompatTextView) alertDialog.findViewById(R.id.txt_Back);
-        lyt_list_Why = (LinearLayout) alertDialog.findViewById(R.id.lyt_list_Why);
-        customAdapter = new CustomAdapter(MainActivity.this, timeSlots);
-        hlvCustomListStartTime.setAdapter(customAdapter);
-
-        hlvCustomListStartTime.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                customAdapter.setSelectedIndex(position);
-                String selectedTime = (String) parent.getItemAtPosition(position);
-                Log.d("TimeSlot", "" + selectedTime);
-            }
-        });
-
-        customTimeAdapter = new CustomAdapter(MainActivity.this, timeSlots);
-        hlvCustomListEndTime.setAdapter(customTimeAdapter);
-
-        hlvCustomListEndTime.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                customTimeAdapter.setSelectedIndex(position);
-                String selectedTime = (String) parent.getItemAtPosition(position);
-                lyt_list_Why.setVisibility(View.VISIBLE);
-                Log.d("TimeSlot", "" + selectedTime);
-            }
-        });
-        txt_Back.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                alertDialog.dismiss();
-                waterInTakeDialog();
-            }
-        });
-        txt_Next.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                alertDialog.dismiss();
-                mentalFitnessDialog();
-            }
-        });
-    }
-
-    private void mentalFitnessDialog() {
-        final AlertDialog alertDialog;
-        AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
-        LayoutInflater inflater = LayoutInflater.from(MainActivity.this);
-        @SuppressLint("InflateParams")
-        View view = inflater.inflate(R.layout.mentalfitness, null);
-        builder.setView(view);
-        builder.setCancelable(false);
-        alertDialog = builder.create();
-        alertDialog.show();
-        hlvCustomListStartTime = (HorizontalListView) alertDialog.findViewById(R.id.hlvCustomListStartTime);
-        hlvCustomListEndTime = (HorizontalListView) alertDialog.findViewById(R.id.hlvCustomListEndTime);
-        txt_Next = (AppCompatTextView) alertDialog.findViewById(R.id.txt_Next);
-        txt_Back = (AppCompatTextView) alertDialog.findViewById(R.id.txt_Back);
-        lyt_list_Why = (LinearLayout) alertDialog.findViewById(R.id.lyt_list_Why);
-        customAdapter = new CustomAdapter(MainActivity.this, timeSlots);
-        hlvCustomListStartTime.setAdapter(customAdapter);
-        hlvCustomListEndTime.setAdapter(customAdapter);
-
-        hlvCustomListStartTime.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                customAdapter.setSelectedIndex(position);
-                String selectedTime = (String) parent.getItemAtPosition(position);
-                Log.d("TimeSlot", "" + selectedTime);
-            }
-        });
-
-        customTimeAdapter = new CustomAdapter(MainActivity.this, timeSlots);
-        hlvCustomListEndTime.setAdapter(customTimeAdapter);
-
-        hlvCustomListEndTime.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                customTimeAdapter.setSelectedIndex(position);
-                String selectedTime = (String) parent.getItemAtPosition(position);
-                lyt_list_Why.setVisibility(View.VISIBLE);
-                Log.d("TimeSlot", "" + selectedTime);
-            }
-        });
-        txt_Back.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                alertDialog.dismiss();
-                physcalFitnessDialog();
-            }
-        });
-        txt_Next.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                alertDialog.dismiss();
-                sunBathDialog();
-            }
-        });
-    }
-
-    private void sunBathDialog() {
-        final AlertDialog alertDialog;
-        AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
-        LayoutInflater inflater = LayoutInflater.from(MainActivity.this);
-        @SuppressLint("InflateParams")
-        View view = inflater.inflate(R.layout.sunbath, null);
-        builder.setView(view);
-        builder.setCancelable(false);
-        alertDialog = builder.create();
-        alertDialog.show();
-        hlvCustomListStartTime = (HorizontalListView) alertDialog.findViewById(R.id.hlvCustomListStartTime);
-        hlvCustomListEndTime = (HorizontalListView) alertDialog.findViewById(R.id.hlvCustomListEndTime);
-        txt_Next = (AppCompatTextView) alertDialog.findViewById(R.id.txt_Next);
-        txt_Back = (AppCompatTextView) alertDialog.findViewById(R.id.txt_Back);
-        lyt_list_Why = (LinearLayout) alertDialog.findViewById(R.id.lyt_list_Why);
-        customAdapter = new CustomAdapter(MainActivity.this, timeSlots);
-        hlvCustomListStartTime.setAdapter(customAdapter);
-        hlvCustomListEndTime.setAdapter(customAdapter);
-
-        hlvCustomListStartTime.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                customAdapter.setSelectedIndex(position);
-                String selectedTime = (String) parent.getItemAtPosition(position);
-                Log.d("TimeSlot", "" + selectedTime);
-            }
-        });
-
-        customTimeAdapter = new CustomAdapter(MainActivity.this, timeSlots);
-        hlvCustomListEndTime.setAdapter(customTimeAdapter);
-        hlvCustomListEndTime.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                customTimeAdapter.setSelectedIndex(position);
-                String selectedTime = (String) parent.getItemAtPosition(position);
-                lyt_list_Why.setVisibility(View.VISIBLE);
-                Log.d("TimeSlot", "" + selectedTime);
-            }
-        });
-        txt_Back.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                alertDialog.dismiss();
-                mentalFitnessDialog();
-            }
-        });
-        txt_Next.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                alertDialog.dismiss();
-                Toast.makeText(getApplicationContext(), "Registarton Succeessfully Completed !", Toast.LENGTH_LONG).show();
-                Intent intent_Home = new Intent(MainActivity.this, HomeActivity.class);
-                startActivity(intent_Home);
-            }
-        });
     }
 
 

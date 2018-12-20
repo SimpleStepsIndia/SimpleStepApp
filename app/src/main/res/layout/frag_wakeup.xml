@@ -12,7 +12,8 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:fillViewport="true"
-        android:fitsSystemWindows="true">
+        android:fitsSystemWindows="true"
+        android:layout_above="@+id/txt_Next">
 
 
         <LinearLayout
@@ -61,10 +62,10 @@
                         android:layout_height="wrap_content"
                         android:orientation="vertical">
 
-                    <GridView
+                    <com.simplestepapp.utils.MyGridView
                         android:id="@+id/grid_view"
                         android:layout_width="fill_parent"
-                        android:layout_height="fill_parent"
+                        android:layout_height="wrap_content"
                         android:columnWidth="10dp"
                         android:gravity="center"
                         android:horizontalSpacing="2dp"
@@ -73,7 +74,7 @@
                         android:stretchMode="columnWidth"
                         android:verticalSpacing="2dp">
 
-                    </GridView>
+                    </com.simplestepapp.utils.MyGridView>
 
 
                         <android.support.v7.widget.AppCompatTextView
@@ -161,10 +162,10 @@
         android:id="@+id/txt_Next"
         style="@style/style_Hdr_Txt"
         android:layout_width="wrap_content"
-        android:layout_height="50dp"
+        android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_alignParentEnd="true"
-        android:layout_margin="20dp"
+        android:layout_margin="15dp"
         android:text="Next" />
 
 
