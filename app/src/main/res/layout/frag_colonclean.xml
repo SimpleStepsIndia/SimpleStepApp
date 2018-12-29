@@ -72,7 +72,6 @@
 
                         </com.simplestepapp.utils.MyGridView>
 
-
                         <android.support.v7.widget.AppCompatTextView
                             style="@style/style_Hdr_Txt"
                             android:layout_width="match_parent"
@@ -83,7 +82,6 @@
                             android:text="@string/txt_Quatn3" />
 
                     </LinearLayout>
-
 
                 </android.support.v7.widget.CardView>
 

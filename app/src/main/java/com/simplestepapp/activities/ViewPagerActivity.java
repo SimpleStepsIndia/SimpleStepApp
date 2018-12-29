@@ -33,12 +33,14 @@ public class ViewPagerActivity extends AppCompatActivity
     public static ViewPager pager;
     public static ArrayList<String> timeSlots=new ArrayList<>();
 
+    public static int dis_Position=0;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_viewpager);
         toolbarsetUp();
+
         timeSlots = new ArrayList<>();
         timeSlots.add("5:00");
         timeSlots.add("5:15");
@@ -54,7 +56,7 @@ public class ViewPagerActivity extends AppCompatActivity
         timeSlots.add("7:45");
 
         pager = (ViewPager) findViewById(R.id.viewPager);
-        //pager.beginFakeDrag();
+        pager.beginFakeDrag();
         pager.setAdapter(new MyPagerAdapter(getSupportFragmentManager()));
         pager.addOnPageChangeListener(this);
     }

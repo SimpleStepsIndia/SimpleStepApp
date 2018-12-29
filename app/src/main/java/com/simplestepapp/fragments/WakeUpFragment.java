@@ -25,8 +25,6 @@ public class WakeUpFragment extends Fragment {
 
     private static WakeUpFragment instance = null;
 
-
-
     MyGridView grid_view;
 
     ArrayList<String> timeSlots;
@@ -35,14 +33,16 @@ public class WakeUpFragment extends Fragment {
 
     LinearLayout lyt_list_Why;
 
+    AppCompatTextView txt_Next;
 
-   AppCompatTextView txt_Next;
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.frag_wakeup, container, false);
         initviews(v);
         timeSlots = new ArrayList<>();
+        timeSlots.add("< 5:00");
         timeSlots.add("5:00");
         timeSlots.add("5:15");
         timeSlots.add("5:30");
@@ -55,6 +55,13 @@ public class WakeUpFragment extends Fragment {
         timeSlots.add("7:15");
         timeSlots.add("7:30");
         timeSlots.add("7:45");
+        timeSlots.add("8:00");
+        timeSlots.add("8:15");
+        timeSlots.add("8:30");
+        timeSlots.add("8:45");
+        timeSlots.add("9:00");
+        timeSlots.add("9:00 >");
+
         customAdapter = new CustomAdapter(getActivity().getApplicationContext(), timeSlots);
         grid_view.setAdapter(customAdapter);
         grid_view.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -84,7 +91,6 @@ public class WakeUpFragment extends Fragment {
     public static WakeUpFragment newInstance(String text){
 
         if(instance == null){
-            // new instance
             instance = new WakeUpFragment();
 
             // sets data to bundle

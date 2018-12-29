@@ -7,7 +7,7 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         tools:ignore="UselessParent">
 
 
@@ -17,7 +17,8 @@
             android:layout_height="match_parent"
             android:layout_below="@+id/lyt_Hdr"
             android:fillViewport="true"
-            android:fitsSystemWindows="true">
+            android:fitsSystemWindows="true"
+            android:visibility="gone">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -165,6 +166,48 @@
 
             </LinearLayout>
         </ScrollView>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:orientation="vertical">
+
+
+            <com.google.android.gms.common.SignInButton
+                android:id="@+id/btn_sign_in"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="20dp" />
+
+            <android.support.v7.widget.AppCompatTextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="(OR)" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:weightSum="3">
+
+
+                <android.support.v7.widget.AppCompatEditText
+                    android:id="@+id/edt_Mobile"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="2"
+                    android:hint="Enter Mobile Number "/>
+
+                <android.support.v7.widget.AppCompatButton
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Submit"/>
+            </LinearLayout>
+        </LinearLayout>
+
 
     </RelativeLayout>
 

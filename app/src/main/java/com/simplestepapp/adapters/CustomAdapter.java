@@ -10,6 +10,7 @@ import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import com.simplestepapp.R;
+import com.simplestepapp.activities.ViewPagerActivity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,10 +22,11 @@ public class CustomAdapter extends BaseAdapter {
     private Context context;
     public List<Integer> selectedPositions;
 
-    private int selectedIndex;
-
+    private int selectedIndex, disable_Position=0;
 
     private LayoutInflater inflater;
+
+    private String wakeUp="N";
 
     public CustomAdapter(Context context,ArrayList<String> timeSlots) {
         this.context=context;
@@ -37,8 +39,16 @@ public class CustomAdapter extends BaseAdapter {
 
     public void setSelectedIndex(int ind) {
         selectedIndex = ind;
+        disable_Position=ind;
+
         notifyDataSetChanged();
     }
+
+   /* @Override
+    public boolean isEnabled(int position) {
+
+        return (disable_Position <= position);
+    }*/
 
     @Override
     public int getCount() {
@@ -64,11 +74,11 @@ public class CustomAdapter extends BaseAdapter {
             view = inflater.inflate(R.layout.list_item, null);
             holder = new Holder();
             holder.txt_Timeslot =view.findViewById(R.id.txt_Timeslot);
-
             view.setTag(holder);
         } else {
             holder = (Holder) view.getTag();
         }
+
         holder.txt_Timeslot.setText(timeSlots.get(position));
 
         if (selectedIndex!= -1 && position == selectedIndex) {
@@ -78,6 +88,10 @@ public class CustomAdapter extends BaseAdapter {
             holder.txt_Timeslot.setBackgroundColor(Color.WHITE);
             holder.txt_Timeslot.setTextColor(Color.BLUE);
         }
+        /*if (disable_Position > position){
+            holder.txt_Timeslot.setBackgroundColor(Color.GRAY);
+            holder.txt_Timeslot.setTextColor(Color.DKGRAY);
+        }*/
        // view.setLayoutParams(new ViewGroup.LayoutParams(135, 60));
         return view;
     }

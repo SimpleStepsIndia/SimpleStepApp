@@ -15,6 +15,7 @@ import android.os.Build;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.provider.Settings;
+import android.support.annotation.NonNull;
 import android.support.v4.content.FileProvider;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AlertDialog;
@@ -34,12 +35,20 @@ import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.afollestad.materialdialogs.MaterialDialog;
+import com.google.android.gms.auth.api.Auth;
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
+import com.google.android.gms.auth.api.signin.GoogleSignInResult;
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.SignInButton;
+import com.google.android.gms.common.api.GoogleApiClient;
 import com.nabinbhandari.android.permissions.PermissionHandler;
 import com.nabinbhandari.android.permissions.Permissions;
 import com.simplestepapp.BuildConfig;
 import com.simplestepapp.R;
 import com.simplestepapp.adapters.CustomAdapter;
 import com.simplestepapp.utils.ConnectivityUtils;
+import com.simplestepapp.utils.Constants;
 import com.simplestepapp.utils.HorizontalListView;
 import com.simplestepapp.utils.Toaster;
 import com.simplestepapp.utils.ValidationUtils;
@@ -58,25 +67,19 @@ import de.hdodenhof.circleimageview.CircleImageView;
 
 import static android.provider.Settings.Secure.LOCATION_MODE_HIGH_ACCURACY;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements GoogleApiClient.OnConnectionFailedListener{
 
-    CustomAdapter customAdapter, customTimeAdapter;
+    AppCompatButton btn_SignUp, btn_GSign;
 
-    AppCompatButton btn_SignUp;
+    private SignInButton btn_sign_in;
 
     AppCompatImageView img_DOB;
 
     AppCompatEditText edtTxt_Name, edtTxt_EmailId, edtTxt_MobNumber, edt_Txt_DOB;
 
-    AppCompatTextView txt_WkUP_Next, txt_Next, txt_Back;
-
-    LinearLayout lyt_list_Why;
-
     public double latitude = 0.0, longitude = 0.0;
 
     public static ArrayList<String> timeSlots = new ArrayList<>();
-
-    HorizontalListView hlvCustomList, hlvCustomListStartTime, hlvCustomListEndTime;
 
     CircleImageView img_Profile;
 
@@ -90,6 +93,10 @@ public class MainActivity extends AppCompatActivity {
     private int year, month, day, hour, minute;
 
     Toolbar toolbar;
+
+    private static final int RC_SIGN_IN = 007;
+
+    private GoogleApiClient mGoogleApiClient;
 
 
     @Override
@@ -111,11 +118,27 @@ public class MainActivity extends AppCompatActivity {
         timeSlots.add("7:30");
         timeSlots.add("7:45");
         initviews();
+        GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                .requestProfile()
+                .requestEmail()
+                .requestIdToken(Constants.clientId)
+                .build();
+
+        mGoogleApiClient = new GoogleApiClient.Builder(this)
+                .enableAutoManage(this, this)
+                .addApi(Auth.GOOGLE_SIGN_IN_API, gso)
+                .build();
+
+        btn_sign_in.setSize(SignInButton.SIZE_STANDARD);
+        btn_sign_in.setScopes(gso.getScopeArray());
+
+
         btn_SignUp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
-                if (edtTxt_Name.getText().toString().isEmpty()) {
+
+               /* if (edtTxt_Name.getText().toString().isEmpty()) {
                     edtTxt_Name.setError("Please Enter the Name !");
                     edtTxt_Name.requestFocus();
                 } else if (edtTxt_EmailId.getText().toString().isEmpty() ||
@@ -133,9 +156,17 @@ public class MainActivity extends AppCompatActivity {
                 } else {
                     Intent intent_Pager = new Intent(getApplicationContext(), ViewPagerActivity.class);
                     startActivity(intent_Pager);
-                }
-                /*Intent intent_Pager = new Intent(getApplicationContext(), ViewPagerActivity.class);
-                startActivity(intent_Pager);*/
+                }*/
+                Intent intent_Pager = new Intent(getApplicationContext(), ViewPagerActivity.class);
+                startActivity(intent_Pager);
+            }
+        });
+
+        btn_sign_in.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent signInIntent = Auth.GoogleSignInApi.getSignInIntent(mGoogleApiClient);
+                startActivityForResult(signInIntent, RC_SIGN_IN);
             }
         });
         img_Profile.setOnClickListener(new View.OnClickListener() {
@@ -172,6 +203,7 @@ public class MainActivity extends AppCompatActivity {
     private void initviews() {
 
         edtTxt_Name = findViewById(R.id.edtTxt_Name);
+        btn_sign_in=findViewById(R.id.btn_sign_in);
         edtTxt_EmailId = (AppCompatEditText) findViewById(R.id.edtTxt_EmailId);
         edtTxt_MobNumber = (AppCompatEditText) findViewById(R.id.edtTxt_MobNumber);
         edt_Txt_DOB = (AppCompatEditText) findViewById(R.id.edt_Txt_DOB);
@@ -179,6 +211,29 @@ public class MainActivity extends AppCompatActivity {
         img_Profile = (CircleImageView) findViewById(R.id.img_Profile);
         img_DOB = (AppCompatImageView) findViewById(R.id.img_DOB);
 
+    }
+
+    private void handleSignInResult(GoogleSignInResult result) {
+
+        if (result.isSuccess()) {
+            // Signed in successfully, show authenticated UI.
+            GoogleSignInAccount acct = result.getSignInAccount();
+
+
+            String personName = acct.getDisplayName();
+            String personPhotoUrl = acct.getPhotoUrl().toString();
+            String email = acct.getEmail();
+
+            Log.d("Info", "Name: " + personName + ", email: " + email
+                    + ", Image: " + personPhotoUrl);
+
+
+        } else {
+            // Signed out, show unauthenticated UI.
+
+            Toaster.showErrorMessage("Failed");
+
+        }
     }
 
     public void toolbarsetUp() {
@@ -365,8 +420,18 @@ public class MainActivity extends AppCompatActivity {
                 bitmapCaptredImg = null;
                 imageStatus = "0";
             }
+
+
+        }
+        if (requestCode == RC_SIGN_IN) {
+            GoogleSignInResult result = Auth.GoogleSignInApi.getSignInResultFromIntent(data);
+            handleSignInResult(result);
         }
     }
 
 
+    @Override
+    public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
+
+    }
 }

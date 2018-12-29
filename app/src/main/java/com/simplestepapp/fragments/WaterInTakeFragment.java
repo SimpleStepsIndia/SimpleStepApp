@@ -37,6 +37,7 @@ public class WaterInTakeFragment extends Fragment {
         View v = inflater.inflate(R.layout.frag_waterintake, container, false);
         initviews(v);
         timeSlots = new ArrayList<>();
+        timeSlots.add("< 5:00");
         timeSlots.add("5:00");
         timeSlots.add("5:15");
         timeSlots.add("5:30");
@@ -49,6 +50,12 @@ public class WaterInTakeFragment extends Fragment {
         timeSlots.add("7:15");
         timeSlots.add("7:30");
         timeSlots.add("7:45");
+        timeSlots.add("8:00");
+        timeSlots.add("8:15");
+        timeSlots.add("8:30");
+        timeSlots.add("8:45");
+        timeSlots.add("9:00");
+        timeSlots.add("9:00 >");
         customAdapter = new CustomAdapter(getActivity().getApplicationContext(), timeSlots);
         grid_view.setAdapter(customAdapter);
         grid_view.setOnItemClickListener(new AdapterView.OnItemClickListener() {
