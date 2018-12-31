@@ -14,7 +14,8 @@
         <android.support.v7.widget.AppCompatImageView
             android:layout_width="50dp"
             android:layout_height="50dp"
-            android:background="@drawable/logo" />
+            android:background="@drawable/logo"
+            android:gravity="center" />
 
         <android.support.v7.widget.AppCompatTextView
             android:id="@+id/txt_Hdng"
@@ -24,7 +25,8 @@
             android:gravity="center"
             android:text="SimpleSteps"
             android:textColor="#FFFFFF"
-            android:textSize="20dp" />
+            android:textSize="20dp"
+            android:visibility="gone"/>
 
     </LinearLayout>
 

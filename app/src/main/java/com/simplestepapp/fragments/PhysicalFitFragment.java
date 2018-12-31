@@ -15,6 +15,7 @@ import android.widget.LinearLayout;
 import com.simplestepapp.R;
 import com.simplestepapp.activities.ViewPagerActivity;
 import com.simplestepapp.adapters.CustomAdapter;
+import com.simplestepapp.models.QAnswerModel;
 import com.simplestepapp.utils.MyGridView;
 
 import java.util.ArrayList;
@@ -35,6 +36,10 @@ public class PhysicalFitFragment extends Fragment {
 
 
     AppCompatTextView txt_Next;
+
+    String s_Time="";
+
+    int sPosition=-1;
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -66,7 +71,8 @@ public class PhysicalFitFragment extends Fragment {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 customAdapter.setSelectedIndex(position);
-                String s_Time=(String) parent.getItemAtPosition(position);
+                s_Time=(String) parent.getItemAtPosition(position);
+                sPosition=position;
                 lyt_list_Why.setVisibility(View.VISIBLE);
             }
         });
@@ -74,6 +80,10 @@ public class PhysicalFitFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 ViewPagerActivity.pager.setCurrentItem(5);
+                QAnswerModel qAnswerModel=new QAnswerModel();
+                qAnswerModel.setSelectedTime(s_Time);
+                qAnswerModel.setS_Position(sPosition);
+                ViewPagerActivity.qAnswerModelArrayList.add(qAnswerModel);
             }
         });
         return v;

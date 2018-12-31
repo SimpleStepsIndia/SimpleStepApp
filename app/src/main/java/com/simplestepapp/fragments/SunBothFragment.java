@@ -19,7 +19,9 @@ import android.widget.LinearLayout;
 import com.simplestepapp.R;
 import com.simplestepapp.activities.HomeActivity;
 import com.simplestepapp.activities.ViewPagerActivity;
+import com.simplestepapp.adapters.ConclusionAdapter;
 import com.simplestepapp.adapters.CustomAdapter;
+import com.simplestepapp.models.QAnswerModel;
 import com.simplestepapp.utils.MyGridView;
 
 import java.util.ArrayList;
@@ -30,11 +32,15 @@ import java.util.ArrayList;
 
 public class SunBothFragment extends Fragment {
 
-    MyGridView grid_view, conclusin_Grid;
+    MyGridView grid_view;
+
+    GridView conclusin_Grid;
 
     ArrayList<String> timeSlots;
 
     CustomAdapter customAdapter;
+
+    ConclusionAdapter conclusionAdapter;
 
     LinearLayout lyt_list_Why;
 
@@ -43,6 +49,9 @@ public class SunBothFragment extends Fragment {
     AppCompatButton btn_Submit;
 
     AlertDialog alertDialog;
+
+    String s_Time = "";
+    int sPosition = -1;
 
     @Nullable
     @Override
@@ -75,15 +84,22 @@ public class SunBothFragment extends Fragment {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 customAdapter.setSelectedIndex(position);
-                String s_Time = (String) parent.getItemAtPosition(position);
+                s_Time = (String) parent.getItemAtPosition(position);
+                sPosition = position;
                 lyt_list_Why.setVisibility(View.VISIBLE);
             }
         });
         txt_Next.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent_Home=new Intent(getActivity().getApplicationContext(), HomeActivity.class);
-                startActivity(intent_Home);
+               /* Intent intent_Home=new Intent(getActivity().getApplicationContext(), HomeActivity.class);
+                startActivity(intent_Home);*/
+
+                QAnswerModel qAnswerModel = new QAnswerModel();
+                qAnswerModel.setSelectedTime(s_Time);
+                qAnswerModel.setS_Position(sPosition);
+                ViewPagerActivity.qAnswerModelArrayList.add(qAnswerModel);
+                conclusion_Dialog();
             }
         });
         return v;
@@ -97,14 +113,16 @@ public class SunBothFragment extends Fragment {
     }
 
     private void conclusion_Dialog() {
-        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity().getApplicationContext());
-        LayoutInflater inflater = LayoutInflater.from(getActivity().getApplicationContext());
+        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity(), R.style.Theme_AppCompat_Light_Dialog);
+        LayoutInflater inflater = LayoutInflater.from(getActivity());
         @SuppressLint("InflateParams")
         View view = inflater.inflate(R.layout.conclusion_dialog, null);
         builder.setView(view);
         builder.setCancelable(false);
         alertDialog = builder.create();
-        conclusin_Grid = alertDialog.findViewById(R.id.conclusin_Grid);
+        conclusin_Grid = view.findViewById(R.id.conclusin_Grid);
+        conclusionAdapter = new ConclusionAdapter(getActivity().getApplicationContext(), timeSlots, ViewPagerActivity.qAnswerModelArrayList);
+        conclusin_Grid.setAdapter(conclusionAdapter);
         btn_Submit = alertDialog.findViewById(R.id.btn_Submit);
         alertDialog.show();
     }

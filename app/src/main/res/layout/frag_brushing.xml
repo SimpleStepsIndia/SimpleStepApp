@@ -44,7 +44,8 @@
                     style="@style/style_Hdr_Txt"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="@string/slctTimeslot" />
+                    android:text="@string/slctTimeslot"
+                    android:visibility="gone"/>
 
                 <android.support.v7.widget.CardView
                     android:layout_width="match_parent"
@@ -111,16 +112,23 @@
                     android:orientation="vertical">
 
                     <RadioButton
-                        android:id="@+id/rBtn_BruYes"
+                        android:id="@+id/rBtn_BruTwo"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="Yes" />
+                        android:text="2" />
 
                     <RadioButton
-                        android:id="@+id/rBtn_BruNo"
+                        android:id="@+id/rBtn_BruOne"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="No" />
+                        android:text="1" />
+
+                    <RadioButton
+                        android:id="@+id/rBtn_BruThre"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="0" />
+
 
                 </RadioGroup>
 

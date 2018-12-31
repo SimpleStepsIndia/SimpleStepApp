@@ -15,6 +15,7 @@ import android.widget.LinearLayout;
 import com.simplestepapp.R;
 import com.simplestepapp.activities.ViewPagerActivity;
 import com.simplestepapp.adapters.CustomAdapter;
+import com.simplestepapp.models.QAnswerModel;
 import com.simplestepapp.utils.MyGridView;
 
 import java.util.ArrayList;
@@ -34,6 +35,8 @@ public class ColonCleanFragment extends Fragment{
 
     LinearLayout lyt_list_Why;
 
+    String s_Time="";
+    int sPosition=-1;
 
     AppCompatTextView txt_Next;
     @Nullable
@@ -67,7 +70,8 @@ public class ColonCleanFragment extends Fragment{
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 customAdapter.setSelectedIndex(position);
-                String s_Time=(String) parent.getItemAtPosition(position);
+                s_Time=(String) parent.getItemAtPosition(position);
+                sPosition=position;
                 lyt_list_Why.setVisibility(View.VISIBLE);
             }
         });
@@ -75,6 +79,10 @@ public class ColonCleanFragment extends Fragment{
             @Override
             public void onClick(View v) {
                ViewPagerActivity.pager.setCurrentItem(3);
+                QAnswerModel qAnswerModel=new QAnswerModel();
+                qAnswerModel.setSelectedTime(s_Time);
+                qAnswerModel.setS_Position(sPosition);
+                ViewPagerActivity.qAnswerModelArrayList.add(qAnswerModel);
             }
         });
         return v;

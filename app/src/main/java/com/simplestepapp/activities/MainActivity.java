@@ -42,6 +42,8 @@ import com.google.android.gms.auth.api.signin.GoogleSignInResult;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.SignInButton;
 import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.common.api.OptionalPendingResult;
+import com.google.android.gms.common.api.ResultCallback;
 import com.nabinbhandari.android.permissions.PermissionHandler;
 import com.nabinbhandari.android.permissions.Permissions;
 import com.simplestepapp.BuildConfig;
@@ -231,7 +233,8 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
         } else {
             // Signed out, show unauthenticated UI.
 
-            Toaster.showErrorMessage("Failed");
+            Intent intent_Pager = new Intent(getApplicationContext(), ViewPagerActivity.class);
+            startActivity(intent_Pager);
 
         }
     }
@@ -338,6 +341,23 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
     }
 
     @Override
+    protected void onStart() {
+        super.onStart();
+        /*OptionalPendingResult<GoogleSignInResult> opr = Auth.GoogleSignInApi.silentSignIn(mGoogleApiClient);
+        if (opr.isDone()) {
+            GoogleSignInResult result = opr.get();
+            handleSignInResult(result);
+        } else {
+            opr.setResultCallback(new ResultCallback<GoogleSignInResult>() {
+                @Override
+                public void onResult(@NonNull GoogleSignInResult googleSignInResult) {
+                    handleSignInResult(googleSignInResult);
+                }
+            });
+        }*/
+    }
+
+    @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
@@ -428,7 +448,6 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
             handleSignInResult(result);
         }
     }
-
 
     @Override
     public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {

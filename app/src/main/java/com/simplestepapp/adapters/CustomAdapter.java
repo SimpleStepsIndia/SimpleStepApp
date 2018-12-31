@@ -28,7 +28,7 @@ public class CustomAdapter extends BaseAdapter {
 
     private String wakeUp="N";
 
-    public CustomAdapter(Context context,ArrayList<String> timeSlots) {
+    public CustomAdapter(Context context, ArrayList<String> timeSlots) {
         this.context=context;
         this.timeSlots=timeSlots;
         selectedPositions=new ArrayList<>();

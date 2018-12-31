@@ -18,6 +18,7 @@ import android.widget.RadioGroup;
 import com.simplestepapp.R;
 import com.simplestepapp.activities.ViewPagerActivity;
 import com.simplestepapp.adapters.CustomAdapter;
+import com.simplestepapp.models.QAnswerModel;
 import com.simplestepapp.utils.MyGridView;
 
 import java.util.ArrayList;
@@ -40,6 +41,8 @@ public class BrushingFragment extends Fragment{
 
     RadioGroup rG_brush_Masage;
     RadioButton rBtn_BruYes,rBtn_BruNo;
+    String s_Time="";
+    int sPosition=-1;
 
     @Nullable
     @Override
@@ -72,7 +75,8 @@ public class BrushingFragment extends Fragment{
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 customAdapter.setSelectedIndex(position);
-                String s_Time=(String) parent.getItemAtPosition(position);
+                s_Time=(String) parent.getItemAtPosition(position);
+                sPosition=position;
                 lyt_RgGrp.setVisibility(View.VISIBLE);
             }
         });
@@ -80,6 +84,10 @@ public class BrushingFragment extends Fragment{
             @Override
             public void onClick(View v) {
                 ViewPagerActivity.pager.setCurrentItem(2);
+                QAnswerModel qAnswerModel=new QAnswerModel();
+                qAnswerModel.setSelectedTime(s_Time);
+                qAnswerModel.setS_Position(sPosition);
+                ViewPagerActivity.qAnswerModelArrayList.add(qAnswerModel);
             }
         });
 
@@ -88,14 +96,23 @@ public class BrushingFragment extends Fragment{
             @Override
             public void onCheckedChanged(RadioGroup group, @IdRes int checkedId) {
                 switch (checkedId){
-                    case R.id.rBtn_BruYes:
+                    case R.id.rBtn_BruOne:
                         lyt_list_Why.setVisibility(View.VISIBLE);
                         break;
-                    case R.id.rBtn_BruNo:
+                    case R.id.rBtn_BruTwo:
                         lyt_list_Why.setVisibility(View.VISIBLE);
                         break;
                     default:
                         break;
+                }
+
+                for(int i=0; i<group.getChildCount(); i++) {
+                    RadioButton btn = (RadioButton) group.getChildAt(i);
+                    if(btn.getId() == checkedId) {
+                        String text = btn.getText().toString();
+                        // do something with text
+                        return;
+                    }
                 }
             }
         });
@@ -109,8 +126,8 @@ public class BrushingFragment extends Fragment{
         lyt_RgGrp=v.findViewById(R.id.lyt_RgGrp);
         txt_Next=v.findViewById(R.id.txt_Next);
         rG_brush_Masage=v.findViewById(R.id.rG_brush_Masage);
-        rBtn_BruYes=v.findViewById(R.id.rBtn_BruYes);
-        rBtn_BruNo=v.findViewById(R.id.rBtn_BruNo);
+        rBtn_BruYes=v.findViewById(R.id.rBtn_BruOne);
+        rBtn_BruNo=v.findViewById(R.id.rBtn_BruTwo);
     }
     private static BrushingFragment instance = null;
 

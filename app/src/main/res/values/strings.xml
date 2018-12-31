@@ -7,7 +7,7 @@
     <string name="reg_Age">Enter DOB</string>
     <string name="slctTimeslot">Select Time Slot</string>
 
-    <string name="txtHdng_Q1">Wakeup time </string>
+    <string name="txtHdng_Q1">Wakeup Time </string>
     <string name="txtHdng_Q2">Brushing</string>
     <string name="txtHdng_Q3">Colon cleansing</string>
     <string name="txtHdng_Q4">Water Intake in one go</string>
@@ -16,7 +16,7 @@
     <string name="txtHdng_Q7">Sun Bath(Free D vitamin intake)</string>
 
     <string name="txt_Quatn1">Your precious 12 slots of 15 minutes </string>
-    <string name="txt_Quatn2">Proper brushing will Prevent your bad breath &amp; tooth decay</string>
+    <string name="txt_Quatn2">Proper brushing will prevent you from Bad Breath and &amp; tooth decay</string>
     <string name="txt_Quatn3">Will hydrate your body </string>
     <string name="txt_Quatn4">will detox your body</string>
     <string name="txt_Quatn5">Energise your body for the day</string>
@@ -26,7 +26,7 @@
     <string name="rBtnTxtOption2">This is my routine, not sure about advantages/ disadvantages. </string>
     <string name="rBtnTxtOption3">I wish to improve but not able to manage.</string>
 
-    <string name="brush_Q1">Do you massage your gums regularly</string>
+    <string name="brush_Q1">How many times do you brush your tooth</string>
     <string name="filetype">Select a Type</string>
     <string name="greterthan_30"> &gt; 30 mins </string>
     <string name="lesthan_5">&lt; 5 mins</string>

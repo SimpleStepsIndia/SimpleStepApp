@@ -22,6 +22,8 @@ import com.simplestepapp.fragments.PhysicalFitFragment;
 import com.simplestepapp.fragments.SunBothFragment;
 import com.simplestepapp.fragments.WakeUpFragment;
 import com.simplestepapp.fragments.WaterInTakeFragment;
+import com.simplestepapp.models.QAnswerModel;
+import com.simplestepapp.utils.Toaster;
 
 import java.util.ArrayList;
 
@@ -32,6 +34,7 @@ public class ViewPagerActivity extends AppCompatActivity
     @SuppressLint("StaticFieldLeak")
     public static ViewPager pager;
     public static ArrayList<String> timeSlots=new ArrayList<>();
+    public static ArrayList<QAnswerModel> qAnswerModelArrayList=new ArrayList<>();
 
     public static int dis_Position=0;
 
@@ -56,7 +59,7 @@ public class ViewPagerActivity extends AppCompatActivity
         timeSlots.add("7:45");
 
         pager = (ViewPager) findViewById(R.id.viewPager);
-        pager.beginFakeDrag();
+        //pager.beginFakeDrag();
         pager.setAdapter(new MyPagerAdapter(getSupportFragmentManager()));
         pager.addOnPageChangeListener(this);
     }

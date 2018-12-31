@@ -48,7 +48,8 @@
                     style="@style/style_Hdr_Txt"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="@string/slctTimeslot" />
+                    android:text="@string/slctTimeslot"
+                    android:visibility="gone"/>
 
                 <android.support.v7.widget.CardView
                     android:layout_width="match_parent"

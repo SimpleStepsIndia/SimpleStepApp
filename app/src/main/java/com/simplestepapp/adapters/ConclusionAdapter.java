@@ -3,6 +3,7 @@ package com.simplestepapp.adapters;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Color;
+import android.support.v7.widget.CardView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,6 +11,7 @@ import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import com.simplestepapp.R;
+import com.simplestepapp.models.QAnswerModel;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,19 +23,26 @@ import java.util.List;
 public class ConclusionAdapter extends BaseAdapter {
     private ArrayList<String> timeSlots;
     private Context context;
-    public List<Integer> selectedPositions;
+    public ArrayList<Integer> selectedPositions;
 
     private static int selectedIndex=0;
+
+    ArrayList<QAnswerModel> qAnswerModels;
 
 
     private LayoutInflater inflater;
 
-    public ConclusionAdapter(Context context, ArrayList<String> timeSlots) {
+    public ConclusionAdapter(Context context, ArrayList<String> timeSlots, ArrayList<QAnswerModel> qAnswerModels) {
         this.context=context;
         this.timeSlots=timeSlots;
+        this.qAnswerModels=qAnswerModels;
         selectedPositions=new ArrayList<>();
         inflater = (LayoutInflater) context
                 .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+
+        for (int i=0;i<qAnswerModels.size();i++){
+            selectedPositions.add(qAnswerModels.get(i).getS_Position());
+        }
     }
 
     public void setSelectedIndex(int ind) {
@@ -59,31 +68,40 @@ public class ConclusionAdapter extends BaseAdapter {
     @SuppressLint({"ViewHolder", "InflateParams"})
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        ConclusionAdapter.Holder holder;
+        Holder holder;
         View view = convertView;
         if (view == null) {
             view = inflater.inflate(R.layout.conclusion_item, null);
-            holder = new ConclusionAdapter.Holder();
-            holder.txt_Timeslot =view.findViewById(R.id.txt_Timeslot);
+            holder = new Holder();
+            holder.txt_ConTimeslot =view.findViewById(R.id.txt_ConTimeslot);
+            holder.card=view.findViewById(R.id.card);
 
             view.setTag(holder);
         } else {
-            holder = (ConclusionAdapter.Holder) view.getTag();
+            holder = (Holder) view.getTag();
         }
-        holder.txt_Timeslot.setText(timeSlots.get(position));
+        holder.txt_ConTimeslot.setText(timeSlots.get(position));
+        try {
 
-        if (selectedIndex!= -1 && position == selectedIndex) {
-            holder.txt_Timeslot.setBackgroundColor(Color.BLUE);
-            holder.txt_Timeslot.setTextColor(Color.WHITE);
-        } else {
-            holder.txt_Timeslot.setBackgroundColor(Color.WHITE);
-            holder.txt_Timeslot.setTextColor(Color.BLUE);
+
+            for (int i=0;i<selectedPositions.size();i++){
+                if (position==selectedPositions.get(i)){
+                    holder.card.setBackgroundColor(Color.GREEN);
+                    holder.txt_ConTimeslot.setTextColor(Color.WHITE);
+                    break;
+                }
+
+            }
+        }catch (Exception e){
+            holder.txt_ConTimeslot.setBackgroundColor(Color.WHITE);
+            holder.txt_ConTimeslot.setTextColor(Color.GREEN);
         }
         // view.setLayoutParams(new ViewGroup.LayoutParams(135, 60));
         return view;
     }
 
     private class Holder {
-        TextView txt_Timeslot;
+        TextView txt_ConTimeslot;
+        CardView card;
     }
 }
