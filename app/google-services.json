@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "918541253610",
+    "firebase_url": "https://simplestepsindia.firebaseio.com",
+    "project_id": "simplestepsindia",
+    "storage_bucket": "simplestepsindia.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:918541253610:android:8b0928e8b2d257c6",
+        "android_client_info": {
+          "package_name": "com.simplestepapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "918541253610-7iconpoq1lbafc4f7nos0d1rbh1for65.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.simplestepapp",
+            "certificate_hash": "c0333794bb81ab60476710efe65f13237aeb0883"
+          }
+        },
+        {
+          "client_id": "918541253610-uqjf4r1h85s57lpbdiijefj9kf0i15d2.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD2cXj6kx60r3vYR-aF06GxrUm3In61as4"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "918541253610-uqjf4r1h85s57lpbdiijefj9kf0i15d2.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

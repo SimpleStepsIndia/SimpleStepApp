@@ -36,24 +36,22 @@ import android.widget.Toast;
 
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.google.android.gms.auth.api.Auth;
+import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.auth.api.signin.GoogleSignInResult;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.SignInButton;
+import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.OptionalPendingResult;
 import com.google.android.gms.common.api.ResultCallback;
+import com.google.android.gms.tasks.Task;
 import com.nabinbhandari.android.permissions.PermissionHandler;
 import com.nabinbhandari.android.permissions.Permissions;
 import com.simplestepapp.BuildConfig;
 import com.simplestepapp.R;
-import com.simplestepapp.adapters.CustomAdapter;
 import com.simplestepapp.utils.ConnectivityUtils;
-import com.simplestepapp.utils.Constants;
-import com.simplestepapp.utils.HorizontalListView;
-import com.simplestepapp.utils.Toaster;
-import com.simplestepapp.utils.ValidationUtils;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -71,13 +69,13 @@ import static android.provider.Settings.Secure.LOCATION_MODE_HIGH_ACCURACY;
 
 public class MainActivity extends AppCompatActivity implements GoogleApiClient.OnConnectionFailedListener{
 
-    AppCompatButton btn_SignUp, btn_GSign;
+    private AppCompatButton btn_SignUp;
 
     private SignInButton btn_sign_in;
 
-    AppCompatImageView img_DOB;
+    private AppCompatImageView img_DOB;
 
-    AppCompatEditText edtTxt_Name, edtTxt_EmailId, edtTxt_MobNumber, edt_Txt_DOB;
+    public AppCompatEditText edtTxt_Name, edtTxt_EmailId, edtTxt_MobNumber, edt_Txt_DOB;
 
     public double latitude = 0.0, longitude = 0.0;
 
@@ -92,14 +90,12 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
     String imageStatus = "0", str_Date;
 
     Calendar calendar;
-    private int year, month, day, hour, minute;
 
-    Toolbar toolbar;
+    private int year, month, day, hour, minute;
 
     private static final int RC_SIGN_IN = 007;
 
     private GoogleApiClient mGoogleApiClient;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -121,13 +117,11 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
         timeSlots.add("7:45");
         initviews();
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-                .requestProfile()
                 .requestEmail()
-                .requestIdToken(Constants.clientId)
                 .build();
 
         mGoogleApiClient = new GoogleApiClient.Builder(this)
-                .enableAutoManage(this, this)
+                .enableAutoManage(this,this)
                 .addApi(Auth.GOOGLE_SIGN_IN_API, gso)
                 .build();
 
@@ -139,8 +133,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
             @Override
             public void onClick(View v) {
 
-
-               /* if (edtTxt_Name.getText().toString().isEmpty()) {
+                /* if (edtTxt_Name.getText().toString().isEmpty()) {
                     edtTxt_Name.setError("Please Enter the Name !");
                     edtTxt_Name.requestFocus();
                 } else if (edtTxt_EmailId.getText().toString().isEmpty() ||
@@ -159,6 +152,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
                     Intent intent_Pager = new Intent(getApplicationContext(), ViewPagerActivity.class);
                     startActivity(intent_Pager);
                 }*/
+
                 Intent intent_Pager = new Intent(getApplicationContext(), ViewPagerActivity.class);
                 startActivity(intent_Pager);
             }
@@ -217,17 +211,14 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
 
     private void handleSignInResult(GoogleSignInResult result) {
 
+        Log.d("GmailData",""+result.isSuccess());
+
         if (result.isSuccess()) {
             // Signed in successfully, show authenticated UI.
             GoogleSignInAccount acct = result.getSignInAccount();
-
-
             String personName = acct.getDisplayName();
-            String personPhotoUrl = acct.getPhotoUrl().toString();
             String email = acct.getEmail();
-
-            Log.d("Info", "Name: " + personName + ", email: " + email
-                    + ", Image: " + personPhotoUrl);
+            Log.d("Info", "Name: " + personName + ", email: " + email);
 
 
         } else {
@@ -444,6 +435,14 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
 
         }
         if (requestCode == RC_SIGN_IN) {
+
+            Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(data);
+            try {
+                GoogleSignInAccount account = task.getResult(ApiException.class);
+                Log.d("Gmail",""+account.toString());
+            } catch (ApiException e) {
+                e.printStackTrace();
+            }
             GoogleSignInResult result = Auth.GoogleSignInApi.getSignInResultFromIntent(data);
             handleSignInResult(result);
         }
