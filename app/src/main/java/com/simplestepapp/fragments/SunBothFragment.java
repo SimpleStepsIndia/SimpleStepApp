@@ -20,6 +20,7 @@ import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 
+import com.google.gson.Gson;
 import com.simplestepapp.R;
 import com.simplestepapp.activities.HomeActivity;
 import com.simplestepapp.activities.ViewPagerActivity;
@@ -171,9 +172,14 @@ public class SunBothFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 QAnswerModel qAnswerModel = new QAnswerModel();
-                qAnswerModel.setSelectedTime(s_SBTime);
+                qAnswerModel.setTimeSlotOption(s_SBTime);
+                qAnswerModel.setAnswerOption(s_SBQtnOption);
+                qAnswerModel.setWhyOption(s_SBWhyOptn);
                 qAnswerModel.setS_Position(sPosition);
+                qAnswerModel.setQuestionId(ViewPagerActivity.questionerArrayList.get(6).get_id());
                 ViewPagerActivity.qAnswerModelArrayList.add(qAnswerModel);
+                String jsonOb = new Gson().toJson(ViewPagerActivity.qAnswerModelArrayList);
+                Log.d("JsonObject",""+jsonOb);
                 conclusion_Dialog();
             }
         });

@@ -156,11 +156,12 @@ public class WaterInTakeFragment extends Fragment {
             public void onClick(View v) {
                 ViewPagerActivity.pager.setCurrentItem(4);
                 QAnswerModel qAnswerModel = new QAnswerModel();
-                qAnswerModel.setSelectedTime(s_WITTime);
+                qAnswerModel.setTimeSlotOption(s_WITTime);
+                qAnswerModel.setAnswerOption(s_WITQtnOption);
+                qAnswerModel.setWhyOption(s_WITWhyOptn);
                 qAnswerModel.setS_Position(sPosition);
+                qAnswerModel.setQuestionId(ViewPagerActivity.questionerArrayList.get(3).get_id());
                 ViewPagerActivity.qAnswerModelArrayList.add(qAnswerModel);
-
-                Log.d("Selected Items", "" + s_WITTime + "" + s_WITQtnOption + "" + s_WITWhyOptn);
 
 
             }

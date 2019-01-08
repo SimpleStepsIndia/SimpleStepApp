@@ -161,11 +161,12 @@ public class ColonCleanFragment extends Fragment{
             public void onClick(View v) {
                 ViewPagerActivity.pager.setCurrentItem(3);
                 QAnswerModel qAnswerModel = new QAnswerModel();
-                qAnswerModel.setSelectedTime(s_ClnCTime);
+                qAnswerModel.setTimeSlotOption(s_ClnCTime);
+                qAnswerModel.setAnswerOption(s_ClnCQtnOption);
+                qAnswerModel.setWhyOption(s_ClnCWhyOptn);
                 qAnswerModel.setS_Position(sPosition);
+                qAnswerModel.setQuestionId(ViewPagerActivity.questionerArrayList.get(2).get_id());
                 ViewPagerActivity.qAnswerModelArrayList.add(qAnswerModel);
-
-                Log.d("Selected Items", "" + s_ClnCTime + "" + s_ClnCQtnOption + "" + s_ClnCWhyOptn);
 
 
             }

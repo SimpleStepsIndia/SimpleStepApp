@@ -161,11 +161,12 @@ public class MentalFitFragment extends Fragment {
             public void onClick(View v) {
                 ViewPagerActivity.pager.setCurrentItem(6);
                 QAnswerModel qAnswerModel = new QAnswerModel();
-                qAnswerModel.setSelectedTime(s_BrushTime);
+                qAnswerModel.setTimeSlotOption(s_BrushTime);
+                qAnswerModel.setAnswerOption(s_BrushQtnOption);
+                qAnswerModel.setWhyOption(s_BrushWhyOptn);
                 qAnswerModel.setS_Position(sPosition);
+                qAnswerModel.setQuestionId(ViewPagerActivity.questionerArrayList.get(5).get_id());
                 ViewPagerActivity.qAnswerModelArrayList.add(qAnswerModel);
-
-                Log.d("Selected Items", "" + s_BrushTime + "" + s_BrushQtnOption + "" + s_BrushWhyOptn);
 
 
             }

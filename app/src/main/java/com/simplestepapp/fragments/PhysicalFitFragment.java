@@ -160,11 +160,12 @@ public class PhysicalFitFragment extends Fragment {
             public void onClick(View v) {
                 ViewPagerActivity.pager.setCurrentItem(5);
                 QAnswerModel qAnswerModel = new QAnswerModel();
-                qAnswerModel.setSelectedTime(s_PFTTime);
+                qAnswerModel.setTimeSlotOption(s_PFTTime);
+                qAnswerModel.setAnswerOption(s_PFTQtnOption);
+                qAnswerModel.setWhyOption(s_PFTWhyOptn);
                 qAnswerModel.setS_Position(sPosition);
+                qAnswerModel.setQuestionId(ViewPagerActivity.questionerArrayList.get(4).get_id());
                 ViewPagerActivity.qAnswerModelArrayList.add(qAnswerModel);
-
-                Log.d("Selected Items", "" + s_PFTTime + "" + s_PFTQtnOption + "" + s_PFTWhyOptn);
 
 
             }

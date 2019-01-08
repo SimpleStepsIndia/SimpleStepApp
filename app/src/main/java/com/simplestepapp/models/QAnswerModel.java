@@ -4,33 +4,42 @@ import java.io.Serializable;
 
 public class QAnswerModel implements Serializable {
 
-    private String selectedTime;
-    private String why_Option;
-    private String no_OfTimes_Optn;
+    private String questionId;
+    private String timeSlotOption;
+    private String answerOption;
+    private String whyOption;
     private int s_Position;
 
-    public String getSelectedTime() {
-        return selectedTime;
+    public String getQuestionId() {
+        return questionId;
     }
 
-    public void setSelectedTime(String selectedTime) {
-        this.selectedTime = selectedTime;
+    public void setQuestionId(String questionId) {
+        this.questionId = questionId;
     }
 
-    public String getWhy_Option() {
-        return why_Option;
+    public String getTimeSlotOption() {
+        return timeSlotOption;
     }
 
-    public void setWhy_Option(String why_Option) {
-        this.why_Option = why_Option;
+    public void setTimeSlotOption(String timeSlotOption) {
+        this.timeSlotOption = timeSlotOption;
     }
 
-    public String getNo_OfTimes_Optn() {
-        return no_OfTimes_Optn;
+    public String getAnswerOption() {
+        return answerOption;
     }
 
-    public void setNo_OfTimes_Optn(String no_OfTimes_Optn) {
-        this.no_OfTimes_Optn = no_OfTimes_Optn;
+    public void setAnswerOption(String answerOption) {
+        this.answerOption = answerOption;
+    }
+
+    public String getWhyOption() {
+        return whyOption;
+    }
+
+    public void setWhyOption(String whyOption) {
+        this.whyOption = whyOption;
     }
 
     public int getS_Position() {

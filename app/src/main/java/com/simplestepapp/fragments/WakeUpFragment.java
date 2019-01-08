@@ -191,11 +191,12 @@ public class WakeUpFragment extends Fragment {
             public void onClick(View v) {
                 ViewPagerActivity.pager.setCurrentItem(1);
                 QAnswerModel qAnswerModel = new QAnswerModel();
-                qAnswerModel.setSelectedTime(s_WkUpTime);
+                qAnswerModel.setTimeSlotOption(s_WkUpTime);
+                qAnswerModel.setAnswerOption(s_WkUpQtnOption);
+                qAnswerModel.setWhyOption(s_WkUpWhyOptn);
                 qAnswerModel.setS_Position(sPosition);
+                qAnswerModel.setQuestionId(ViewPagerActivity.questionerArrayList.get(0).get_id());
                 ViewPagerActivity.qAnswerModelArrayList.add(qAnswerModel);
-                Log.d("Selected Items", "" + s_WkUpTime + "" + s_WkUpQtnOption + "" + s_WkUpWhyOptn);
-
 
             }
         });

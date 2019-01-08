@@ -26,9 +26,6 @@ import com.simplestepapp.utils.MyGridView;
 
 import java.util.ArrayList;
 
-/**
- * Created by Srinivas on 12/17/2018.
- */
 
 public class BrushingFragment extends Fragment{
 
@@ -160,19 +157,17 @@ public class BrushingFragment extends Fragment{
             public void onClick(View v) {
                 ViewPagerActivity.pager.setCurrentItem(2);
                 QAnswerModel qAnswerModel = new QAnswerModel();
-                qAnswerModel.setSelectedTime(s_BrushTime);
+                qAnswerModel.setTimeSlotOption(s_BrushTime);
+                qAnswerModel.setAnswerOption(s_BrushQtnOption);
+                qAnswerModel.setWhyOption(s_BrushWhyOptn);
                 qAnswerModel.setS_Position(sPosition);
+                qAnswerModel.setQuestionId(ViewPagerActivity.questionerArrayList.get(1).get_id());
                 ViewPagerActivity.qAnswerModelArrayList.add(qAnswerModel);
-                
-                Log.d("Selected Items", "" + s_BrushTime + "" + s_BrushQtnOption + "" + s_BrushWhyOptn);
-
-
             }
         });
 
         return v;
     }
-
 
     private void initviews(View v) {
         txt_QtnHdng = v.findViewById(R.id.txt_QtnHdng);
@@ -194,7 +189,6 @@ public class BrushingFragment extends Fragment{
     }
     
     private static BrushingFragment instance = null;
-
 
     public static BrushingFragment newInstance(String text){
 
