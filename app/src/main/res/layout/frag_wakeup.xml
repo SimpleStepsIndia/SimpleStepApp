@@ -27,7 +27,7 @@
                 android:gravity="center">
 
                 <android.support.v7.widget.AppCompatTextView
-                    android:id="@+id/hdr"
+                    android:id="@+id/txt_QtnHdng"
                     style="@style/style_Hdr_Txt"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -79,6 +79,7 @@
 
 
                         <android.support.v7.widget.AppCompatTextView
+                            android:id="@+id/txt_QtnCaptn"
                             style="@style/style_Hdr_Txt"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
@@ -97,6 +98,57 @@
             </LinearLayout>
 
             <LinearLayout
+                android:id="@+id/lyt_QtnOptns"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:visibility="invisible">
+
+                <android.support.v7.widget.AppCompatTextView
+                    android:id="@+id/txt_QtnOptns"
+                    style="@style/style_Hdr_Txt"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/brush_Q1"
+                    android:layout_margin="5dp"/>
+
+                <RadioGroup
+                    android:id="@+id/rG_WakeUp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="20dp"
+                    android:orientation="vertical">
+
+                    <RadioButton
+                        android:id="@+id/rBtn_WOne"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="2" />
+
+                    <RadioButton
+                        android:id="@+id/rBtn_WTwo"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="1" />
+
+                    <RadioButton
+                        android:id="@+id/rBtn_WThre"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="0" />
+
+                    <RadioButton
+                        android:id="@+id/rBtn_WFur"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="0" />
+
+
+                </RadioGroup>
+
+            </LinearLayout>
+
+            <LinearLayout
                 android:id="@+id/lyt_list_Why"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -109,7 +161,7 @@
                     android:layout_height="wrap_content"
                     android:elevation="5dp"
                     android:padding="5dp"
-                    app:cardBackgroundColor="#8ec9a4"
+                    app:cardBackgroundColor="#fbfcfb"
                     app:cardCornerRadius="5dp">
 
                     <LinearLayout
@@ -124,7 +176,7 @@
                             android:text="Why:" />
 
                         <RadioGroup
-                            android:id="@+id/rGrp_Options"
+                            android:id="@+id/rGrp_WhyOptions"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:orientation="vertical">

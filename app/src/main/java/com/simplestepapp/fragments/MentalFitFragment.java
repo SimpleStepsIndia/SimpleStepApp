@@ -1,10 +1,12 @@
 package com.simplestepapp.fragments;
 
 import android.os.Bundle;
+import android.support.annotation.IdRes;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.AppCompatTextView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,11 +14,15 @@ import android.widget.AdapterView;
 import android.widget.GridView;
 import android.widget.LinearLayout;
 import android.widget.ListAdapter;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 
 import com.simplestepapp.R;
 import com.simplestepapp.activities.ViewPagerActivity;
 import com.simplestepapp.adapters.CustomAdapter;
+import com.simplestepapp.models.AnswerOptions;
 import com.simplestepapp.models.QAnswerModel;
+import com.simplestepapp.models.WhyOptions;
 import com.simplestepapp.utils.MyGridView;
 
 import java.util.ArrayList;
@@ -30,21 +36,27 @@ public class MentalFitFragment extends Fragment {
     MyGridView grid_view;
 
     ArrayList<String> timeSlots;
+    ArrayList<AnswerOptions> answerOptions;
+    ArrayList<WhyOptions> whyOptions;
 
     CustomAdapter customAdapter;
 
-    LinearLayout lyt_list_Why;
+    LinearLayout lyt_list_Why, lyt_QtnOptns;
 
+    AppCompatTextView txt_QtnHdng, txt_QtnCaptn, txt_QtnOptns, txt_Next;
 
-    AppCompatTextView txt_Next;
+    RadioGroup rG_WakeUp, rGrp_WhyOptions;
 
-    String s_Time="";
+    RadioButton rBtn_WOne, rBtn_WTwo, rBtn_WThre, rBtn_WFur, rBtn_op1, rBtn_op2, rBtn_op3;
 
-    int sPosition=-1;
+    String s_BrushTime = "", s_BrushQtnOption = "", s_BrushWhyOptn="";
+
+    int sPosition = -1;
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View v = inflater.inflate(R.layout.frag_mentalfitness, container, false);
+        View v = inflater.inflate(R.layout.frag_brushing, container, false);
         initviews(v);
         timeSlots = new ArrayList<>();
         timeSlots.add("< 5:00");
@@ -66,35 +78,120 @@ public class MentalFitFragment extends Fragment {
         timeSlots.add("8:45");
         timeSlots.add("9:00");
         timeSlots.add("9:00 >");
+        try {
+
+            txt_QtnHdng.setText(ViewPagerActivity.questionerArrayList.get(5).getQuestion());
+            txt_QtnCaptn.setText(ViewPagerActivity.questionerArrayList.get(5).getDescription());
+            txt_QtnOptns.setText(ViewPagerActivity.questionerArrayList.get(5).getAnswerCaption());
+            answerOptions = new ArrayList<>();
+            answerOptions = ViewPagerActivity.questionerArrayList.get(5).getAnswerOptions();
+            rBtn_WOne.setText(answerOptions.get(0).getDescription());
+            rBtn_WTwo.setText(answerOptions.get(1).getDescription());
+            rBtn_WThre.setText(answerOptions.get(2).getDescription());
+            rBtn_WFur.setText(answerOptions.get(3).getDescription());
+            whyOptions = new ArrayList<>();
+            whyOptions = ViewPagerActivity.questionerArrayList.get(5).getWhyOptions();
+            rBtn_op1.setText(whyOptions.get(0).getDescription());
+            rBtn_op2.setText(whyOptions.get(1).getDescription());
+            rBtn_op3.setText(whyOptions.get(2).getDescription());
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+
         customAdapter = new CustomAdapter(getActivity().getApplicationContext(), timeSlots);
         grid_view.setAdapter(customAdapter);
         grid_view.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 customAdapter.setSelectedIndex(position);
-                s_Time=(String) parent.getItemAtPosition(position);
-                sPosition=position;
-                lyt_list_Why.setVisibility(View.VISIBLE);
+                s_BrushTime = (String) parent.getItemAtPosition(position);
+                sPosition = position;
+                lyt_QtnOptns.setVisibility(View.VISIBLE);
             }
         });
+
+        rG_WakeUp.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(RadioGroup group, @IdRes int checkedId) {
+                lyt_list_Why.setVisibility(View.VISIBLE);
+                switch (checkedId) {
+                    case R.id.rBtn_WOne:
+                        s_BrushQtnOption = rBtn_WOne.getText().toString();
+                        break;
+                    case R.id.rBtn_WTwo:
+                        s_BrushQtnOption = rBtn_WTwo.getText().toString();
+                        break;
+                    case R.id.rBtn_WThre:
+                        s_BrushQtnOption = rBtn_WThre.getText().toString();
+                        break;
+                    case R.id.rBtn_WFur:
+                        s_BrushQtnOption = rBtn_WFur.getText().toString();
+                        break;
+                    default:
+                        s_BrushQtnOption = "";
+                        break;
+                }
+            }
+        });
+
+        rGrp_WhyOptions.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(RadioGroup group, @IdRes int checkedId) {
+                switch (checkedId){
+                    case R.id.rBtn_op1:
+                        s_BrushWhyOptn=rBtn_op1.getText().toString();
+                        break;
+                    case R.id.rBtn_op2:
+                        s_BrushWhyOptn=rBtn_op2.getText().toString();
+                        break;
+                    case R.id.rBtn_op3:
+                        s_BrushWhyOptn=rBtn_op3.getText().toString();
+                        break;
+                    default:
+                        s_BrushWhyOptn="";
+                        break;
+                }
+            }
+        });
+
         txt_Next.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 ViewPagerActivity.pager.setCurrentItem(6);
-                QAnswerModel qAnswerModel=new QAnswerModel();
-                qAnswerModel.setSelectedTime(s_Time);
+                QAnswerModel qAnswerModel = new QAnswerModel();
+                qAnswerModel.setSelectedTime(s_BrushTime);
                 qAnswerModel.setS_Position(sPosition);
                 ViewPagerActivity.qAnswerModelArrayList.add(qAnswerModel);
+
+                Log.d("Selected Items", "" + s_BrushTime + "" + s_BrushQtnOption + "" + s_BrushWhyOptn);
+
+
             }
         });
+
         return v;
     }
 
 
     private void initviews(View v) {
-        grid_view=v.findViewById(R.id.grid_view);
-        lyt_list_Why=v.findViewById(R.id.lyt_list_Why);
-        txt_Next=v.findViewById(R.id.txt_Next);
+        txt_QtnHdng = v.findViewById(R.id.txt_QtnHdng);
+        txt_QtnCaptn = v.findViewById(R.id.txt_QtnCaptn);
+        txt_QtnOptns = v.findViewById(R.id.txt_QtnOptns);
+        rG_WakeUp = v.findViewById(R.id.rG_WakeUp);
+        rGrp_WhyOptions = v.findViewById(R.id.rGrp_WhyOptions);
+        rBtn_WOne = v.findViewById(R.id.rBtn_WOne);
+        rBtn_WTwo = v.findViewById(R.id.rBtn_WTwo);
+        rBtn_WThre = v.findViewById(R.id.rBtn_WThre);
+        rBtn_WFur = v.findViewById(R.id.rBtn_WFur);
+        rBtn_op1 = v.findViewById(R.id.rBtn_op1);
+        rBtn_op2 = v.findViewById(R.id.rBtn_op2);
+        rBtn_op3 = v.findViewById(R.id.rBtn_op3);
+        grid_view = v.findViewById(R.id.grid_view);
+        lyt_list_Why = v.findViewById(R.id.lyt_list_Why);
+        lyt_QtnOptns = v.findViewById(R.id.lyt_QtnOptns);
+        txt_Next = v.findViewById(R.id.txt_Next);
     }
     private static MentalFitFragment instance = null;
 

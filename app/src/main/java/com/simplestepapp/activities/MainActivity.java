@@ -219,6 +219,8 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
             String personName = acct.getDisplayName();
             String email = acct.getEmail();
             Log.d("Info", "Name: " + personName + ", email: " + email);
+            Intent intent_Pager = new Intent(getApplicationContext(), ViewPagerActivity.class);
+            startActivity(intent_Pager);
 
 
         } else {
