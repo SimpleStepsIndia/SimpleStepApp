@@ -48,6 +48,7 @@
         <activity android:name=".activities.MainActivity"/>
         <activity android:name=".activities.ViewPagerActivity"/>
         <activity android:name=".activities.HomeActivity"/>
+        <activity android:name=".activities.PersonalInfoActivity"/>
     </application>
 
 </manifest>

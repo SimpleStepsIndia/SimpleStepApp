@@ -87,7 +87,6 @@ public class ViewPagerActivity extends AppCompatActivity
         get_QuestionsAll();
     }
 
-
     public void get_QuestionsAll() {
 
         //  http://125.16.1.70:8191/echallan/officerDetails?userID=Maruthiios&pwd=8341646667
@@ -133,7 +132,6 @@ public class ViewPagerActivity extends AppCompatActivity
         requestQueue.add(user_Login_Req);
     }
 
-
     public void toolbarsetUp() {
         ActionBar mActionBar = getSupportActionBar();
         mActionBar.setDisplayShowHomeEnabled(false);
@@ -144,10 +142,9 @@ public class ViewPagerActivity extends AppCompatActivity
         mActionBar.setDisplayShowCustomEnabled(true);
     }
 
-
     @Override
     public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-        Log.d("Position ", "" + position);
+
     }
 
     @Override

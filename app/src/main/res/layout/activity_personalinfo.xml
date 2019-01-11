@@ -1,0 +1,165 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical">
+
+    <ScrollView
+
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fillViewport="true"
+        android:fitsSystemWindows="true"
+        android:visibility="visible">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="20dp"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <android.support.design.widget.TextInputLayout
+                style="@style/style_InputLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <android.support.design.widget.TextInputEditText
+                    android:id="@+id/edtTxt_Name"
+                    style="@style/style_EditText"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:hint="@string/reg_Name" />
+
+            </android.support.design.widget.TextInputLayout>
+
+            <android.support.design.widget.TextInputLayout
+                style="@style/style_InputLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <android.support.design.widget.TextInputEditText
+                    android:id="@+id/edtTxt_EmailId"
+                    style="@style/style_EditText"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:hint="@string/reg_Email"
+                    android:inputType="textEmailAddress" />
+            </android.support.design.widget.TextInputLayout>
+
+            <android.support.design.widget.TextInputLayout
+                style="@style/style_InputLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <android.support.design.widget.TextInputEditText
+                    android:id="@+id/edtTxt_MobNumber"
+                    style="@style/style_EditText"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:hint="@string/reg_Mobile"
+                    android:inputType="phone" />
+            </android.support.design.widget.TextInputLayout>
+
+            <LinearLayout
+                android:id="@+id/lyt_DL_DOB"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:gravity="center"
+                android:orientation="horizontal"
+                android:weightSum="3">
+
+                <android.support.v7.widget.AppCompatTextView
+                    style="@style/style_Hdr_Txt"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="@string/reg_Age" />
+
+                <android.support.v7.widget.AppCompatEditText
+                    android:id="@+id/edt_Txt_DOB"
+                    style="@style/style_EditText"
+                    android:layout_width="0dp"
+                    android:layout_height="50dp"
+                    android:layout_weight="1.60"
+                    android:hint="DD-MM-YYYY"
+                    android:inputType="date" />
+
+                <android.support.v7.widget.AppCompatImageView
+                    android:id="@+id/img_DOB"
+                    android:layout_width="0dp"
+                    android:layout_height="24dp"
+                    android:layout_weight="0.40"
+                    android:src="@drawable/calender"
+                    tools:ignore="ContentDescription" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:gravity="center"
+                android:orientation="horizontal"
+                android:weightSum="4">
+
+                <android.support.v7.widget.AppCompatTextView
+                    style="@style/style_Hdr_Txt"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Gender :" />
+
+                <RadioGroup
+                    android:id="@+id/rd_Gp_Gender"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="3"
+                    android:orientation="horizontal">
+
+                    <RadioButton
+                        android:id="@+id/rd_BtnMale"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:checked="true"
+                        android:text="Male" />
+
+                    <RadioButton
+                        android:id="@+id/rd_BtnFemale"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="Female" />
+
+                    <RadioButton
+                        android:id="@+id/rd_BtnOthers"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="Others" />
+                </RadioGroup>
+
+
+            </LinearLayout>
+
+            <de.hdodenhof.circleimageview.CircleImageView
+                xmlns:app="http://schemas.android.com/apk/res-auto"
+                android:id="@+id/img_Profile"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:src="@drawable/profleimg"
+                app:civ_border_color="#FF000000"
+                app:civ_border_width="2dp" />
+
+            <android.support.v7.widget.AppCompatButton
+                android:id="@+id/btn_SignUp"
+                android:layout_width="250dp"
+                android:layout_height="50dp"
+                android:layout_marginTop="20dp"
+                android:text="SignUp" />
+
+        </LinearLayout>
+    </ScrollView>
+
+</RelativeLayout>

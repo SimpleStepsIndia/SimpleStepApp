@@ -11,4 +11,6 @@ public class Constants {
     public static String sClientId="918541253610-7iconpoq1lbafc4f7nos0d1rbh1for65.apps.googleusercontent.com";
 
     public static String get_QuestionsAll="https://evening-river-50305.herokuapp.com/questions/all";
+
+    public static String post_QuestionsInfo="https://evening-river-50305.herokuapp.com/questions/all";
 }

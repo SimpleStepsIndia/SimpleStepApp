@@ -1,8 +1,10 @@
 package com.simplestepapp.fragments;
 
 import android.annotation.SuppressLint;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.StrictMode;
 import android.support.annotation.IdRes;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -20,9 +22,17 @@ import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 
+import com.android.volley.AuthFailureError;
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
 import com.google.gson.Gson;
 import com.simplestepapp.R;
 import com.simplestepapp.activities.HomeActivity;
+import com.simplestepapp.activities.PersonalInfoActivity;
 import com.simplestepapp.activities.ViewPagerActivity;
 import com.simplestepapp.adapters.ConclusionAdapter;
 import com.simplestepapp.adapters.CustomAdapter;
@@ -32,6 +42,8 @@ import com.simplestepapp.models.WhyOptions;
 import com.simplestepapp.utils.MyGridView;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Created by Srinivas on 12/20/2018.
@@ -66,11 +78,18 @@ public class SunBothFragment extends Fragment {
 
     AlertDialog alertDialog;
 
+    private ProgressDialog progressDialog;
+
+    RequestQueue requestQueue;
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.frag_brushing, container, false);
         initviews(v);
+        progressDialog = new ProgressDialog(getActivity());
+        requestQueue = Volley.newRequestQueue(getActivity());
+
         timeSlots = new ArrayList<>();
         timeSlots.add("< 5:00");
         timeSlots.add("5:00");
@@ -179,8 +198,11 @@ public class SunBothFragment extends Fragment {
                 qAnswerModel.setQuestionId(ViewPagerActivity.questionerArrayList.get(6).get_id());
                 ViewPagerActivity.qAnswerModelArrayList.add(qAnswerModel);
                 String jsonOb = new Gson().toJson(ViewPagerActivity.qAnswerModelArrayList);
-                Log.d("JsonObject",""+jsonOb);
-                conclusion_Dialog();
+                Log.d("JsonObject", "" + jsonOb);
+
+                Intent intent=new Intent(getActivity(), PersonalInfoActivity.class);
+                startActivity(intent);
+                //conclusion_Dialog();
             }
         });
         return v;
@@ -224,6 +246,35 @@ public class SunBothFragment extends Fragment {
             }
         });
         alertDialog.show();
+    }
+
+    public void postQuestionInfo() {
+
+        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+        StrictMode.setThreadPolicy(policy);
+
+        progressDialog.setMessage("Loading");
+        progressDialog.show();
+
+        StringRequest request_postQtnsIfo = new StringRequest(Request.Method.POST, "", new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+
+            }
+        }) {
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                Map<String, String> params = new HashMap<>();
+                params.put("json", "");
+                return params;
+            }
+        };
+        requestQueue.add(request_postQtnsIfo);
     }
 
     private static SunBothFragment instance = null;
