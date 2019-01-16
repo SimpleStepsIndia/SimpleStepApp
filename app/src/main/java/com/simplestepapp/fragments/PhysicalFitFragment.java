@@ -15,6 +15,7 @@ import android.widget.GridView;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.ScrollView;
 
 import com.simplestepapp.R;
 import com.simplestepapp.activities.ViewPagerActivity;
@@ -33,7 +34,7 @@ import java.util.ArrayList;
 public class PhysicalFitFragment extends Fragment {
 
     MyGridView grid_view;
-
+    ScrollView scroll_View;
     ArrayList<String> timeSlots;
     ArrayList<AnswerOptions> answerOptions;
     ArrayList<WhyOptions> whyOptions;
@@ -48,14 +49,14 @@ public class PhysicalFitFragment extends Fragment {
 
     RadioButton rBtn_WOne, rBtn_WTwo, rBtn_WThre, rBtn_WFur, rBtn_op1, rBtn_op2, rBtn_op3;
 
-    String s_PFTTime = "", s_PFTQtnOption = "", s_PFTWhyOptn="";
+    String s_PFTTime = "", s_PFTQtnOption = "", s_PFTWhyOptn="",colorName="";;
 
     int sPosition = -1;
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View v = inflater.inflate(R.layout.frag_brushing, container, false);
+        View v = inflater.inflate(R.layout.frag_pfitness, container, false);
         initviews(v);
         timeSlots = new ArrayList<>();
         timeSlots.add("< 5:00");
@@ -77,6 +78,7 @@ public class PhysicalFitFragment extends Fragment {
         timeSlots.add("8:45");
         timeSlots.add("9:00");
         timeSlots.add("9:00 >");
+        timeSlots.add("None");
         try {
 
             txt_QtnHdng.setText(ViewPagerActivity.questionerArrayList.get(4).getQuestion());
@@ -115,18 +117,23 @@ public class PhysicalFitFragment extends Fragment {
             @Override
             public void onCheckedChanged(RadioGroup group, @IdRes int checkedId) {
                 lyt_list_Why.setVisibility(View.VISIBLE);
+                scroll_View.fullScroll(ScrollView.FOCUS_DOWN);
                 switch (checkedId) {
                     case R.id.rBtn_WOne:
                         s_PFTQtnOption = rBtn_WOne.getText().toString();
+                        colorName="G";
                         break;
                     case R.id.rBtn_WTwo:
                         s_PFTQtnOption = rBtn_WTwo.getText().toString();
+                        colorName="B";
                         break;
                     case R.id.rBtn_WThre:
                         s_PFTQtnOption = rBtn_WThre.getText().toString();
+                        colorName="O";
                         break;
                     case R.id.rBtn_WFur:
                         s_PFTQtnOption = rBtn_WFur.getText().toString();
+                        colorName="R";
                         break;
                     default:
                         s_PFTQtnOption = "";
@@ -138,6 +145,7 @@ public class PhysicalFitFragment extends Fragment {
         rGrp_WhyOptions.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(RadioGroup group, @IdRes int checkedId) {
+                txt_Next.setVisibility(View.VISIBLE);
                 switch (checkedId){
                     case R.id.rBtn_op1:
                         s_PFTWhyOptn=rBtn_op1.getText().toString();
@@ -164,6 +172,7 @@ public class PhysicalFitFragment extends Fragment {
                 qAnswerModel.setAnswerOption(s_PFTQtnOption);
                 qAnswerModel.setWhyOption(s_PFTWhyOptn);
                 qAnswerModel.setS_Position(sPosition);
+                qAnswerModel.setColorCode(colorName);
                 qAnswerModel.setQuestionId(ViewPagerActivity.questionerArrayList.get(4).get_id());
                 ViewPagerActivity.qAnswerModelArrayList.add(qAnswerModel);
 
@@ -192,6 +201,7 @@ public class PhysicalFitFragment extends Fragment {
         lyt_list_Why = v.findViewById(R.id.lyt_list_Why);
         lyt_QtnOptns = v.findViewById(R.id.lyt_QtnOptns);
         txt_Next = v.findViewById(R.id.txt_Next);
+        scroll_View=v.findViewById(R.id.scroll_View);
     }
     private static PhysicalFitFragment instance = null;
 

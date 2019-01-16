@@ -9,11 +9,12 @@
 
 
     <ScrollView
+        android:id="@+id/scroll_View"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:fillViewport="true"
         android:fitsSystemWindows="true"
-        android:layout_above="@+id/txt_Next">
+        >
 
 
         <LinearLayout
@@ -26,10 +27,21 @@
                 android:layout_height="50dp"
                 android:gravity="center">
 
+                <ImageView
+                    android:id="@+id/imageView"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_alignParentStart="true"
+                    android:layout_alignParentTop="true"
+                    android:layout_margin="15dp"
+                    android:layout_marginStart="60dp"
+                    android:layout_marginTop="1dp"
+                    app:srcCompat="@drawable/brushicon" />
+
                 <android.support.v7.widget.AppCompatTextView
                     android:id="@+id/txt_QtnHdng"
                     style="@style/style_Hdr_Txt"
-                    android:layout_width="match_parent"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:gravity="center"
                     android:text="@string/txtHdng_Q1"
@@ -207,19 +219,22 @@
 
             </LinearLayout>
 
+            <android.support.v7.widget.AppCompatTextView
+                android:id="@+id/txt_Next"
+                style="@style/style_Hdr_Txt"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="end"
+                android:layout_margin="15dp"
+                android:text="Next"
+                android:visibility="invisible"/>
+
+
         </LinearLayout>
+
 
     </ScrollView>
 
-    <android.support.v7.widget.AppCompatTextView
-        android:id="@+id/txt_Next"
-        style="@style/style_Hdr_Txt"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentEnd="true"
-        android:layout_margin="15dp"
-        android:text="Next" />
 
 
 </RelativeLayout>

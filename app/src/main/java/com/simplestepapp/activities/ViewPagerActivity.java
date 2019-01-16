@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.os.StrictMode;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
@@ -57,7 +58,7 @@ public class ViewPagerActivity extends AppCompatActivity
     private ProgressDialog progressDialog;
     RequestQueue requestQueue;
 
-    public static int dis_Position = 0;
+    public static int dis_Position = -1;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -83,6 +84,7 @@ public class ViewPagerActivity extends AppCompatActivity
 
         pager = (ViewPager) findViewById(R.id.viewPager);
         //pager.beginFakeDrag();
+
 
         get_QuestionsAll();
     }
@@ -154,6 +156,7 @@ public class ViewPagerActivity extends AppCompatActivity
 
     @Override
     public void onPageScrollStateChanged(int state) {
+        pager.getAdapter().notifyDataSetChanged();
 
     }
 
@@ -206,7 +209,10 @@ public class ViewPagerActivity extends AppCompatActivity
             return NUMBER_OF_PAGES;
         }
 
-
+        @Override
+        public int getItemPosition(@NonNull Object object) {
+            return POSITION_NONE;
+        }
     }
 
 }

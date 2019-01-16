@@ -22,7 +22,7 @@ public class CustomAdapter extends BaseAdapter {
     private Context context;
     public List<Integer> selectedPositions;
 
-    private int selectedIndex, disable_Position=0;
+    private int selectedIndex, disable_Position=ViewPagerActivity.dis_Position;
 
     private LayoutInflater inflater;
 
@@ -39,16 +39,14 @@ public class CustomAdapter extends BaseAdapter {
 
     public void setSelectedIndex(int ind) {
         selectedIndex = ind;
-        disable_Position=ind;
-
         notifyDataSetChanged();
     }
 
-   /* @Override
+    @Override
     public boolean isEnabled(int position) {
 
         return (disable_Position <= position);
-    }*/
+    }
 
     @Override
     public int getCount() {
@@ -88,10 +86,10 @@ public class CustomAdapter extends BaseAdapter {
             holder.txt_Timeslot.setBackgroundColor(Color.WHITE);
             holder.txt_Timeslot.setTextColor(Color.BLUE);
         }
-        /*if (disable_Position > position){
+        if ( position<disable_Position){
             holder.txt_Timeslot.setBackgroundColor(Color.GRAY);
             holder.txt_Timeslot.setTextColor(Color.DKGRAY);
-        }*/
+        }
        // view.setLayoutParams(new ViewGroup.LayoutParams(135, 60));
         return view;
     }

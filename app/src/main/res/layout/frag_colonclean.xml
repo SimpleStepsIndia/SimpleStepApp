@@ -6,12 +6,16 @@
     android:background="#ffffff"
     android:orientation="vertical">
 
+
+
     <ScrollView
+        android:id="@+id/scroll_View"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:fillViewport="true"
         android:fitsSystemWindows="true"
-        android:layout_above="@+id/txt_Next">
+        >
+
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -20,16 +24,28 @@
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="30dp"
+                android:layout_height="50dp"
                 android:gravity="center">
 
+                <ImageView
+                    android:id="@+id/imageView"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_alignParentStart="true"
+                    android:layout_alignParentTop="true"
+                    android:layout_margin="15dp"
+                    android:layout_marginStart="60dp"
+                    android:layout_marginTop="1dp"
+                    app:srcCompat="@drawable/colon" />
+
                 <android.support.v7.widget.AppCompatTextView
-                    android:id="@+id/hdr"
+                    android:id="@+id/txt_QtnHdng"
                     style="@style/style_Hdr_Txt"
-                    android:layout_width="match_parent"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:gravity="center"
-                    android:text="@string/txtHdng_Q3"
+                    android:text="@string/txtHdng_Q1"
+                    android:textColor="#021a45"
                     android:textSize="16sp" />
 
             </LinearLayout>
@@ -73,16 +89,20 @@
 
                         </com.simplestepapp.utils.MyGridView>
 
+
                         <android.support.v7.widget.AppCompatTextView
+                            android:id="@+id/txt_QtnCaptn"
                             style="@style/style_Hdr_Txt"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:background="#bfa053"
-                            android:gravity="center"
                             android:padding="20dp"
-                            android:text="@string/txt_Quatn4" />
+                            android:text="@string/txt_Quatn1"
+                            android:gravity="center"
+                            android:background="#bfa053"/>
 
                     </LinearLayout>
+
+
 
                 </android.support.v7.widget.CardView>
 
@@ -90,41 +110,51 @@
             </LinearLayout>
 
             <LinearLayout
-
+                android:id="@+id/lyt_QtnOptns"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                android:visibility="invisible">
+
+                <android.support.v7.widget.AppCompatTextView
+                    android:id="@+id/txt_QtnOptns"
+                    style="@style/style_Hdr_Txt"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/brush_Q1"
+                    android:layout_margin="5dp"/>
 
                 <RadioGroup
-                    android:id="@+id/rG_ClnClean"
+                    android:id="@+id/rG_WakeUp"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_margin="20dp"
                     android:orientation="vertical">
 
                     <RadioButton
-                        android:id="@+id/rBtn_ClnTwo"
+                        android:id="@+id/rBtn_WOne"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="2 Times" />
+                        android:text="2" />
 
                     <RadioButton
-                        android:id="@+id/rBtn_ClnOTWE"
+                        android:id="@+id/rBtn_WTwo"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="1 Time With Ease" />
+                        android:text="1" />
 
                     <RadioButton
-                        android:id="@+id/rBtn_ClnOTWH"
+                        android:id="@+id/rBtn_WThre"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="1 Time With Difficulty" />
+                        android:text="0" />
 
                     <RadioButton
-                        android:id="@+id/rBtn_ClnNone"
+                        android:id="@+id/rBtn_WFur"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="None" />
+                        android:text="0" />
+
 
                 </RadioGroup>
 
@@ -138,54 +168,73 @@
                 android:orientation="vertical"
                 android:visibility="invisible">
 
-                <android.support.v7.widget.AppCompatTextView
-                    style="@style/style_Hdr_Txt"
+                <android.support.v7.widget.CardView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Why:" />
+                    android:elevation="5dp"
+                    android:padding="5dp"
+                    app:cardBackgroundColor="#fbfcfb"
+                    app:cardCornerRadius="5dp">
 
-                <RadioGroup
-                    android:id="@+id/rGrp_Options"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical">
-
-                    <RadioButton
-                        android:id="@+id/rBtn_op1"
+                    <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="@string/rBtnTxtOption1" />
+                        android:orientation="vertical">
 
-                    <RadioButton
-                        android:id="@+id/rBtn_op2"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="@string/rBtnTxtOption2" />
+                        <android.support.v7.widget.AppCompatTextView
+                            style="@style/style_Hdr_Txt"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="Why:" />
 
-                    <RadioButton
-                        android:id="@+id/rBtn_op3"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="@string/rBtnTxtOption3" />
+                        <RadioGroup
+                            android:id="@+id/rGrp_WhyOptions"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical">
+
+                            <RadioButton
+                                android:id="@+id/rBtn_op1"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:text="@string/rBtnTxtOption1" />
+
+                            <RadioButton
+                                android:id="@+id/rBtn_op2"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:text="@string/rBtnTxtOption2" />
+
+                            <RadioButton
+                                android:id="@+id/rBtn_op3"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:text="@string/rBtnTxtOption3" />
 
 
-                </RadioGroup>
+                        </RadioGroup>
+                    </LinearLayout>
+
+                </android.support.v7.widget.CardView>
 
             </LinearLayout>
 
+            <android.support.v7.widget.AppCompatTextView
+                android:id="@+id/txt_Next"
+                style="@style/style_Hdr_Txt"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="end"
+                android:layout_margin="15dp"
+                android:text="Next"
+                android:visibility="invisible"/>
+
+
         </LinearLayout>
+
 
     </ScrollView>
 
-    <android.support.v7.widget.AppCompatTextView
-        android:id="@+id/txt_Next"
-        style="@style/style_Hdr_Txt"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentEnd="true"
-        android:layout_margin="15dp"
-        android:text="Next" />
 
 
 </RelativeLayout>

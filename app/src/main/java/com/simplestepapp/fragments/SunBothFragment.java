@@ -21,6 +21,7 @@ import android.widget.GridView;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.ScrollView;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
@@ -31,6 +32,7 @@ import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.google.gson.Gson;
 import com.simplestepapp.R;
+import com.simplestepapp.activities.ConclusionActivity;
 import com.simplestepapp.activities.HomeActivity;
 import com.simplestepapp.activities.PersonalInfoActivity;
 import com.simplestepapp.activities.ViewPagerActivity;
@@ -52,7 +54,7 @@ import java.util.Map;
 public class SunBothFragment extends Fragment {
 
     MyGridView grid_view;
-
+    ScrollView scroll_View;
     GridView conclusin_Grid;
     ConclusionAdapter conclusionAdapter;
 
@@ -70,7 +72,7 @@ public class SunBothFragment extends Fragment {
 
     RadioButton rBtn_WOne, rBtn_WTwo, rBtn_WThre, rBtn_WFur, rBtn_op1, rBtn_op2, rBtn_op3;
 
-    String s_SBTime = "", s_SBQtnOption = "", s_SBWhyOptn = "";
+    String s_SBTime = "", s_SBQtnOption = "", s_SBWhyOptn = "",colorName="";;
 
     int sPosition = -1;
 
@@ -85,7 +87,7 @@ public class SunBothFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View v = inflater.inflate(R.layout.frag_brushing, container, false);
+        View v = inflater.inflate(R.layout.frag_sunbath, container, false);
         initviews(v);
         progressDialog = new ProgressDialog(getActivity());
         requestQueue = Volley.newRequestQueue(getActivity());
@@ -110,6 +112,7 @@ public class SunBothFragment extends Fragment {
         timeSlots.add("8:45");
         timeSlots.add("9:00");
         timeSlots.add("9:00 >");
+        timeSlots.add("None");
         try {
 
             txt_QtnHdng.setText(ViewPagerActivity.questionerArrayList.get(6).getQuestion());
@@ -148,18 +151,23 @@ public class SunBothFragment extends Fragment {
             @Override
             public void onCheckedChanged(RadioGroup group, @IdRes int checkedId) {
                 lyt_list_Why.setVisibility(View.VISIBLE);
+                scroll_View.fullScroll(ScrollView.FOCUS_DOWN);
                 switch (checkedId) {
                     case R.id.rBtn_WOne:
                         s_SBQtnOption = rBtn_WOne.getText().toString();
+                        colorName="G";
                         break;
                     case R.id.rBtn_WTwo:
                         s_SBQtnOption = rBtn_WTwo.getText().toString();
+                        colorName="B";
                         break;
                     case R.id.rBtn_WThre:
                         s_SBQtnOption = rBtn_WThre.getText().toString();
+                        colorName="O";
                         break;
                     case R.id.rBtn_WFur:
                         s_SBQtnOption = rBtn_WFur.getText().toString();
+                        colorName="R";
                         break;
                     default:
                         s_SBQtnOption = "";
@@ -171,6 +179,7 @@ public class SunBothFragment extends Fragment {
         rGrp_WhyOptions.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(RadioGroup group, @IdRes int checkedId) {
+                txt_Next.setVisibility(View.VISIBLE);
                 switch (checkedId) {
                     case R.id.rBtn_op1:
                         s_SBWhyOptn = rBtn_op1.getText().toString();
@@ -195,12 +204,13 @@ public class SunBothFragment extends Fragment {
                 qAnswerModel.setAnswerOption(s_SBQtnOption);
                 qAnswerModel.setWhyOption(s_SBWhyOptn);
                 qAnswerModel.setS_Position(sPosition);
+                qAnswerModel.setColorCode(colorName);
                 qAnswerModel.setQuestionId(ViewPagerActivity.questionerArrayList.get(6).get_id());
                 ViewPagerActivity.qAnswerModelArrayList.add(qAnswerModel);
-                String jsonOb = new Gson().toJson(ViewPagerActivity.qAnswerModelArrayList);
-                Log.d("JsonObject", "" + jsonOb);
+              //  String jsonOb = new Gson().toJson(ViewPagerActivity.qAnswerModelArrayList);
+             //   Log.d("JsonObject", "" + jsonOb);
 
-                Intent intent=new Intent(getActivity(), PersonalInfoActivity.class);
+                Intent intent=new Intent(getActivity(), ConclusionActivity.class);
                 startActivity(intent);
                 //conclusion_Dialog();
             }
@@ -225,6 +235,7 @@ public class SunBothFragment extends Fragment {
         lyt_list_Why = v.findViewById(R.id.lyt_list_Why);
         lyt_QtnOptns = v.findViewById(R.id.lyt_QtnOptns);
         txt_Next = v.findViewById(R.id.txt_Next);
+        scroll_View = v.findViewById(R.id.scroll_View);
     }
 
     private void conclusion_Dialog() {

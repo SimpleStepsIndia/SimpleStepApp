@@ -49,6 +49,8 @@
         <activity android:name=".activities.ViewPagerActivity"/>
         <activity android:name=".activities.HomeActivity"/>
         <activity android:name=".activities.PersonalInfoActivity"/>
+        <activity android:name=".activities.ConclusionActivity"/>
+        <activity android:name=".activities.ProfileActivity"/>
     </application>
 
 </manifest>

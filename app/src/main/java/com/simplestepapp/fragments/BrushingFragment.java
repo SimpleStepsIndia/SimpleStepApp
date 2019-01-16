@@ -15,6 +15,7 @@ import android.widget.GridView;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.ScrollView;
 
 import com.simplestepapp.R;
 import com.simplestepapp.activities.ViewPagerActivity;
@@ -27,10 +28,10 @@ import com.simplestepapp.utils.MyGridView;
 import java.util.ArrayList;
 
 
-public class BrushingFragment extends Fragment{
+public class BrushingFragment extends Fragment {
 
     MyGridView grid_view;
-
+    ScrollView scroll_View;
     ArrayList<String> timeSlots;
     ArrayList<AnswerOptions> answerOptions;
     ArrayList<WhyOptions> whyOptions;
@@ -45,15 +46,19 @@ public class BrushingFragment extends Fragment{
 
     RadioButton rBtn_WOne, rBtn_WTwo, rBtn_WThre, rBtn_WFur, rBtn_op1, rBtn_op2, rBtn_op3;
 
-    String s_BrushTime = "", s_BrushQtnOption = "", s_BrushWhyOptn="";
+    String s_BrushTime = "", s_BrushQtnOption = "", s_BrushWhyOptn = "", colorName = "";
 
     int sPosition = -1;
+
+    private boolean _hasLoadedOnce = false;
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.frag_brushing, container, false);
         initviews(v);
+
+
         timeSlots = new ArrayList<>();
         timeSlots.add("< 5:00");
         timeSlots.add("5:00");
@@ -74,6 +79,7 @@ public class BrushingFragment extends Fragment{
         timeSlots.add("8:45");
         timeSlots.add("9:00");
         timeSlots.add("9:00 >");
+        timeSlots.add("None");
         try {
 
             txt_QtnHdng.setText(ViewPagerActivity.questionerArrayList.get(1).getQuestion());
@@ -104,6 +110,7 @@ public class BrushingFragment extends Fragment{
                 customAdapter.setSelectedIndex(position);
                 s_BrushTime = (String) parent.getItemAtPosition(position);
                 sPosition = position;
+                customAdapter.notifyDataSetChanged();
                 lyt_QtnOptns.setVisibility(View.VISIBLE);
             }
         });
@@ -111,19 +118,24 @@ public class BrushingFragment extends Fragment{
         rG_WakeUp.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(RadioGroup group, @IdRes int checkedId) {
+                scroll_View.fullScroll(ScrollView.FOCUS_DOWN);
                 lyt_list_Why.setVisibility(View.VISIBLE);
                 switch (checkedId) {
                     case R.id.rBtn_WOne:
                         s_BrushQtnOption = rBtn_WOne.getText().toString();
+                        colorName = "G";
                         break;
                     case R.id.rBtn_WTwo:
                         s_BrushQtnOption = rBtn_WTwo.getText().toString();
+                        colorName = "B";
                         break;
                     case R.id.rBtn_WThre:
                         s_BrushQtnOption = rBtn_WThre.getText().toString();
+                        colorName = "O";
                         break;
                     case R.id.rBtn_WFur:
                         s_BrushQtnOption = rBtn_WFur.getText().toString();
+                        colorName = "R";
                         break;
                     default:
                         s_BrushQtnOption = "";
@@ -135,18 +147,19 @@ public class BrushingFragment extends Fragment{
         rGrp_WhyOptions.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(RadioGroup group, @IdRes int checkedId) {
-                switch (checkedId){
+                txt_Next.setVisibility(View.VISIBLE);
+                switch (checkedId) {
                     case R.id.rBtn_op1:
-                        s_BrushWhyOptn=rBtn_op1.getText().toString();
+                        s_BrushWhyOptn = rBtn_op1.getText().toString();
                         break;
                     case R.id.rBtn_op2:
-                        s_BrushWhyOptn=rBtn_op2.getText().toString();
+                        s_BrushWhyOptn = rBtn_op2.getText().toString();
                         break;
                     case R.id.rBtn_op3:
-                        s_BrushWhyOptn=rBtn_op3.getText().toString();
+                        s_BrushWhyOptn = rBtn_op3.getText().toString();
                         break;
                     default:
-                        s_BrushWhyOptn="";
+                        s_BrushWhyOptn = "";
                         break;
                 }
             }
@@ -161,6 +174,7 @@ public class BrushingFragment extends Fragment{
                 qAnswerModel.setAnswerOption(s_BrushQtnOption);
                 qAnswerModel.setWhyOption(s_BrushWhyOptn);
                 qAnswerModel.setS_Position(sPosition);
+                qAnswerModel.setColorCode(colorName);
                 qAnswerModel.setQuestionId(ViewPagerActivity.questionerArrayList.get(1).get_id());
                 ViewPagerActivity.qAnswerModelArrayList.add(qAnswerModel);
             }
@@ -186,13 +200,14 @@ public class BrushingFragment extends Fragment{
         lyt_list_Why = v.findViewById(R.id.lyt_list_Why);
         lyt_QtnOptns = v.findViewById(R.id.lyt_QtnOptns);
         txt_Next = v.findViewById(R.id.txt_Next);
+        scroll_View = v.findViewById(R.id.scroll_View);
     }
-    
+
     private static BrushingFragment instance = null;
 
-    public static BrushingFragment newInstance(String text){
+    public static BrushingFragment newInstance(String text) {
 
-        if(instance == null){
+        if (instance == null) {
             // new instance
             instance = new BrushingFragment();
 

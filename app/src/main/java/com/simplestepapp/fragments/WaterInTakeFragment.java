@@ -15,6 +15,7 @@ import android.widget.GridView;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.ScrollView;
 
 import com.simplestepapp.R;
 import com.simplestepapp.activities.ViewPagerActivity;
@@ -29,7 +30,7 @@ import java.util.ArrayList;
 public class WaterInTakeFragment extends Fragment {
 
     MyGridView grid_view;
-
+ScrollView scroll_View;
     ArrayList<String> timeSlots;
     ArrayList<AnswerOptions> answerOptions;
     ArrayList<WhyOptions> whyOptions;
@@ -44,14 +45,14 @@ public class WaterInTakeFragment extends Fragment {
 
     RadioButton rBtn_WOne, rBtn_WTwo, rBtn_WThre, rBtn_WFur, rBtn_op1, rBtn_op2, rBtn_op3;
 
-    String s_WITTime = "", s_WITQtnOption = "", s_WITWhyOptn="";
+    String s_WITTime = "", s_WITQtnOption = "", s_WITWhyOptn="",colorName="";;
 
     int sPosition = -1;
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View v = inflater.inflate(R.layout.frag_brushing, container, false);
+        View v = inflater.inflate(R.layout.frag_waterintake, container, false);
         initviews(v);
         timeSlots = new ArrayList<>();
         timeSlots.add("< 5:00");
@@ -73,6 +74,8 @@ public class WaterInTakeFragment extends Fragment {
         timeSlots.add("8:45");
         timeSlots.add("9:00");
         timeSlots.add("9:00 >");
+        timeSlots.add("None");
+
         try {
 
             txt_QtnHdng.setText(ViewPagerActivity.questionerArrayList.get(3).getQuestion());
@@ -111,18 +114,23 @@ public class WaterInTakeFragment extends Fragment {
             @Override
             public void onCheckedChanged(RadioGroup group, @IdRes int checkedId) {
                 lyt_list_Why.setVisibility(View.VISIBLE);
+                scroll_View.fullScroll(ScrollView.FOCUS_DOWN);
                 switch (checkedId) {
                     case R.id.rBtn_WOne:
                         s_WITQtnOption = rBtn_WOne.getText().toString();
+                        colorName="G";
                         break;
                     case R.id.rBtn_WTwo:
                         s_WITQtnOption = rBtn_WTwo.getText().toString();
+                        colorName="B";
                         break;
                     case R.id.rBtn_WThre:
                         s_WITQtnOption = rBtn_WThre.getText().toString();
+                        colorName="O";
                         break;
                     case R.id.rBtn_WFur:
                         s_WITQtnOption = rBtn_WFur.getText().toString();
+                        colorName="R";
                         break;
                     default:
                         s_WITQtnOption = "";
@@ -134,6 +142,7 @@ public class WaterInTakeFragment extends Fragment {
         rGrp_WhyOptions.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(RadioGroup group, @IdRes int checkedId) {
+                txt_Next.setVisibility(View.VISIBLE);
                 switch (checkedId){
                     case R.id.rBtn_op1:
                         s_WITWhyOptn=rBtn_op1.getText().toString();
@@ -188,6 +197,7 @@ public class WaterInTakeFragment extends Fragment {
         lyt_list_Why = v.findViewById(R.id.lyt_list_Why);
         lyt_QtnOptns = v.findViewById(R.id.lyt_QtnOptns);
         txt_Next = v.findViewById(R.id.txt_Next);
+        scroll_View = v.findViewById(R.id.scroll_View);
     }
 
     private static WaterInTakeFragment instance = null;

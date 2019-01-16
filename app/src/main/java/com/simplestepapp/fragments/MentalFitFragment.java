@@ -16,6 +16,7 @@ import android.widget.LinearLayout;
 import android.widget.ListAdapter;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.ScrollView;
 
 import com.simplestepapp.R;
 import com.simplestepapp.activities.ViewPagerActivity;
@@ -34,7 +35,7 @@ import java.util.ArrayList;
 public class MentalFitFragment extends Fragment {
 
     MyGridView grid_view;
-
+    ScrollView scroll_View;
     ArrayList<String> timeSlots;
     ArrayList<AnswerOptions> answerOptions;
     ArrayList<WhyOptions> whyOptions;
@@ -49,14 +50,14 @@ public class MentalFitFragment extends Fragment {
 
     RadioButton rBtn_WOne, rBtn_WTwo, rBtn_WThre, rBtn_WFur, rBtn_op1, rBtn_op2, rBtn_op3;
 
-    String s_BrushTime = "", s_BrushQtnOption = "", s_BrushWhyOptn="";
+    String s_BrushTime = "", s_BrushQtnOption = "", s_BrushWhyOptn="",colorName="";;
 
     int sPosition = -1;
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View v = inflater.inflate(R.layout.frag_brushing, container, false);
+        View v = inflater.inflate(R.layout.frag_mentalfitness, container, false);
         initviews(v);
         timeSlots = new ArrayList<>();
         timeSlots.add("< 5:00");
@@ -78,6 +79,7 @@ public class MentalFitFragment extends Fragment {
         timeSlots.add("8:45");
         timeSlots.add("9:00");
         timeSlots.add("9:00 >");
+        timeSlots.add("None");
         try {
 
             txt_QtnHdng.setText(ViewPagerActivity.questionerArrayList.get(5).getQuestion());
@@ -115,19 +117,24 @@ public class MentalFitFragment extends Fragment {
         rG_WakeUp.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(RadioGroup group, @IdRes int checkedId) {
+                scroll_View.fullScroll(ScrollView.FOCUS_DOWN);
                 lyt_list_Why.setVisibility(View.VISIBLE);
                 switch (checkedId) {
                     case R.id.rBtn_WOne:
                         s_BrushQtnOption = rBtn_WOne.getText().toString();
+                        colorName="G";
                         break;
                     case R.id.rBtn_WTwo:
                         s_BrushQtnOption = rBtn_WTwo.getText().toString();
+                        colorName="B";
                         break;
                     case R.id.rBtn_WThre:
                         s_BrushQtnOption = rBtn_WThre.getText().toString();
+                        colorName="O";
                         break;
                     case R.id.rBtn_WFur:
                         s_BrushQtnOption = rBtn_WFur.getText().toString();
+                        colorName="R";
                         break;
                     default:
                         s_BrushQtnOption = "";
@@ -139,6 +146,7 @@ public class MentalFitFragment extends Fragment {
         rGrp_WhyOptions.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(RadioGroup group, @IdRes int checkedId) {
+                txt_Next.setVisibility(View.VISIBLE);
                 switch (checkedId){
                     case R.id.rBtn_op1:
                         s_BrushWhyOptn=rBtn_op1.getText().toString();
@@ -165,6 +173,7 @@ public class MentalFitFragment extends Fragment {
                 qAnswerModel.setAnswerOption(s_BrushQtnOption);
                 qAnswerModel.setWhyOption(s_BrushWhyOptn);
                 qAnswerModel.setS_Position(sPosition);
+                qAnswerModel.setColorCode(colorName);
                 qAnswerModel.setQuestionId(ViewPagerActivity.questionerArrayList.get(5).get_id());
                 ViewPagerActivity.qAnswerModelArrayList.add(qAnswerModel);
 
@@ -193,6 +202,7 @@ public class MentalFitFragment extends Fragment {
         lyt_list_Why = v.findViewById(R.id.lyt_list_Why);
         lyt_QtnOptns = v.findViewById(R.id.lyt_QtnOptns);
         txt_Next = v.findViewById(R.id.txt_Next);
+        scroll_View = v.findViewById(R.id.scroll_View);
     }
     private static MentalFitFragment instance = null;
 

@@ -8,7 +8,16 @@ public class QAnswerModel implements Serializable {
     private String timeSlotOption;
     private String answerOption;
     private String whyOption;
+    private String colorCode;
     private int s_Position;
+
+    public String getColorCode() {
+        return colorCode;
+    }
+
+    public void setColorCode(String colorCode) {
+        this.colorCode = colorCode;
+    }
 
     public String getQuestionId() {
         return questionId;
