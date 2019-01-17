@@ -45,12 +45,15 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".activities.MainActivity"/>
+        <activity android:name=".activities.MainActivity"
+            android:theme="@style/AppNoActionBarTheme"/>
         <activity android:name=".activities.ViewPagerActivity"/>
         <activity android:name=".activities.HomeActivity"/>
         <activity android:name=".activities.PersonalInfoActivity"/>
         <activity android:name=".activities.ConclusionActivity"/>
         <activity android:name=".activities.ProfileActivity"/>
+        <activity android:name=".activities.QuestionerActivity"
+            />
     </application>
 
 </manifest>

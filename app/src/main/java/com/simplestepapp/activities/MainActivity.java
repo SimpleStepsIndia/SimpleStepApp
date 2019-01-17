@@ -52,6 +52,8 @@ import com.nabinbhandari.android.permissions.Permissions;
 import com.simplestepapp.BuildConfig;
 import com.simplestepapp.R;
 import com.simplestepapp.utils.ConnectivityUtils;
+import com.simplestepapp.utils.Toaster;
+import com.simplestepapp.utils.ValidationUtils;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -67,7 +69,7 @@ import de.hdodenhof.circleimageview.CircleImageView;
 
 import static android.provider.Settings.Secure.LOCATION_MODE_HIGH_ACCURACY;
 
-public class MainActivity extends AppCompatActivity implements GoogleApiClient.OnConnectionFailedListener{
+public class MainActivity extends AppCompatActivity {
 
     private AppCompatButton btn_SignUp;
 
@@ -75,7 +77,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
 
     private AppCompatImageView img_DOB;
 
-    public AppCompatEditText edtTxt_Name, edtTxt_EmailId, edtTxt_MobNumber, edt_Txt_DOB;
+    public AppCompatEditText edtTxt_Name, edtTxt_EmailId, edtTxt_Pwd, edt_Txt_DOB;
 
     public double latitude = 0.0, longitude = 0.0;
 
@@ -83,7 +85,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
 
     CircleImageView img_Profile;
 
-    private Uri outputFileUri;
+    public Uri outputFileUri;
 
     public static Bitmap bitmapCaptredImg;
 
@@ -101,7 +103,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        toolbarsetUp();
+        //toolbarsetUp();
         timeSlots = new ArrayList<>();
         timeSlots.add("5:00");
         timeSlots.add("5:15");
@@ -116,55 +118,28 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
         timeSlots.add("7:30");
         timeSlots.add("7:45");
         initviews();
-        GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-                .requestEmail()
-                .build();
-
-        mGoogleApiClient = new GoogleApiClient.Builder(this)
-                .enableAutoManage(this,this)
-                .addApi(Auth.GOOGLE_SIGN_IN_API, gso)
-                .build();
-
-        btn_sign_in.setSize(SignInButton.SIZE_STANDARD);
-        btn_sign_in.setScopes(gso.getScopeArray());
-
 
         btn_SignUp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
-                /* if (edtTxt_Name.getText().toString().isEmpty()) {
+                 if (edtTxt_Name.getText().toString().isEmpty()) {
                     edtTxt_Name.setError("Please Enter the Name !");
                     edtTxt_Name.requestFocus();
                 } else if (edtTxt_EmailId.getText().toString().isEmpty() ||
                         !ValidationUtils.isValidEmaillId(edtTxt_EmailId.getText().toString().trim())) {
                     edtTxt_EmailId.setError("Please Enter valid Email !");
                     edtTxt_EmailId.requestFocus();
-                } else if (edtTxt_MobNumber.getText().toString().trim().isEmpty() ||
-                        !ValidationUtils.isValidMobile(edtTxt_MobNumber.getText().toString().trim())) {
-                    edtTxt_MobNumber.setError("Please Enter the Valid Mobile Number !");
-                } else if (edt_Txt_DOB.getText().toString().isEmpty()) {
-                    edt_Txt_DOB.setError("Please Enter the DOB !");
-                    edt_Txt_DOB.requestFocus();
-                } else if (imageStatus.equals("0")) {
-                    Toaster.showWarningMessage("Please Capture the Image !");
+                } else if (edtTxt_Pwd.getText().toString().trim().isEmpty()) {
+                     edtTxt_Pwd.setError("Please Enter the Password !");
                 } else {
-                    Intent intent_Pager = new Intent(getApplicationContext(), ViewPagerActivity.class);
+
+                    Intent intent_Pager = new Intent(getApplicationContext(), QuestionerActivity.class);
                     startActivity(intent_Pager);
-                }*/
-
-                Intent intent_Pager = new Intent(getApplicationContext(), ViewPagerActivity.class);
-                startActivity(intent_Pager);
+                }
             }
         });
 
-        btn_sign_in.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent signInIntent = Auth.GoogleSignInApi.getSignInIntent(mGoogleApiClient);
-                startActivityForResult(signInIntent, RC_SIGN_IN);
-            }
-        });
         img_Profile.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -199,19 +174,20 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
     private void initviews() {
 
         edtTxt_Name = findViewById(R.id.edtTxt_Name);
-        btn_sign_in=findViewById(R.id.btn_sign_in);
-        edtTxt_EmailId = (AppCompatEditText) findViewById(R.id.edtTxt_EmailId);
-        edtTxt_MobNumber = (AppCompatEditText) findViewById(R.id.edtTxt_MobNumber);
-        edt_Txt_DOB = (AppCompatEditText) findViewById(R.id.edt_Txt_DOB);
-        btn_SignUp = (AppCompatButton) findViewById(R.id.btn_SignUp);
+        edtTxt_EmailId = findViewById(R.id.edtTxt_EmailId);
+        edtTxt_Pwd = findViewById(R.id.edtTxt_Pwd);
+        btn_SignUp = findViewById(R.id.btn_SignUp);
+
+
         img_Profile = (CircleImageView) findViewById(R.id.img_Profile);
         img_DOB = (AppCompatImageView) findViewById(R.id.img_DOB);
+        edt_Txt_DOB = (AppCompatEditText) findViewById(R.id.edt_Txt_DOB);
 
     }
 
     private void handleSignInResult(GoogleSignInResult result) {
 
-        Log.d("GmailData",""+result.isSuccess());
+        Log.d("GmailData", "" + result.isSuccess());
 
         if (result.isSuccess()) {
             // Signed in successfully, show authenticated UI.
@@ -436,22 +412,19 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
 
 
         }
-        if (requestCode == RC_SIGN_IN) {
+        /*if (requestCode == RC_SIGN_IN) {
 
             Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(data);
             try {
                 GoogleSignInAccount account = task.getResult(ApiException.class);
-                Log.d("Gmail",""+account.toString());
+                Log.d("Gmail", "" + account.toString());
             } catch (ApiException e) {
                 e.printStackTrace();
             }
             GoogleSignInResult result = Auth.GoogleSignInApi.getSignInResultFromIntent(data);
             handleSignInResult(result);
-        }
+        }*/
     }
 
-    @Override
-    public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
 
-    }
 }

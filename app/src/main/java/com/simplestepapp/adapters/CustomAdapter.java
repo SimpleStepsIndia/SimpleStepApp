@@ -10,11 +10,12 @@ import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import com.simplestepapp.R;
+import com.simplestepapp.activities.QuestionerActivity;
 import com.simplestepapp.activities.ViewPagerActivity;
 
 import java.util.ArrayList;
 import java.util.List;
-
+import java.util.Queue;
 
 
 public class CustomAdapter extends BaseAdapter {
@@ -22,7 +23,7 @@ public class CustomAdapter extends BaseAdapter {
     private Context context;
     public List<Integer> selectedPositions;
 
-    private int selectedIndex, disable_Position=ViewPagerActivity.dis_Position;
+    private int selectedIndex, disable_Position=0;
 
     private LayoutInflater inflater;
 
@@ -31,6 +32,7 @@ public class CustomAdapter extends BaseAdapter {
     public CustomAdapter(Context context, ArrayList<String> timeSlots) {
         this.context=context;
         this.timeSlots=timeSlots;
+        this.disable_Position= QuestionerActivity.dis_Position;
         selectedPositions=new ArrayList<>();
         selectedIndex=-1;
         inflater = (LayoutInflater) context

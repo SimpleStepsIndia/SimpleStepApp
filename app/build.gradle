@@ -43,6 +43,7 @@ dependencies {
     compile 'com.google.firebase:firebase-core:16.0.1'
     compile 'com.android.volley:volley:1.0.0'
     compile 'com.yarolegovich:discrete-scrollview:1.4.9'
+    compile 'pl.droidsonroids.gif:android-gif-drawable:1.2.16'
     testCompile 'junit:junit:4.12'
 }
 

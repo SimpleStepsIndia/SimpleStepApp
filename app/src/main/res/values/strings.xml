@@ -3,7 +3,7 @@
 
     <string name="reg_Name">Enter Name</string>
     <string name="reg_Email">Enter Email</string>
-    <string name="reg_Mobile">Enter Mobile Number</string>
+    <string name="reg_Mobile">Enter Password</string>
     <string name="reg_Age">Enter DOB</string>
     <string name="slctTimeslot">Select Time Slot</string>
 

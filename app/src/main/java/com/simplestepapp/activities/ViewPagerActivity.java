@@ -91,7 +91,6 @@ public class ViewPagerActivity extends AppCompatActivity
 
     public void get_QuestionsAll() {
 
-        //  http://125.16.1.70:8191/echallan/officerDetails?userID=Maruthiios&pwd=8341646667
 
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
         StrictMode.setThreadPolicy(policy);

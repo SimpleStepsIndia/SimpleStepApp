@@ -50,6 +50,22 @@
 
             </LinearLayout>
 
+            <android.support.v7.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:cardCornerRadius="5dp"
+                >
+
+                <pl.droidsonroids.gif.GifImageView
+                    android:id="@+id/img_GifView"
+                    android:layout_width="match_parent"
+                    android:layout_height="140dp"
+                    android:src="@drawable/gif2"
+                    android:scaleType="centerCrop"
+                    android:layout_centerHorizontal="true"/>
+
+            </android.support.v7.widget.CardView>
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -62,6 +78,8 @@
                     android:layout_height="wrap_content"
                     android:text="@string/slctTimeslot"
                     android:visibility="gone"/>
+
+
 
                 <android.support.v7.widget.CardView
                     android:layout_width="match_parent"
