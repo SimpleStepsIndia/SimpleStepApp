@@ -6,15 +6,20 @@
     android:background="#ffffff"
     android:orientation="vertical">
 
+    <include
+        android:id="@+id/lytHdr"
+        layout="@layout/lyt_header"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
 
 
     <ScrollView
         android:id="@+id/scroll_View"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_below="@+id/lytHdr"
         android:fillViewport="true"
-        android:fitsSystemWindows="true"
-        >
+        android:fitsSystemWindows="true">
 
 
         <LinearLayout
@@ -61,7 +66,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="@string/slctTimeslot"
-                    android:visibility="gone"/>
+                    android:visibility="gone" />
 
                 <android.support.v7.widget.CardView
                     android:layout_width="match_parent"
@@ -95,13 +100,12 @@
                             style="@style/style_Hdr_Txt"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:padding="20dp"
-                            android:text="@string/txt_Quatn1"
+                            android:background="#bfa053"
                             android:gravity="center"
-                            android:background="#bfa053"/>
+                            android:padding="20dp"
+                            android:text="@string/txt_Quatn1" />
 
                     </LinearLayout>
-
 
 
                 </android.support.v7.widget.CardView>
@@ -121,8 +125,8 @@
                     style="@style/style_Hdr_Txt"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="@string/brush_Q1"
-                    android:layout_margin="5dp"/>
+                    android:layout_margin="5dp"
+                    android:text="@string/brush_Q1" />
 
                 <RadioGroup
                     android:id="@+id/rG_WakeUp"
@@ -227,14 +231,13 @@
                 android:layout_gravity="end"
                 android:layout_margin="15dp"
                 android:text="Next"
-                android:visibility="invisible"/>
+                android:visibility="invisible" />
 
 
         </LinearLayout>
 
 
     </ScrollView>
-
 
 
 </RelativeLayout>

@@ -1,57 +1,32 @@
 package com.simplestepapp.fragments;
 
 import android.app.ProgressDialog;
-import android.content.Intent;
 import android.os.Bundle;
-import android.os.StrictMode;
 import android.support.annotation.IdRes;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v7.widget.AppCompatButton;
 import android.support.v7.widget.AppCompatTextView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.GridView;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.ScrollView;
 
-import com.android.volley.Request;
 import com.android.volley.RequestQueue;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
-import com.google.gson.Gson;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonParser;
-import com.google.gson.reflect.TypeToken;
 import com.simplestepapp.R;
 import com.simplestepapp.activities.ViewPagerActivity;
-import com.simplestepapp.adapters.CustomAdapter;
 import com.simplestepapp.adapters.CustomWakeupAdapter;
-import com.simplestepapp.models.AllQuestionsModel;
 import com.simplestepapp.models.AnswerOptions;
 import com.simplestepapp.models.QAnswerModel;
-import com.simplestepapp.models.Questioner;
 import com.simplestepapp.models.WhyOptions;
-import com.simplestepapp.utils.Constants;
 import com.simplestepapp.utils.MyGridView;
-import com.simplestepapp.utils.Toaster;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.lang.reflect.Type;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 
 public class WakeUpFragment extends Fragment {
 

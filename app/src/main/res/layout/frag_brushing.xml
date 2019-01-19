@@ -8,20 +8,18 @@
 
     <include
         android:id="@+id/lytHdr"
+        layout="@layout/lyt_header"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        layout="@layout/lyt_header" />
-
+        android:layout_height="wrap_content" />
 
 
     <ScrollView
         android:id="@+id/scroll_View"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:fillViewport="true"
-        android:fitsSystemWindows="true"
         android:layout_below="@+id/lytHdr"
-        >
+        android:fillViewport="true"
+        android:fitsSystemWindows="true">
 
 
         <LinearLayout
@@ -34,16 +32,15 @@
                 android:layout_height="50dp"
                 android:gravity="center">
 
-                <ImageView
-                    android:id="@+id/imageView"
+                <android.support.v7.widget.AppCompatImageView
+                    android:id="@+id/img_QtnHdng"
                     android:layout_width="30dp"
                     android:layout_height="30dp"
                     android:layout_alignParentStart="true"
                     android:layout_alignParentTop="true"
                     android:layout_margin="15dp"
                     android:layout_marginStart="60dp"
-                    android:layout_marginTop="1dp"
-                    app:srcCompat="@drawable/brushicon" />
+                    android:layout_marginTop="1dp" />
 
                 <android.support.v7.widget.AppCompatTextView
                     android:id="@+id/txt_QtnHdng"
@@ -68,7 +65,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="@string/slctTimeslot"
-                    android:visibility="gone"/>
+                    android:visibility="gone" />
 
                 <android.support.v7.widget.CardView
                     android:layout_width="match_parent"
@@ -102,13 +99,12 @@
                             style="@style/style_Hdr_Txt"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:padding="20dp"
-                            android:text="@string/txt_Quatn1"
+                            android:background="#bfa053"
                             android:gravity="center"
-                            android:background="#bfa053"/>
+                            android:padding="20dp"
+                            android:text="@string/txt_Quatn1" />
 
                     </LinearLayout>
-
 
 
                 </android.support.v7.widget.CardView>
@@ -128,8 +124,8 @@
                     style="@style/style_Hdr_Txt"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="@string/brush_Q1"
-                    android:layout_margin="5dp"/>
+                    android:layout_margin="5dp"
+                    android:text="@string/brush_Q1" />
 
                 <RadioGroup
                     android:id="@+id/rG_WakeUp"
@@ -139,24 +135,29 @@
                     android:orientation="vertical">
 
                     <RadioButton
+                        style="@style/style_RBtn_Txt"
                         android:id="@+id/rBtn_WOne"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="2" />
+                        android:text="2"
+                       />
 
                     <RadioButton
+                        style="@style/style_RBtn_Txt"
                         android:id="@+id/rBtn_WTwo"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="1" />
 
                     <RadioButton
+                        style="@style/style_RBtn_Txt"
                         android:id="@+id/rBtn_WThre"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="0" />
 
                     <RadioButton
+                        style="@style/style_RBtn_Txt"
                         android:id="@+id/rBtn_WFur"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -201,18 +202,21 @@
                             android:orientation="vertical">
 
                             <RadioButton
+                                style="@style/style_RBtn_Txt"
                                 android:id="@+id/rBtn_op1"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:text="@string/rBtnTxtOption1" />
 
                             <RadioButton
+                                style="@style/style_RBtn_Txt"
                                 android:id="@+id/rBtn_op2"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:text="@string/rBtnTxtOption2" />
 
                             <RadioButton
+                                style="@style/style_RBtn_Txt"
                                 android:id="@+id/rBtn_op3"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
@@ -234,14 +238,13 @@
                 android:layout_gravity="end"
                 android:layout_margin="15dp"
                 android:text="Next"
-                android:visibility="invisible"/>
+                android:visibility="invisible" />
 
 
         </LinearLayout>
 
 
     </ScrollView>
-
 
 
 </RelativeLayout>

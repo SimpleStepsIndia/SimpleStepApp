@@ -7,7 +7,6 @@ import android.os.StrictMode;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
@@ -16,7 +15,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.RadioGroup;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -36,7 +34,7 @@ import com.simplestepapp.fragments.WaterInTakeFragment;
 import com.simplestepapp.models.AllQuestionsModel;
 import com.simplestepapp.models.QAnswerModel;
 import com.simplestepapp.models.Questioner;
-import com.simplestepapp.utils.Constants;
+import com.simplestepapp.utils.AppConfig;
 import com.simplestepapp.utils.Toaster;
 
 import org.json.JSONArray;
@@ -100,7 +98,7 @@ public class ViewPagerActivity extends AppCompatActivity
         progressDialog.setMessage("Loading");
         progressDialog.show();
 
-        StringRequest user_Login_Req = new StringRequest(Request.Method.GET, Constants.get_QuestionsAll, new Response.Listener<String>() {
+        StringRequest user_Login_Req = new StringRequest(Request.Method.GET, AppConfig.get_QuestionsAll, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
                 progressDialog.dismiss();

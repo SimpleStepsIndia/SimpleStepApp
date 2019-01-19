@@ -4,8 +4,11 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AlertDialog;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.AppCompatButton;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.GridView;
 
@@ -17,7 +20,7 @@ import com.simplestepapp.utils.MyGridView;
 
 import java.util.ArrayList;
 
-public class ConclusionActivity extends Activity {
+public class ConclusionActivity extends AppCompatActivity {
 
     MyGridView grid_view;
 
@@ -42,6 +45,7 @@ public class ConclusionActivity extends Activity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        toolbarsetUp();
         setContentView(R.layout.frag_final);
         conclusin_Grid = findViewById(R.id.conclusin_Grid);
         submit=findViewById(R.id.btn_Submit);
@@ -76,7 +80,7 @@ public class ConclusionActivity extends Activity {
         timeSlots.add("9:00 >");
         timeSlots.add("None");
         try {
-            conclusionAdapter = new ConclusionAdapter(getApplicationContext(), timeSlots, ViewPagerActivity.qAnswerModelArrayList);
+            conclusionAdapter = new ConclusionAdapter(getApplicationContext(), R.layout.conclusion_item,timeSlots, QuestionerActivity.qAnswerModelArrayList);
             conclusin_Grid.setAdapter(conclusionAdapter);
 
         } catch (Exception e) {
@@ -87,6 +91,16 @@ public class ConclusionActivity extends Activity {
 
 
 
+    }
+
+    public void toolbarsetUp() {
+        ActionBar mActionBar = getSupportActionBar();
+        mActionBar.setDisplayShowHomeEnabled(false);
+        mActionBar.setDisplayShowTitleEnabled(false);
+        LayoutInflater mInflater = LayoutInflater.from(this);
+        View mCustomView = mInflater.inflate(R.layout.lyt_header, null);
+        mActionBar.setCustomView(mCustomView);
+        mActionBar.setDisplayShowCustomEnabled(true);
     }
 
 

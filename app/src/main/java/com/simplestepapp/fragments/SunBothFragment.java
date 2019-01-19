@@ -247,7 +247,7 @@ public class SunBothFragment extends Fragment {
         builder.setCancelable(false);
         alertDialog = builder.create();
         conclusin_Grid = view.findViewById(R.id.conclusin_Grid);
-        conclusionAdapter = new ConclusionAdapter(getActivity().getApplicationContext(), timeSlots, ViewPagerActivity.qAnswerModelArrayList);
+        conclusionAdapter = new ConclusionAdapter(getActivity().getApplicationContext(), R.layout.conclusion_item,timeSlots, ViewPagerActivity.qAnswerModelArrayList);
         conclusin_Grid.setAdapter(conclusionAdapter);
         btn_Submit = view.findViewById(R.id.btn_Submit);
         btn_Submit.setOnClickListener(new View.OnClickListener() {

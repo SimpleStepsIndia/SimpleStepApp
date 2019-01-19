@@ -35,6 +35,16 @@
         <item name="android:fontFamily">sans-serif</item>
     </style>
 
+    <style name="style_RBtn_Txt" style="@style/Widget.AppCompat.TextView">
+        <item name="android:textColor">#000226</item>
+        <item name="android:textSize">12sp</item>
+        <item name="android:padding">2dp</item>
+        <item name="android:gravity">center_vertical</item>
+        <item name="android:maxLines">2</item>
+        <item name="android:textAllCaps">false</item>
+        <item name="android:fontFamily">sans-serif</item>
+    </style>
+
     <!-- Registration Page Styles Stars-->
     <style name="style_InputLayout" parent="Base.TextAppearance.AppCompat">
         <item name="android:textStyle">bold</item>
@@ -60,6 +70,10 @@
 
     <style name="DialogAnimation">
         <item name="android:windowEnterAnimation">@anim/slide_left</item>
+    </style>
+
+    <style name="DlgAnimFadeIn">
+        <item name="android:windowEnterAnimation">@anim/fade_in</item>
     </style>
 
 

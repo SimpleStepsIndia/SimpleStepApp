@@ -7,6 +7,13 @@
     android:orientation="vertical">
 
 
+    <include
+        android:id="@+id/lytHdr"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        layout="@layout/lyt_header" />
+
+
 
     <ScrollView
         android:id="@+id/scroll_View"
@@ -14,6 +21,7 @@
         android:layout_height="match_parent"
         android:fillViewport="true"
         android:fitsSystemWindows="true"
+        android:layout_below="@+id/lytHdr"
         >
 
 

@@ -2,17 +2,21 @@ package com.simplestepapp.activities;
 
 import android.app.Dialog;
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.StrictMode;
 import android.support.annotation.IdRes;
 import android.support.annotation.Nullable;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.AppCompatImageView;
 import android.support.v7.widget.AppCompatTextView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.Window;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.AdapterView;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
@@ -29,14 +33,14 @@ import com.google.gson.Gson;
 import com.simplestepapp.R;
 import com.simplestepapp.adapters.CustomAdapter;
 import com.simplestepapp.adapters.CustomWakeupAdapter;
-import com.simplestepapp.fragments.WakeUpFragment;
 import com.simplestepapp.models.AllQuestionsModel;
 import com.simplestepapp.models.AnswerOptions;
 import com.simplestepapp.models.QAnswerModel;
 import com.simplestepapp.models.Questioner;
 import com.simplestepapp.models.WhyOptions;
-import com.simplestepapp.utils.Constants;
+import com.simplestepapp.utils.AppConfig;
 import com.simplestepapp.utils.MyGridView;
+import com.simplestepapp.utils.SessionManager;
 import com.simplestepapp.utils.Toaster;
 
 import org.json.JSONArray;
@@ -44,6 +48,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import pl.droidsonroids.gif.GifImageView;
@@ -75,16 +80,27 @@ public class QuestionerActivity extends AppCompatActivity {
 
     AppCompatTextView txt_QtnHdng, txt_QtnCaptn, txt_QtnOptns, txt_Next;
 
+    AppCompatImageView img_QtnHdng;
+
     RadioGroup rG_WakeUp, rGrp_WhyOptions;
 
     RadioButton rBtn_WOne, rBtn_WTwo, rBtn_WThre, rBtn_WFur, rBtn_op1, rBtn_op2, rBtn_op3;
 
-    String s_WkUpTime = "", s_WkUpQtnOption = "", s_WkUpWhyOptn = "", colorName = "";
+    String s_WkUpTime = "", s_WkUpQtnOption = "", s_WkUpWhyOptn = "", colorName = "",userName="",eMailId="",token="";
 
-    int sPosition = -1, timeSlotMarks = 0, optionsMarks = 0, finalMarks = 0;
+    int sPosition = -1, timeSlotMarks = 0, optionsMarks = 0, finalMarks = 0,nxt_Pos=0;
+
     public static int dis_Position = 0;
 
     GifImageView img_GifView;
+
+    public Integer[] imgArray_Qtns = { R.drawable.wakeup_icon, R.drawable.brushicon, R.drawable.colon, R.drawable.drining_water,
+            R.drawable.mental_fitness,R.drawable.physical_fitness,R.drawable.sun_shine };
+
+    Animation anim_SlideLeft,anim_FadeIn,anim_SlideRight,anim_Bounce;
+
+    SessionManager sessionManager;
+
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -94,8 +110,15 @@ public class QuestionerActivity extends AppCompatActivity {
         toolbarsetUp();
         progressDialog = new ProgressDialog(this);
         requestQueue = Volley.newRequestQueue(this);
+        sessionManager =new SessionManager(this);
         get_QuestionsAll();
         img_GifView.animate();
+        if (sessionManager.isLoggedIn()){
+            HashMap<String, String> user = sessionManager.getUserDetails();
+            userName = user.get(SessionManager.KEY_NAME);
+            eMailId = user.get(SessionManager.KEY_EMAIL);
+            token = user.get(SessionManager.KEY_TOKEN);
+        }
 
         rG_WakeUp.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
@@ -169,33 +192,150 @@ public class QuestionerActivity extends AppCompatActivity {
                 qAnswerModel.setS_Position(sPosition);
                 qAnswerModel.setColorCode(colorName);
                 qAnswerModel.setQuestionId(questionerArrayList.get(0).get_id());
+                qAnswerModelArrayList=new ArrayList<>();
                 qAnswerModelArrayList.add(qAnswerModel);
-
-                dialog_Brushing();
+                nxt_Pos=1;
+                dialog_Brushing(nxt_Pos);
 
 
             }
         });
     }
 
-    private void dialog_Brushing() {
+    private void dialog_Brushing(final int postn) {
         final Dialog dialog = new Dialog(QuestionerActivity.this, android.R.style.DeviceDefault_Light_ButtonBar);
         dialog.requestWindowFeature(Window.FEATURE_ACTION_BAR);
         dialog.setContentView(R.layout.frag_brushing);
-        dialog.getWindow().getAttributes().windowAnimations = R.style.DialogAnimation;
+        dialog.getWindow().getAttributes().windowAnimations = R.style.DlgAnimFadeIn;
         initviews(dialog);
         try {
-            txt_QtnHdng.setText(questionerArrayList.get(1).getQuestion());
-            txt_QtnCaptn.setText(questionerArrayList.get(1).getTimeSlotCaption());
-            txt_QtnOptns.setText(questionerArrayList.get(1).getAnswerCaption());
+            img_QtnHdng.setBackgroundResource(imgArray_Qtns[postn]);
+            txt_QtnHdng.setText(questionerArrayList.get(postn).getQuestion());
+            txt_QtnCaptn.setText(questionerArrayList.get(postn).getDescription());
+            txt_QtnOptns.setText(questionerArrayList.get(postn).getAnswerCaption());
             answerOptions = new ArrayList<>();
-            answerOptions = questionerArrayList.get(1).getAnswerOptions();
+            answerOptions = questionerArrayList.get(postn).getAnswerOptions();
             rBtn_WOne.setText(answerOptions.get(0).getDescription());
             rBtn_WTwo.setText(answerOptions.get(1).getDescription());
             rBtn_WThre.setText(answerOptions.get(2).getDescription());
             rBtn_WFur.setText(answerOptions.get(3).getDescription());
             whyOptions = new ArrayList<>();
-            whyOptions = questionerArrayList.get(1).getWhyOptions();
+            whyOptions = questionerArrayList.get(postn).getWhyOptions();
+            rBtn_op1.setText(whyOptions.get(0).getDescription());
+            rBtn_op2.setText(whyOptions.get(1).getDescription());
+            rBtn_op3.setText(whyOptions.get(2).getDescription());
+            customAdapter = new CustomAdapter(QuestionerActivity.this, timeSlots);
+            grid_view.setAdapter(customAdapter);
+
+            grid_view.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                @Override
+                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                    customAdapter.setSelectedIndex(position);
+                    s_WkUpTime = (String) parent.getItemAtPosition(position);
+                    sPosition = position;
+                    customAdapter.notifyDataSetChanged();
+                    lyt_QtnOptns.setVisibility(View.VISIBLE);
+                    lyt_list_Why.startAnimation(anim_SlideRight);
+                }
+            });
+
+            rG_WakeUp.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+                @Override
+                public void onCheckedChanged(RadioGroup group, @IdRes int checkedId) {
+                    scroll_View.fullScroll(ScrollView.FOCUS_DOWN);
+                    lyt_list_Why.setVisibility(View.VISIBLE);
+                    lyt_list_Why.startAnimation(anim_SlideLeft);
+                    switch (checkedId) {
+                        case R.id.rBtn_WOne:
+                            s_WkUpQtnOption = rBtn_WOne.getText().toString();
+                            colorName = "G";
+                            break;
+                        case R.id.rBtn_WTwo:
+                            s_WkUpQtnOption = rBtn_WTwo.getText().toString();
+                            colorName = "B";
+                            break;
+                        case R.id.rBtn_WThre:
+                            s_WkUpQtnOption = rBtn_WThre.getText().toString();
+                            colorName = "O";
+                            break;
+                        case R.id.rBtn_WFur:
+                            s_WkUpQtnOption = rBtn_WFur.getText().toString();
+                            colorName = "R";
+                            break;
+                        default:
+                            s_WkUpQtnOption = "";
+                            break;
+                    }
+                }
+            });
+
+            rGrp_WhyOptions.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+                @Override
+                public void onCheckedChanged(RadioGroup group, @IdRes int checkedId) {
+                    txt_Next.setVisibility(View.VISIBLE);
+                    switch (checkedId) {
+                        case R.id.rBtn_op1:
+                            s_WkUpWhyOptn = rBtn_op1.getText().toString();
+                            break;
+                        case R.id.rBtn_op2:
+                            s_WkUpWhyOptn = rBtn_op2.getText().toString();
+                            break;
+                        case R.id.rBtn_op3:
+                            s_WkUpWhyOptn = rBtn_op3.getText().toString();
+                            break;
+                        default:
+                            s_WkUpWhyOptn = "";
+                            break;
+                    }
+                }
+            });
+            txt_Next.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    QAnswerModel qAnswerModel = new QAnswerModel();
+                    qAnswerModel.setTimeSlotOption(s_WkUpTime);
+                    qAnswerModel.setAnswerOption(s_WkUpQtnOption);
+                    qAnswerModel.setWhyOption(s_WkUpWhyOptn);
+                    qAnswerModel.setS_Position(sPosition);
+                    qAnswerModel.setColorCode(colorName);
+                    qAnswerModel.setQuestionId(questionerArrayList.get(1).get_id());
+                    qAnswerModelArrayList.add(qAnswerModel);
+                    ++nxt_Pos;
+                  //  dialog.dismiss();
+                    if (nxt_Pos<=6) {
+                        dialog_Brushing(nxt_Pos);
+                    }else{
+                        Intent intent=new Intent(getApplicationContext(), ConclusionActivity.class);
+                        startActivity(intent);
+                    }
+                }
+            });
+
+            dialog.show();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+    }
+
+    private void dialog_ColonClean() {
+        final Dialog dialog = new Dialog(QuestionerActivity.this, android.R.style.DeviceDefault_Light_ButtonBar);
+        dialog.requestWindowFeature(Window.FEATURE_ACTION_BAR);
+        dialog.setContentView(R.layout.frag_colonclean);
+        dialog.getWindow().getAttributes().windowAnimations = R.style.DialogAnimation;
+        initviews(dialog);
+        try {
+            txt_QtnHdng.setText(questionerArrayList.get(2).getQuestion());
+            txt_QtnCaptn.setText(questionerArrayList.get(2).getTimeSlotCaption());
+            txt_QtnOptns.setText(questionerArrayList.get(2).getAnswerCaption());
+            answerOptions = new ArrayList<>();
+            answerOptions = questionerArrayList.get(2).getAnswerOptions();
+            rBtn_WOne.setText(answerOptions.get(0).getDescription());
+            rBtn_WTwo.setText(answerOptions.get(1).getDescription());
+            rBtn_WThre.setText(answerOptions.get(2).getDescription());
+            rBtn_WFur.setText(answerOptions.get(3).getDescription());
+            whyOptions = new ArrayList<>();
+            whyOptions = questionerArrayList.get(2).getWhyOptions();
             rBtn_op1.setText(whyOptions.get(0).getDescription());
             rBtn_op2.setText(whyOptions.get(1).getDescription());
             rBtn_op3.setText(whyOptions.get(2).getDescription());
@@ -283,10 +423,17 @@ public class QuestionerActivity extends AppCompatActivity {
     }
 
     private void initviews() {
+        anim_SlideLeft= AnimationUtils.loadAnimation(getApplicationContext(),
+                R.anim.slide_left);
+        anim_SlideRight= AnimationUtils.loadAnimation(getApplicationContext(),
+                R.anim.slide_right);
+        anim_Bounce= AnimationUtils.loadAnimation(getApplicationContext(),
+                R.anim.bounce);
 
         txt_QtnHdng = findViewById(R.id.txt_QtnHdng);
         txt_QtnCaptn = findViewById(R.id.txt_QtnCaptn);
         txt_QtnOptns = findViewById(R.id.txt_QtnOptns);
+        img_QtnHdng=findViewById(R.id.img_QtnHdng);
         rG_WakeUp = findViewById(R.id.rG_WakeUp);
         rGrp_WhyOptions = findViewById(R.id.rGrp_WhyOptions);
         rBtn_WOne = findViewById(R.id.rBtn_WOne);
@@ -331,6 +478,7 @@ public class QuestionerActivity extends AppCompatActivity {
         txt_QtnHdng = dialog.findViewById(R.id.txt_QtnHdng);
         txt_QtnCaptn = dialog.findViewById(R.id.txt_QtnCaptn);
         txt_QtnOptns = dialog.findViewById(R.id.txt_QtnOptns);
+        img_QtnHdng=dialog.findViewById(R.id.img_QtnHdng);
         rG_WakeUp = dialog.findViewById(R.id.rG_WakeUp);
         rGrp_WhyOptions = dialog.findViewById(R.id.rGrp_WhyOptions);
         rBtn_WOne = dialog.findViewById(R.id.rBtn_WOne);
@@ -366,7 +514,7 @@ public class QuestionerActivity extends AppCompatActivity {
         progressDialog.setMessage("Loading");
         progressDialog.show();
 
-        StringRequest user_Login_Req = new StringRequest(Request.Method.GET, Constants.get_QuestionsAll, new Response.Listener<String>() {
+        StringRequest user_Login_Req = new StringRequest(Request.Method.GET, AppConfig.get_QuestionsAll, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
                 progressDialog.dismiss();

@@ -3,6 +3,7 @@ package com.simplestepapp.activities;
 import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.DatePickerDialog;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
@@ -13,6 +14,7 @@ import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Environment;
+import android.os.StrictMode;
 import android.provider.MediaStore;
 import android.provider.Settings;
 import android.support.annotation.NonNull;
@@ -35,6 +37,13 @@ import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.afollestad.materialdialogs.MaterialDialog;
+import com.android.volley.AuthFailureError;
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.Volley;
 import com.google.android.gms.auth.api.Auth;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
@@ -46,14 +55,19 @@ import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.OptionalPendingResult;
 import com.google.android.gms.common.api.ResultCallback;
+import com.google.android.gms.common.internal.Constants;
 import com.google.android.gms.tasks.Task;
 import com.nabinbhandari.android.permissions.PermissionHandler;
 import com.nabinbhandari.android.permissions.Permissions;
 import com.simplestepapp.BuildConfig;
 import com.simplestepapp.R;
+import com.simplestepapp.utils.AppConfig;
 import com.simplestepapp.utils.ConnectivityUtils;
+import com.simplestepapp.utils.SessionManager;
 import com.simplestepapp.utils.Toaster;
 import com.simplestepapp.utils.ValidationUtils;
+
+import org.json.JSONObject;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -63,6 +77,8 @@ import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Objects;
 
 import de.hdodenhof.circleimageview.CircleImageView;
@@ -89,7 +105,7 @@ public class MainActivity extends AppCompatActivity {
 
     public static Bitmap bitmapCaptredImg;
 
-    String imageStatus = "0", str_Date;
+    String imageStatus = "0", str_Date, str_UserName, str_Email;
 
     Calendar calendar;
 
@@ -99,11 +115,20 @@ public class MainActivity extends AppCompatActivity {
 
     private GoogleApiClient mGoogleApiClient;
 
+    ProgressDialog progressDialog;
+
+    SessionManager session;
+
+    RequestQueue requestQueue;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         //toolbarsetUp();
+        progressDialog=new ProgressDialog(this);
+        session = new SessionManager(getApplicationContext());
+        requestQueue = Volley.newRequestQueue(this);
         timeSlots = new ArrayList<>();
         timeSlots.add("5:00");
         timeSlots.add("5:15");
@@ -133,6 +158,11 @@ public class MainActivity extends AppCompatActivity {
                 } else if (edtTxt_Pwd.getText().toString().trim().isEmpty()) {
                      edtTxt_Pwd.setError("Please Enter the Password !");
                 } else {
+
+                     str_UserName=edtTxt_Name.getText().toString().trim();
+                     str_Email=edtTxt_EmailId.getText().toString().trim();
+                     user_Registration(str_UserName,str_Email,edtTxt_Pwd.getText().toString().trim());
+
 
                     Intent intent_Pager = new Intent(getApplicationContext(), QuestionerActivity.class);
                     startActivity(intent_Pager);
@@ -184,6 +214,66 @@ public class MainActivity extends AppCompatActivity {
         edt_Txt_DOB = (AppCompatEditText) findViewById(R.id.edt_Txt_DOB);
 
     }
+
+    public void user_Registration(final String userName, final String eMailId, final String pwd) {
+
+        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+        StrictMode.setThreadPolicy(policy);
+
+        progressDialog.setMessage("User Registering ...");
+        progressDialog.show();
+        Map<String, String> params = new HashMap<String, String>();
+        params.put("firstName", userName);
+        params.put("emailId", eMailId);
+        params.put("password", pwd);
+        JSONObject jsonObject = new JSONObject(params);
+
+        JsonObjectRequest req = new JsonObjectRequest(Request.Method.POST, AppConfig.user_REGISTER, jsonObject, new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response) {
+                progressDialog.dismiss();
+                try {
+                    if (null != response.toString()) {
+                        String status = response.getString("Message");
+
+                        if ("User created".equals(status)) {
+                            Toaster.showSuccessMessage("User Registered Successfully !");
+                            JSONObject jsonObj_User=response.getJSONObject("User");
+                            String userName=jsonObj_User.getString("firstName");
+                            String eMail=jsonObj_User.getString("emailId");
+                            String token=jsonObj_User.getString("token");
+                            session.createLoginSession(userName, eMail,token);
+                            Intent intent = new Intent(getApplicationContext(), QuestionerActivity.class);
+                            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                            startActivity(intent);
+                        } else {
+                            Toaster.showWarningMessage(""+status);
+                        }
+                    } else {
+                        Toaster.showErrorMessage("User Registration Failed !");
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Log.w("error in response", "Error: " + error.getMessage());
+            }
+        }) {
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                HashMap<String, String> headers = new HashMap<String, String>();
+                headers.put("Content-Type", "application/json");
+                return headers;
+            }
+        };
+
+        requestQueue.add(req);
+    }
+
 
     private void handleSignInResult(GoogleSignInResult result) {
 
