@@ -34,4 +34,10 @@
         <item>Camera</item>
         <item>Gallery</item>
     </string-array>
+
+    <!-- Profile Page Starts-->
+    <string name="txt_Age">Age</string>
+    <string name="txt_Hgt">Height</string>
+    <string name="txt_Wgt">Weight</string>
+    <!-- Profile Page Ends-->
 </resources>

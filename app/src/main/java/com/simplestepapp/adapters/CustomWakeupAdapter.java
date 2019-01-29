@@ -40,11 +40,11 @@ public class CustomWakeupAdapter extends BaseAdapter {
         notifyDataSetChanged();
     }
 
-    @Override
+    /*@Override
     public boolean isEnabled(int position) {
 
         return (disable_Position <= position);
-    }
+    }*/
 
     @Override
     public int getCount() {
@@ -84,10 +84,10 @@ public class CustomWakeupAdapter extends BaseAdapter {
             holder.txt_Timeslot.setBackgroundColor(Color.WHITE);
             holder.txt_Timeslot.setTextColor(Color.BLUE);
         }
-        if ( position<disable_Position){
+       /* if ( position<disable_Position){
             holder.txt_Timeslot.setBackgroundColor(Color.GRAY);
             holder.txt_Timeslot.setTextColor(Color.DKGRAY);
-        }
+        }*/
         // view.setLayoutParams(new ViewGroup.LayoutParams(135, 60));
         return view;
     }

@@ -39,22 +39,26 @@ public class ConclusionAdapter extends ArrayAdapter {
     String colorCode;
 
     ArrayList<QAnswerModel> qAnswerModels;
+    ArrayList<Integer> repeatedSlots;
 
 
-    public ConclusionAdapter(Context context, int resourceId, ArrayList<String> timeSlots,ArrayList<QAnswerModel> qAnswerModels) {
-        super(context,resourceId,qAnswerModels);
+    public ConclusionAdapter(Context context, int resourceId, ArrayList<String> timeSlots, ArrayList<QAnswerModel> qAnswerModels,
+                             ArrayList<Integer> repeatedSlots) {
+        super(context, resourceId, qAnswerModels);
         this.context = context;
-        this.layoutResourceId=resourceId;
+        this.layoutResourceId = resourceId;
         this.timeSlots = timeSlots;
         this.qAnswerModels = qAnswerModels;
+        this.repeatedSlots = repeatedSlots;
         selectedPositions = new ArrayList<>();
         colorCodes = new ArrayList<>();
 
         for (int i = 0; i < qAnswerModels.size(); i++) {
-            selectedPositions.add(qAnswerModels.get(i).getS_Position());
+            selectedPositions.add(repeatedSlots.get(i));
             colorCodes.add(qAnswerModels.get(i).getColorCode());
         }
     }
+
     @Override
     public int getCount() {
         return timeSlots.size();
@@ -80,11 +84,11 @@ public class ConclusionAdapter extends ArrayAdapter {
 
         if (row == null) {
             LayoutInflater inflater = LayoutInflater.from(context);
-            row = inflater.inflate(layoutResourceId,null);
+            row = inflater.inflate(layoutResourceId, null);
             holder = new ViewHolder();
             holder.card = row.findViewById(R.id.card);
             holder.img_Con = row.findViewById(R.id.img_Con);
-            holder.text=row.findViewById(R.id.txt_ConTimeslot);
+            holder.text = row.findViewById(R.id.txt_ConTimeslot);
             row.setTag(holder);
         } else {
             holder = (ViewHolder) row.getTag();
@@ -107,7 +111,7 @@ public class ConclusionAdapter extends ArrayAdapter {
                     holder.text.setTextColor(Color.WHITE);
                     holder.img_Con.setVisibility(View.VISIBLE);
                     holder.img_Con.setBackgroundResource(imagesarray[i]);
-                    break;
+                    // break;
                 }
             }
         } catch (Exception e) {

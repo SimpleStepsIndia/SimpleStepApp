@@ -12,7 +12,7 @@ public class AppConfig {
 
     public static String get_QuestionsAll="https://evening-river-50305.herokuapp.com/questions/all";
 
-    public static String post_QuestionsInfo="https://evening-river-50305.herokuapp.com/questions/all";
+    public static String post_QuestionsInfo="https://evening-river-50305.herokuapp.com/question/response";
 
     public static String user_REGISTER="https://evening-river-50305.herokuapp.com/user";
 }

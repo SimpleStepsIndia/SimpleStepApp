@@ -1,5 +1,7 @@
 package com.simplestepapp.adapters;
 
+import android.graphics.Color;
+import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -10,6 +12,7 @@ import android.widget.TextView;
 
 import com.simplestepapp.R;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -26,7 +29,9 @@ public class AgeAdapter extends RecyclerView.Adapter<AgeAdapter.ViewHolder> {
         this.data = data;
     }
 
-
+    public void setSelectedIndex(int index) {
+        selectedIndex = index;
+    }
 
 
     @NonNull
@@ -42,11 +47,13 @@ public class AgeAdapter extends RecyclerView.Adapter<AgeAdapter.ViewHolder> {
         /*Glide.with(holder.itemView.getContext())
                 .load(data.get(position).getImage())
                 .into(holder.image);*/
-            holder.txt_Age.setText(data.get(position));
-          /*  if (selectedIndex != -1 && position == selectedIndex) {
-                holder.txt_Age.setTextColor(Color.BLUE);
-            }*/
+        holder.txt_Age.setText(data.get(position));
 
+        if (selectedIndex != -1 && position == selectedIndex) {
+            holder.txt_Age.setTextColor(Color.GREEN);
+        }else{
+            holder.txt_Age.setTextColor(Color.GRAY);
+        }
 
     }
 

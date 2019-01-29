@@ -100,6 +100,8 @@ public class SessionManager {
         // user email id
         user.put(KEY_EMAIL, pref.getString(KEY_EMAIL, null));
 
+        user.put(KEY_TOKEN, pref.getString(KEY_TOKEN, null));
+
         // return user
         return user;
     }

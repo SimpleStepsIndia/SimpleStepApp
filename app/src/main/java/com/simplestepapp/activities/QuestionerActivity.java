@@ -23,10 +23,12 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.ScrollView;
 
+import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.google.gson.Gson;
@@ -50,6 +52,7 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import pl.droidsonroids.gif.GifImageView;
 
@@ -86,18 +89,18 @@ public class QuestionerActivity extends AppCompatActivity {
 
     RadioButton rBtn_WOne, rBtn_WTwo, rBtn_WThre, rBtn_WFur, rBtn_op1, rBtn_op2, rBtn_op3;
 
-    String s_WkUpTime = "", s_WkUpQtnOption = "", s_WkUpWhyOptn = "", colorName = "",userName="",eMailId="",token="";
+    String s_WkUpTime = "", s_WkUpQtnOption = "", s_WkUpWhyOptn = "", colorName = "", userName = "", eMailId = "", token = "";
 
-    int sPosition = -1, timeSlotMarks = 0, optionsMarks = 0, finalMarks = 0,nxt_Pos=0;
+    int sPosition = -1, timeSlotMarks = 0, optionsMarks = 0, finalMarks = 0, nxt_Pos = 0;
 
     public static int dis_Position = 0;
 
     GifImageView img_GifView;
 
-    public Integer[] imgArray_Qtns = { R.drawable.wakeup_icon, R.drawable.brushicon, R.drawable.colon, R.drawable.drining_water,
-            R.drawable.mental_fitness,R.drawable.physical_fitness,R.drawable.sun_shine };
+    public Integer[] imgArray_Qtns = {R.drawable.wakeup_icon, R.drawable.brushicon, R.drawable.colon, R.drawable.drining_water,
+            R.drawable.mental_fitness, R.drawable.physical_fitness, R.drawable.sun_shine};
 
-    Animation anim_SlideLeft,anim_FadeIn,anim_SlideRight,anim_Bounce;
+    Animation anim_SlideLeft, anim_FadeIn, anim_SlideRight, anim_Bounce;
 
     SessionManager sessionManager;
 
@@ -110,15 +113,15 @@ public class QuestionerActivity extends AppCompatActivity {
         toolbarsetUp();
         progressDialog = new ProgressDialog(this);
         requestQueue = Volley.newRequestQueue(this);
-        sessionManager =new SessionManager(this);
-        get_QuestionsAll();
-        img_GifView.animate();
-        if (sessionManager.isLoggedIn()){
+        sessionManager = new SessionManager(this);
+        if (sessionManager.isLoggedIn()) {
             HashMap<String, String> user = sessionManager.getUserDetails();
             userName = user.get(SessionManager.KEY_NAME);
             eMailId = user.get(SessionManager.KEY_EMAIL);
             token = user.get(SessionManager.KEY_TOKEN);
         }
+        get_QuestionsAll();
+        img_GifView.animate();
 
         rG_WakeUp.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
@@ -192,10 +195,11 @@ public class QuestionerActivity extends AppCompatActivity {
                 qAnswerModel.setS_Position(sPosition);
                 qAnswerModel.setColorCode(colorName);
                 qAnswerModel.setQuestionId(questionerArrayList.get(0).get_id());
-                qAnswerModelArrayList=new ArrayList<>();
+                qAnswerModelArrayList = new ArrayList<>();
                 qAnswerModelArrayList.add(qAnswerModel);
-                nxt_Pos=1;
-                dialog_Brushing(nxt_Pos);
+                nxt_Pos = 1;
+                answer_Submission(questionerArrayList.get(0).get_id(), s_WkUpTime, s_WkUpQtnOption, s_WkUpWhyOptn, nxt_Pos);
+                // dialog_Brushing(nxt_Pos);
 
 
             }
@@ -301,11 +305,10 @@ public class QuestionerActivity extends AppCompatActivity {
                     qAnswerModel.setQuestionId(questionerArrayList.get(1).get_id());
                     qAnswerModelArrayList.add(qAnswerModel);
                     ++nxt_Pos;
-                  //  dialog.dismiss();
-                    if (nxt_Pos<=6) {
+                    if (nxt_Pos <= 6) {
                         dialog_Brushing(nxt_Pos);
-                    }else{
-                        Intent intent=new Intent(getApplicationContext(), ConclusionActivity.class);
+                    } else {
+                        Intent intent = new Intent(getApplicationContext(), ConclusionActivity.class);
                         startActivity(intent);
                     }
                 }
@@ -423,17 +426,17 @@ public class QuestionerActivity extends AppCompatActivity {
     }
 
     private void initviews() {
-        anim_SlideLeft= AnimationUtils.loadAnimation(getApplicationContext(),
+        anim_SlideLeft = AnimationUtils.loadAnimation(getApplicationContext(),
                 R.anim.slide_left);
-        anim_SlideRight= AnimationUtils.loadAnimation(getApplicationContext(),
+        anim_SlideRight = AnimationUtils.loadAnimation(getApplicationContext(),
                 R.anim.slide_right);
-        anim_Bounce= AnimationUtils.loadAnimation(getApplicationContext(),
+        anim_Bounce = AnimationUtils.loadAnimation(getApplicationContext(),
                 R.anim.bounce);
 
         txt_QtnHdng = findViewById(R.id.txt_QtnHdng);
         txt_QtnCaptn = findViewById(R.id.txt_QtnCaptn);
         txt_QtnOptns = findViewById(R.id.txt_QtnOptns);
-        img_QtnHdng=findViewById(R.id.img_QtnHdng);
+        img_QtnHdng = findViewById(R.id.img_QtnHdng);
         rG_WakeUp = findViewById(R.id.rG_WakeUp);
         rGrp_WhyOptions = findViewById(R.id.rGrp_WhyOptions);
         rBtn_WOne = findViewById(R.id.rBtn_WOne);
@@ -478,7 +481,7 @@ public class QuestionerActivity extends AppCompatActivity {
         txt_QtnHdng = dialog.findViewById(R.id.txt_QtnHdng);
         txt_QtnCaptn = dialog.findViewById(R.id.txt_QtnCaptn);
         txt_QtnOptns = dialog.findViewById(R.id.txt_QtnOptns);
-        img_QtnHdng=dialog.findViewById(R.id.img_QtnHdng);
+        img_QtnHdng = dialog.findViewById(R.id.img_QtnHdng);
         rG_WakeUp = dialog.findViewById(R.id.rG_WakeUp);
         rGrp_WhyOptions = dialog.findViewById(R.id.rGrp_WhyOptions);
         rBtn_WOne = dialog.findViewById(R.id.rBtn_WOne);
@@ -580,4 +583,59 @@ public class QuestionerActivity extends AppCompatActivity {
 
         requestQueue.add(user_Login_Req);
     }
+
+    public void answer_Submission(final String questionId, final String timeSlotOption, final String answerOption,
+                                  final String whyOption, final int next_Pos) {
+
+        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+        StrictMode.setThreadPolicy(policy);
+
+        progressDialog.setMessage("Submiting ...");
+        progressDialog.show();
+        Map<String, String> params = new HashMap<String, String>();
+        params.put("questionId", questionId);
+        params.put("timeSlotOption", timeSlotOption);
+        params.put("answerOption", answerOption);
+        params.put("whyOption", whyOption);
+        JSONObject jsonObject = new JSONObject(params);
+
+        JsonObjectRequest req = new JsonObjectRequest(Request.Method.POST, AppConfig.post_QuestionsInfo, jsonObject, new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response) {
+                progressDialog.dismiss();
+                try {
+                    if (null != response.toString()) {
+                        String status = response.getString("message");
+                        if ("SUCCESS".equals(status)) {
+                            dialog_Brushing(next_Pos);
+                        } else {
+                            Toaster.showWarningMessage("" + status);
+                            dialog_Brushing(next_Pos);
+                        }
+                    } else {
+                        Toaster.showErrorMessage("Answer submission Failed !");
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Log.w("error in response", "Error: " + error.getMessage());
+                dialog_Brushing(next_Pos);
+            }
+        }) {
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                HashMap<String, String> headers = new HashMap<String, String>();
+                headers.put("Content-Type", "application/json");
+                headers.put("Authorization", "Bearer " + token);
+                return headers;
+            }
+        };
+
+        requestQueue.add(req);
+    }
+
 }
