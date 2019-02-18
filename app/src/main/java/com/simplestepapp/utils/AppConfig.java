@@ -14,5 +14,15 @@ public class AppConfig {
 
     public static String post_QuestionsInfo="https://evening-river-50305.herokuapp.com/question/response";
 
+    public static String get_ActivityAll="https://evening-river-50305.herokuapp.com/activities/All";
+
+    public static String post_DlyRtneInfo="https://evening-river-50305.herokuapp.com/activity/response";
+
     public static String user_REGISTER="https://evening-river-50305.herokuapp.com/user";
+
+    public static String post_ProfileInfo="https://evening-river-50305.herokuapp.com/user/profile";
+
+    public static String getUser_Excercises="https://evening-river-50305.herokuapp.com/exercise/userExercise";
+
+    public static final String YOUTUBE_API_KEY = "AIzaSyD4X1ojmfRB8J2JBQCFnV0KbB1tBz768Fk";
 }

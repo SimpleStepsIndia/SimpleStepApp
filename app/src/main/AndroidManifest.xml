@@ -38,7 +38,7 @@
                 android:name="android.support.FILE_PROVIDER_PATHS"
                 android:resource="@xml/file_paths"/>
         </provider>
-        <activity android:name=".activities.SplashActivity">
+        <activity android:name=".activities.FreeStyleWorkActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -52,8 +52,13 @@
         <activity android:name=".activities.PersonalInfoActivity"/>
         <activity android:name=".activities.ConclusionActivity"/>
         <activity android:name=".activities.ProfileActivity"/>
-        <activity android:name=".activities.QuestionerActivity"
-            />
+        <activity android:name=".activities.QuestionerActivity" />
+        <activity android:name=".activities.DailyRoutineActivity"/>
+      <!--  <activity android:name=".activities.FreeStyleWorkActivity"/>-->
+        <activity android:name=".activities.DailyRtneFreStyleWrktActivity"/>
+        <activity android:name=".activities.VideoActivity"/>
+        <activity android:name=".activities.ExerciseActivity"/>
+        <activity android:name=".activities.ExerciseResultActivity"/>
     </application>
 
 </manifest>

@@ -1,12 +1,15 @@
 package com.simplestepapp.activities;
 
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.StrictMode;
 import android.support.annotation.IdRes;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.AppCompatButton;
 import android.support.v7.widget.AppCompatTextView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -21,14 +24,20 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Toast;
 
+import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
+import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonArrayRequest;
+import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
 import com.kevalpatel2106.rulerpicker.RulerValuePicker;
 import com.kevalpatel2106.rulerpicker.RulerValuePickerListener;
 import com.simplestepapp.R;
 import com.simplestepapp.adapters.AgeAdapter;
+import com.simplestepapp.utils.AppConfig;
 import com.simplestepapp.utils.SessionManager;
 import com.yarolegovich.discretescrollview.DiscreteScrollView;
 import com.yarolegovich.discretescrollview.transform.ScaleTransformer;
@@ -46,12 +55,11 @@ public class ProfileActivity extends AppCompatActivity implements DiscreteScroll
     private static final String TAG = "ProifleActivity";
     private static final String URL_FOR_REGISTRATION = "https://XXX.XXX.X.XX/android_login_example/register.php";
     ProgressDialog progressDialog;
+    RequestQueue requestQueue;
 
-    private EditText signupInputName, signupInputEmail, signupInputPassword, signupInputAge;
-    private Button btnSignUp;
-    private Button btnLinkLogin;
-    public RadioGroup rBtnGrp_Surgens;
-    public RadioButton rBtn_SYes, rBtn_SNo;
+    AppCompatButton btn_PSubmit;
+    public RadioGroup rBtnGrp_Surgens, rGrpGender, rG_WrkRtne, rG_AimTo, rgp_Profsion;
+    public RadioButton rBtn_SYes, rBtn_SNo, rBtn_Male, rBtn_Female, rBtn_others;
 
     DiscreteScrollView age_picker;
     ArrayList<String> age_Lst;
@@ -64,13 +72,16 @@ public class ProfileActivity extends AppCompatActivity implements DiscreteScroll
 
     AppCompatTextView txt_Name, txt_HtPicker, txt_WtPicker;
 
-    String userName = "", eMailId = "", token = "";
+    String userName = "", eMailId = "", token = "", slctd_Age = "", slctd_Ht = "", slctd_Wt = "", str_Gender = "", str_Surgery = "",
+            str_WrktRtne = "", str_AimTo = "", str_Profsn = "", str_DOJ = "", str_DOB = "", str_ActId = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.profile_activity);
         initviews();
+        progressDialog = new ProgressDialog(this);
+        requestQueue = Volley.newRequestQueue(this);
         sessionManager = new SessionManager(this);
         if (sessionManager.isLoggedIn()) {
             HashMap<String, String> user = sessionManager.getUserDetails();
@@ -102,6 +113,7 @@ public class ProfileActivity extends AppCompatActivity implements DiscreteScroll
                     }
                 };
                 handler.post(r);
+                slctd_Age = age_Lst.get(adapterPosition);
             }
         });
 
@@ -110,11 +122,13 @@ public class ProfileActivity extends AppCompatActivity implements DiscreteScroll
             @Override
             public void onValueChange(int selectedValue) {
                 txt_HtPicker.setText("" + selectedValue + " cms");
+                slctd_Ht = String.valueOf(selectedValue);
             }
 
             @Override
             public void onIntermediateValueChange(int selectedValue) {
                 txt_HtPicker.setText("" + selectedValue + " cms");
+                slctd_Ht = String.valueOf(selectedValue);
             }
         });
 
@@ -123,11 +137,13 @@ public class ProfileActivity extends AppCompatActivity implements DiscreteScroll
             @Override
             public void onValueChange(int selectedValue) {
                 txt_WtPicker.setText("" + selectedValue + " kgs");
+                slctd_Wt = String.valueOf(selectedValue);
             }
 
             @Override
             public void onIntermediateValueChange(int selectedValue) {
                 txt_WtPicker.setText("" + selectedValue + " kgs");
+                slctd_Wt = String.valueOf(selectedValue);
             }
         });
 
@@ -136,14 +152,68 @@ public class ProfileActivity extends AppCompatActivity implements DiscreteScroll
             public void onCheckedChanged(RadioGroup group, @IdRes int checkedId) {
                 switch (checkedId) {
                     case R.id.rBtn_SYes:
+                        str_Surgery = "Yes";
                         lyt_SurYes.setVisibility(View.VISIBLE);
                         break;
                     case R.id.rBtn_SNo:
+                        str_Surgery = "No";
                         lyt_SurYes.setVisibility(View.GONE);
                         break;
                     default:
                         break;
                 }
+            }
+        });
+
+        rGrpGender.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(RadioGroup group, @IdRes int checkedId) {
+                switch (checkedId) {
+                    case R.id.rBtn_Male:
+                        str_Gender = "Male";
+                        break;
+                    case R.id.rBtn_Female:
+                        str_Gender = "Female";
+                        break;
+                    case R.id.rBtn_others:
+                        str_Gender = "Others";
+                        break;
+                }
+            }
+        });
+
+        rG_WrkRtne.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(RadioGroup group, @IdRes int checkedId) {
+                RadioButton rb = findViewById(checkedId);
+                str_WrktRtne = rb.getText().toString();
+            }
+        });
+
+        rG_AimTo.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(RadioGroup group, @IdRes int checkedId) {
+                RadioButton rBtn = findViewById(checkedId);
+                str_AimTo = rBtn.getText().toString();
+            }
+        });
+
+        rgp_Profsion.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(RadioGroup group, @IdRes int checkedId) {
+                RadioButton r_Btn = findViewById(checkedId);
+                str_Profsn = r_Btn.getText().toString();
+            }
+        });
+
+        btn_PSubmit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                profileDataUpload(userName, "Kasani", slctd_Age, str_Gender, slctd_Ht, slctd_Wt, "56", str_Surgery, str_WrktRtne, str_AimTo,
+                        str_Profsn, str_DOJ, str_DOB, str_ActId);
+                /*Intent intent_DlyRtne = new Intent(getApplicationContext(), DailyRtneFreStyleWrktActivity.class);
+                startActivity(intent_DlyRtne);*/
             }
         });
 
@@ -160,127 +230,69 @@ public class ProfileActivity extends AppCompatActivity implements DiscreteScroll
         rBtnGrp_Surgens = findViewById(R.id.rBtnGrp_Surgens);
         rBtn_SYes = findViewById(R.id.rBtn_SYes);
         rBtn_SNo = findViewById(R.id.rBtn_SNo);
+        rGrpGender = findViewById(R.id.rGrpGender);
+        rBtn_Male = findViewById(R.id.rBtn_Male);
+        rBtn_Female = findViewById(R.id.rBtn_Female);
+        rBtn_others = findViewById(R.id.rBtn_others);
+        rG_WrkRtne = findViewById(R.id.rG_WrkRtne);
+        rG_AimTo = findViewById(R.id.rG_AimTo);
+        rgp_Profsion = findViewById(R.id.rgp_Profsion);
+        btn_PSubmit = findViewById(R.id.btn_PSubmit);
         age_Lst = new ArrayList<>();
     }
 
-    private void submitForm() {
+    private void profileDataUpload(final String firstName, final String lastName, final String age, final String gender, final String height,
+                                   final String weight, final String bmi, final String anysurgeries, final String WorkoutRoutine,
+                                   final String Aimto, final String Profession, final String DOJ, final String DOB, final String activityLevel) {
+        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+        StrictMode.setThreadPolicy(policy);
 
-        String gender;
-/*
-        if(selectedId == R.id.female_radio_btn)
-            gender = "Female";
-*/
-        //  else
-        gender = "Male";
+        progressDialog.setMessage("Submiting ...");
+        progressDialog.show();
+        Map<String, String> params = new HashMap<>();
+        params.put("firstName", firstName);
+        params.put("lastName", lastName);
+        params.put("age", age);
+        params.put("gender", gender);
+        params.put("height", height);
+        params.put("weight", weight);
+        params.put("bmi", bmi);
+        params.put("anysurgeries", anysurgeries);
+        params.put("WorkoutRoutine", WorkoutRoutine);
+        params.put("Aimto", Aimto);
+        params.put("Profession", Profession);
+        params.put("DOJ", DOJ);
+        params.put("DOB", DOB);
+        params.put("activityLevel", activityLevel);
+        JSONObject jsonObject = new JSONObject(params);
 
-        registerUser(signupInputName.getText().toString(),
-                signupInputEmail.getText().toString(),
-                signupInputPassword.getText().toString(),
-                gender,
-                signupInputAge.getText().toString());
-    }
-
-    /*
-    private void registerUser() {
-        final String username = editTextUsername.getText().toString().trim();
-        final String email = editTextEmail.getText().toString().trim();
-        final String password = editTextPassword.getText().toString().trim();
-
-        final String gender = ((RadioButton) findViewById(radioGroupGender.getCheckedRadioButtonId())).getText().toString();
-
-        //first we will do the validations
-
-        if (TextUtils.isEmpty(username)) {
-            editTextUsername.setError("Please enter username");
-            editTextUsername.requestFocus();
-            return;
-        }
-
-        if (TextUtils.isEmpty(email)) {
-            editTextEmail.setError("Please enter your email");
-            editTextEmail.requestFocus();
-            return;
-        }
-
-        if (!android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
-            editTextEmail.setError("Enter a valid email");
-            editTextEmail.requestFocus();
-            return;
-        }
-
-        if (TextUtils.isEmpty(password)) {
-            editTextPassword.setError("Enter a password");
-            editTextPassword.requestFocus();
-            return;
-        }
-     */
-
-
-    private void registerUser(final String name, final String email, final String password,
-                              final String gender, final String dob) {
-        // Tag used to cancel the request
-        String cancel_req_tag = "register";
-
-        progressDialog.setMessage("Adding you ...");
-        showDialog();
-
-        StringRequest strReq = new StringRequest(Request.Method.POST,
-                URL_FOR_REGISTRATION, new Response.Listener<String>() {
+        JsonObjectRequest request_Profile = new JsonObjectRequest(Request.Method.POST, AppConfig.post_ProfileInfo, jsonObject, new Response.Listener<JSONObject>() {
 
             @Override
-            public void onResponse(String response) {
-                Log.d(TAG, "Register Response: " + response.toString());
-                hideDialog();
-
-                try {
-                    JSONObject jObj = new JSONObject(response);
-                    boolean error = jObj.getBoolean("error");
-
-                    if (!error) {
-                        String user = jObj.getJSONObject("user").getString("name");
-                        Toast.makeText(getApplicationContext(), "Hi " + user + ", You are successfully Added!", Toast.LENGTH_SHORT).show();
-
-                        // Launch login activity
-                        /*Intent intent = new Intent(
-                                RegisterActivity.this, LoginActivity.class);
-                        startActivity(intent);*/
-                        finish();
-                    } else {
-
-                        String errorMsg = jObj.getString("error_msg");
-                        Toast.makeText(getApplicationContext(),
-                                errorMsg, Toast.LENGTH_LONG).show();
-                    }
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-
+            public void onResponse(JSONObject response) {
+                progressDialog.dismiss();
+                Log.d("Result", "" + response.toString());
+                Intent intent_DlyRtne = new Intent(getApplicationContext(), DailyRtneFreStyleWrktActivity.class);
+                startActivity(intent_DlyRtne);
             }
         }, new Response.ErrorListener() {
-
             @Override
             public void onErrorResponse(VolleyError error) {
-                Log.e(TAG, "Registration Error: " + error.getMessage());
-                Toast.makeText(getApplicationContext(),
-                        error.getMessage(), Toast.LENGTH_LONG).show();
-                hideDialog();
+                Intent intent_DlyRtne = new Intent(getApplicationContext(), DailyRtneFreStyleWrktActivity.class);
+                startActivity(intent_DlyRtne);
             }
         }) {
             @Override
-            protected Map<String, String> getParams() {
-                // Posting params to register url
-                Map<String, String> params = new HashMap<String, String>();
-                params.put("name", name);
-                params.put("email", email);
-                params.put("password", password);
-                params.put("gender", gender);
-                params.put("age", dob);
-                return params;
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                HashMap<String, String> headers = new HashMap<String, String>();
+                headers.put("Content-Type", "application/json");
+                headers.put("Authorization", "token " + token);
+                return headers;
             }
         };
-        // Adding request to request queue
-
+        requestQueue.add(request_Profile);
     }
+
 
     private void showDialog() {
         if (!progressDialog.isShowing())

@@ -40,4 +40,6 @@
     <string name="txt_Hgt">Height</string>
     <string name="txt_Wgt">Weight</string>
     <!-- Profile Page Ends-->
+
+    <string name="player_error">Error initializing YouTube player: %s</string>
 </resources>
