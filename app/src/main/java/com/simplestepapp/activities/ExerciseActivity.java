@@ -86,7 +86,7 @@ public class ExerciseActivity extends YouTubeBaseActivity implements YouTubePlay
         tvReps.setText(mStrReps);
         tvSets.setText(mStrSets);
 
-        youTubeView = (YouTubePlayerView) findViewById(R.id.youtube_view);
+        youTubeView = findViewById(R.id.youtube_view);
         btStart.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

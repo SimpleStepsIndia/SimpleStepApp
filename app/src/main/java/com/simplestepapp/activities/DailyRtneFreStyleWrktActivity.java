@@ -103,6 +103,7 @@ public class DailyRtneFreStyleWrktActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent_D = new Intent(getApplicationContext(), DailyRoutineActivity.class);
+                intent_D.putExtra("Date",btn_DlyRtne_Date.getText().toString());
                 startActivity(intent_D);
             }
         });
@@ -111,6 +112,7 @@ public class DailyRtneFreStyleWrktActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent_F = new Intent(getApplicationContext(), FreeStyleWorkActivity.class);
+                intent_F.putExtra("Date",btn_FreStylWrkt_Date.getText().toString());
                 startActivity(intent_F);
             }
         });

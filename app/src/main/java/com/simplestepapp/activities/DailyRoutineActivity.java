@@ -88,7 +88,7 @@ public class DailyRoutineActivity extends AppCompatActivity {
             R.drawable.mental_fitness, R.drawable.physical_fitness, R.drawable.sun_shine,R.drawable.sun_shine};
 
 
-    String s_WkUpTime = "", userName = "", eMailId = "", token = "";
+    String s_WkUpTime = "", userName = "", eMailId = "", token = "",str_Date="";
 
     int sPosition = -1, nxt_Pos = 0;
 
@@ -104,6 +104,8 @@ public class DailyRoutineActivity extends AppCompatActivity {
         progressDialog = new ProgressDialog(this);
         requestQueue = Volley.newRequestQueue(this);
         sessionManager = new SessionManager(this);
+
+        str_Date=getIntent().getStringExtra("Date");
         if (sessionManager.isLoggedIn()) {
             HashMap<String, String> user = sessionManager.getUserDetails();
             userName = user.get(SessionManager.KEY_NAME);
@@ -300,7 +302,7 @@ public class DailyRoutineActivity extends AppCompatActivity {
         progressDialog.setMessage("Submiting ...");
         progressDialog.show();
         DlyRtneModel rtneModel = new DlyRtneModel();
-        rtneModel.setDate("2019-02-16");
+        rtneModel.setDate(str_Date);
         rtneModel.setActivityId(activityId);
         rtneModel.setTimeSlotOption(timeSlotOption);
         Gson gson = new Gson();
