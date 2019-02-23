@@ -510,6 +510,7 @@ public class QuestionerActivity extends AppCompatActivity {
                             if (nxt_Pos <= 6) {
                                 dialog_Brushing(nxt_Pos);
                             } else {
+                                sessionManager.questn_SubSession();
                                 Intent intent = new Intent(getApplicationContext(), ConclusionActivity.class);
                                 startActivity(intent);
                             }
@@ -519,6 +520,7 @@ public class QuestionerActivity extends AppCompatActivity {
                                 dialog_Brushing(nxt_Pos);
                             } else {
                                 dialog.dismiss();
+                                sessionManager.questn_SubSession();
                                 Intent intent = new Intent(getApplicationContext(), ConclusionActivity.class);
                                 startActivity(intent);
                             }
@@ -537,6 +539,7 @@ public class QuestionerActivity extends AppCompatActivity {
                 if (nxt_Pos <= 6) {
                     dialog_Brushing(nxt_Pos);
                 } else {
+                    sessionManager.questn_SubSession();
                     Intent intent = new Intent(getApplicationContext(), ConclusionActivity.class);
                     startActivity(intent);
                 }

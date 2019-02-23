@@ -10,6 +10,8 @@ public class ExerciseId implements Serializable {
 
     private String exerciseUrl;
 
+    private String videoId;
+
     private String name;
 
     private String _id;
@@ -20,6 +22,14 @@ public class ExerciseId implements Serializable {
 
     public void setExerciseUrl(String exerciseUrl) {
         this.exerciseUrl = exerciseUrl;
+    }
+
+    public String getVideoId() {
+        return videoId;
+    }
+
+    public void setVideoId(String videoId) {
+        this.videoId = videoId;
     }
 
     public String getName() {

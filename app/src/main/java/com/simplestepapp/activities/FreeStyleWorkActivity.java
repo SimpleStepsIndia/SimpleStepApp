@@ -1,15 +1,19 @@
 package com.simplestepapp.activities;
 
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.StrictMode;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.AppCompatButton;
 import android.util.Log;
+import android.view.View;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.ListView;
+import android.widget.QuickContactBadge;
+import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
@@ -54,12 +58,13 @@ public class FreeStyleWorkActivity extends AppCompatActivity {
 
     ListView lv_Exrcis;
 
-    public List<UExercise> list_Exercises= new ArrayList<>();
+    public static List<UExercise> list_Exercises = new ArrayList<>();
 
     String userName = "", eMailId = "", token = "";
 
     UserExerciseAdapter exerciseAdapter;
 
+    String selected_videos;
 
 
     @Override
@@ -86,31 +91,55 @@ public class FreeStyleWorkActivity extends AppCompatActivity {
         cb_SlctAll.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if(isChecked){
-                    for(int i=0;i<list_Exercises.size();i++){
+                if (isChecked) {
+                    for (int i = 0; i < list_Exercises.size(); i++) {
                         list_Exercises.get(i).setSelected(true);
                     }
-                }else{
-                    for(int i=0;i<list_Exercises.size();i++){
+                } else {
+                    for (int i = 0; i < list_Exercises.size(); i++) {
                         list_Exercises.get(i).setSelected(false);
                     }
                 }
 
-                if(exerciseAdapter==null){
-                    exerciseAdapter =new UserExerciseAdapter(FreeStyleWorkActivity.this,list_Exercises);
+                if (exerciseAdapter == null) {
+                    exerciseAdapter = new UserExerciseAdapter(FreeStyleWorkActivity.this, list_Exercises);
                     lv_Exrcis.setAdapter(exerciseAdapter);
-                }else{
+                } else {
                     exerciseAdapter.notifyDataSetChanged();
                 }
             }
         });
 
+
+        btn_Start.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                selected_videos = "";
+                for (int i = 0; i < list_Exercises.size(); i++) {
+                    if (list_Exercises.get(i).getSelected()) {
+                        if (selected_videos.equalsIgnoreCase("")) {
+                            selected_videos = selected_videos + list_Exercises.get(i).get_id();
+                        } else {
+                            selected_videos = selected_videos + "," + list_Exercises.get(i).get_id();
+                        }
+                    }
+                }
+                Intent intent = new Intent(FreeStyleWorkActivity.this, FreStlVideoPlayActivity.class);
+                intent.putExtra("sets", list_Exercises.get(0).getSets());
+                intent.putExtra("reps", list_Exercises.get(0).getReps());
+                intent.putExtra("selected_videos", selected_videos);
+                intent.putExtra("master_id", String.valueOf(list_Exercises.get(0).get_id()));
+                startActivity(intent);
+            }
+        });
+
     }
 
-    private void initviews(){
-        btn_Start=findViewById(R.id.btn_Start);
-        cb_SlctAll=findViewById(R.id.cb_SlctAll);
-        lv_Exrcis=findViewById(R.id.lv_Exrcis);
+    private void initviews() {
+        btn_Start = findViewById(R.id.btn_Start);
+        cb_SlctAll = findViewById(R.id.cb_SlctAll);
+        lv_Exrcis = findViewById(R.id.lv_Exrcis);
     }
 
     private void getUserExcercises() {
@@ -129,17 +158,17 @@ public class FreeStyleWorkActivity extends AppCompatActivity {
             @Override
             public void onResponse(JSONObject response) {
                 progressDialog.dismiss();
-                Log.d("Excercise Re",""+response.toString());
+                Log.d("Excercise Re", "" + response.toString());
                 try {
-                    list_Exercises=new ArrayList<>();
+                    list_Exercises = new ArrayList<>();
                     JSONArray jsonArray = new JSONArray(response.getString("userExercise"));
-                    list_Exercises=new Gson().fromJson(String.valueOf(jsonArray),ExerciseModel.class);
+                    list_Exercises = new Gson().fromJson(String.valueOf(jsonArray), ExerciseModel.class);
 
-                    for(int i=0;i<list_Exercises.size();i++){
+                    for (int i = 0; i < list_Exercises.size(); i++) {
                         list_Exercises.get(i).setSelected(false);
                     }
 
-                    exerciseAdapter =new UserExerciseAdapter(FreeStyleWorkActivity.this,list_Exercises);
+                    exerciseAdapter = new UserExerciseAdapter(FreeStyleWorkActivity.this, list_Exercises);
                     lv_Exrcis.setAdapter(exerciseAdapter);
                     cb_SlctAll.setEnabled(true);
                 } catch (JSONException e) {
@@ -156,7 +185,7 @@ public class FreeStyleWorkActivity extends AppCompatActivity {
             public Map<String, String> getHeaders() throws AuthFailureError {
                 HashMap<String, String> headers = new HashMap<String, String>();
                 headers.put("Content-Type", "application/json");
-                headers.put("Authorization", "token " +"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI1YzU1OGY3NTQzZTMxMzAwMTcyMGYxNjIiLCJsb2NhbExvZ2luSWQiOiI1YzU1OGY3NTQzZTMxMzAwMTcyMGYxNjIiLCJwYXNzcG9ydFR5cGUiOiJsb2NhbCIsImVtYWlsSWQiOiJydWRyYXNoaXJpc2hhOUBnbWFpbC5jb20iLCJleHAiOjE1NTUzMTIzMTE4LCJpYXQiOjE1NTAxMjgzMTF9.30SMbAS6lZER5uTjD7cJeuQ7tyWhi4IwwcXpTiMM1pc");
+                headers.put("Authorization", "token " + "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI1YzU1OGY3NTQzZTMxMzAwMTcyMGYxNjIiLCJsb2NhbExvZ2luSWQiOiI1YzU1OGY3NTQzZTMxMzAwMTcyMGYxNjIiLCJwYXNzcG9ydFR5cGUiOiJsb2NhbCIsImVtYWlsSWQiOiJydWRyYXNoaXJpc2hhOUBnbWFpbC5jb20iLCJleHAiOjE1NTUzMTIzMTE4LCJpYXQiOjE1NTAxMjgzMTF9.30SMbAS6lZER5uTjD7cJeuQ7tyWhi4IwwcXpTiMM1pc");
                 return headers;
             }
         };

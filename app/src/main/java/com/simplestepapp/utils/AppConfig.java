@@ -24,5 +24,7 @@ public class AppConfig {
 
     public static String getUser_Excercises="https://evening-river-50305.herokuapp.com/exercise/getUserExercise";
 
+    public static String postUser_Excercises_Info="https://evening-river-50305.herokuapp.com/userExerciseResponse";
+
     public static final String YOUTUBE_API_KEY = "AIzaSyD4X1ojmfRB8J2JBQCFnV0KbB1tBz768Fk";
 }

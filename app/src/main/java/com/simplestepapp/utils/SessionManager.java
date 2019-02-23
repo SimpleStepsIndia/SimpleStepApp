@@ -31,6 +31,10 @@ public class SessionManager {
     // All Shared Preferences Keys
     private static final String IS_LOGIN = "IsLoggedIn";
 
+    private static final String IS_QSTNSUB = "IsQstnSub";
+
+    private static final String IS_PROFILESUB = "IsProSub";
+
     // User name (make variable public to access from outside)
     public static final String KEY_NAME = "name";
 
@@ -62,6 +66,16 @@ public class SessionManager {
 
         editor.putString(KEY_TOKEN, token);
         // commit changes
+        editor.commit();
+    }
+
+    public void questn_SubSession(){
+        editor.putBoolean(IS_QSTNSUB,true);
+        editor.commit();
+    }
+
+    public void profile_SubSession(){
+        editor.putBoolean(IS_PROFILESUB,true);
         editor.commit();
     }
 
@@ -131,5 +145,14 @@ public class SessionManager {
     // Get Login State
     public boolean isLoggedIn() {
         return pref.getBoolean(IS_LOGIN, false);
+    }
+
+    public boolean isQstnSubmission() {
+        return pref.getBoolean(IS_QSTNSUB, false);
+    }
+
+
+    public boolean isProfileSubmission() {
+        return pref.getBoolean(IS_PROFILESUB, false);
     }
 }

@@ -11,6 +11,7 @@ import android.view.View;
 import android.widget.DatePicker;
 
 import com.simplestepapp.R;
+import com.simplestepapp.utils.Toaster;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -102,18 +103,27 @@ public class DailyRtneFreStyleWrktActivity extends AppCompatActivity {
         btn_DlyRtne.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent_D = new Intent(getApplicationContext(), DailyRoutineActivity.class);
-                intent_D.putExtra("Date",btn_DlyRtne_Date.getText().toString());
-                startActivity(intent_D);
+                if (btn_DlyRtne_Date.getText().toString().equalsIgnoreCase("Select Date")){
+                    Toaster.showWarningMessage("Please Select Date !");
+                }else {
+                    Intent intent_D = new Intent(getApplicationContext(), DailyRoutineActivity.class);
+                    intent_D.putExtra("Date", btn_DlyRtne_Date.getText().toString());
+                    startActivity(intent_D);
+                }
             }
         });
 
         btn_FreStylWrkt.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent_F = new Intent(getApplicationContext(), FreeStyleWorkActivity.class);
-                intent_F.putExtra("Date",btn_FreStylWrkt_Date.getText().toString());
-                startActivity(intent_F);
+
+                if (btn_DlyRtne_Date.getText().toString().equalsIgnoreCase("Select Date")){
+                    Toaster.showWarningMessage("Please Select Date !");
+                }else {
+                    Intent intent_F = new Intent(getApplicationContext(), FreeStyleWorkActivity.class);
+                    intent_F.putExtra("Date", btn_FreStylWrkt_Date.getText().toString());
+                    startActivity(intent_F);
+                }
             }
         });
     }

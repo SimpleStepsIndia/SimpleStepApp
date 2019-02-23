@@ -5,6 +5,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -137,6 +138,8 @@ public class ExerciseActivity extends YouTubeBaseActivity implements YouTubePlay
 
                         playCount++;//1
 
+                        Log.d("ExrCount","  "+playCount);
+
                         if (playCount < selectedExercises.size()) {
 
                             mStrSelectedVideo = selectedExercises.get(playCount).getVideourl();
@@ -163,6 +166,8 @@ public class ExerciseActivity extends YouTubeBaseActivity implements YouTubePlay
                                 }
                             }
                         } else {
+
+                            Log.d("WrktResElse", "ElseBlock");
                             //Toast.makeText(ExerciseActivity.this, "exercises ended", Toast.LENGTH_LONG).show();
                             final ProgressDialog pd = new ProgressDialog(ExerciseActivity.this);
                             pd.setMessage("Please wait..");

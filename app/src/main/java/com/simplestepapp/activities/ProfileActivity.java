@@ -52,8 +52,6 @@ import java.util.Map;
 
 public class ProfileActivity extends AppCompatActivity implements DiscreteScrollView.OnItemChangedListener {
 
-    private static final String TAG = "ProifleActivity";
-    private static final String URL_FOR_REGISTRATION = "https://XXX.XXX.X.XX/android_login_example/register.php";
     ProgressDialog progressDialog;
     RequestQueue requestQueue;
 
@@ -74,6 +72,8 @@ public class ProfileActivity extends AppCompatActivity implements DiscreteScroll
 
     String userName = "", eMailId = "", token = "", slctd_Age = "", slctd_Ht = "", slctd_Wt = "", str_Gender = "", str_Surgery = "",
             str_WrktRtne = "", str_AimTo = "", str_Profsn = "", str_DOJ = "", str_DOB = "", str_ActId = "";
+
+    int sltd_Wt, sltd_Ht;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -104,7 +104,6 @@ public class ProfileActivity extends AppCompatActivity implements DiscreteScroll
         age_picker.addOnItemChangedListener(new DiscreteScrollView.OnItemChangedListener<RecyclerView.ViewHolder>() {
             @Override
             public void onCurrentItemChanged(@Nullable RecyclerView.ViewHolder viewHolder, int adapterPosition) {
-//                Log.d("adapterPosition", "" + adapterPosition);
                 ageAdapter.setSelectedIndex(adapterPosition);
                 Handler handler = new Handler();
                 final Runnable r = new Runnable() {
@@ -121,6 +120,7 @@ public class ProfileActivity extends AppCompatActivity implements DiscreteScroll
         height_picker.setValuePickerListener(new RulerValuePickerListener() {
             @Override
             public void onValueChange(int selectedValue) {
+                sltd_Ht = selectedValue / 100;
                 txt_HtPicker.setText("" + selectedValue + " cms");
                 slctd_Ht = String.valueOf(selectedValue);
             }
@@ -136,6 +136,7 @@ public class ProfileActivity extends AppCompatActivity implements DiscreteScroll
         weight_picker.setValuePickerListener(new RulerValuePickerListener() {
             @Override
             public void onValueChange(int selectedValue) {
+                sltd_Wt = selectedValue;
                 txt_WtPicker.setText("" + selectedValue + " kgs");
                 slctd_Wt = String.valueOf(selectedValue);
             }
@@ -209,11 +210,9 @@ public class ProfileActivity extends AppCompatActivity implements DiscreteScroll
         btn_PSubmit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-                profileDataUpload(userName, "Kasani", slctd_Age, str_Gender, slctd_Ht, slctd_Wt, "56", str_Surgery, str_WrktRtne, str_AimTo,
+                int bmi = sltd_Wt / (sltd_Ht * sltd_Ht);
+                profileDataUpload(userName, "Kasani", slctd_Age, str_Gender, slctd_Ht, slctd_Wt, bmi, str_Surgery, str_WrktRtne, str_AimTo,
                         str_Profsn, str_DOJ, str_DOB, str_ActId);
-                /*Intent intent_DlyRtne = new Intent(getApplicationContext(), DailyRtneFreStyleWrktActivity.class);
-                startActivity(intent_DlyRtne);*/
             }
         });
 
@@ -242,7 +241,7 @@ public class ProfileActivity extends AppCompatActivity implements DiscreteScroll
     }
 
     private void profileDataUpload(final String firstName, final String lastName, final String age, final String gender, final String height,
-                                   final String weight, final String bmi, final String anysurgeries, final String WorkoutRoutine,
+                                   final String weight, final int bmi, final String anysurgeries, final String WorkoutRoutine,
                                    final String Aimto, final String Profession, final String DOJ, final String DOB, final String activityLevel) {
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
         StrictMode.setThreadPolicy(policy);
@@ -256,7 +255,7 @@ public class ProfileActivity extends AppCompatActivity implements DiscreteScroll
         params.put("gender", gender);
         params.put("height", height);
         params.put("weight", weight);
-        params.put("bmi", bmi);
+        params.put("bmi", String.valueOf(bmi));
         params.put("anysurgeries", anysurgeries);
         params.put("WorkoutRoutine", WorkoutRoutine);
         params.put("Aimto", Aimto);
@@ -272,6 +271,7 @@ public class ProfileActivity extends AppCompatActivity implements DiscreteScroll
             public void onResponse(JSONObject response) {
                 progressDialog.dismiss();
                 Log.d("Result", "" + response.toString());
+                sessionManager.profile_SubSession();
                 Intent intent_DlyRtne = new Intent(getApplicationContext(), DailyRtneFreStyleWrktActivity.class);
                 startActivity(intent_DlyRtne);
             }
@@ -292,7 +292,6 @@ public class ProfileActivity extends AppCompatActivity implements DiscreteScroll
         };
         requestQueue.add(request_Profile);
     }
-
 
     private void showDialog() {
         if (!progressDialog.isShowing())
