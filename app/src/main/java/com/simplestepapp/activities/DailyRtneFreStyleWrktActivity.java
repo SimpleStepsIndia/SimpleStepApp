@@ -48,16 +48,13 @@ public class DailyRtneFreStyleWrktActivity extends AppCompatActivity {
 
                 DatePickerDialog datePickerDialog = new DatePickerDialog(DailyRtneFreStyleWrktActivity.this,
                         new DatePickerDialog.OnDateSetListener() {
-
                             @Override
                             public void onDateSet(DatePicker view, int year,
                                                   int monthOfYear, int dayOfMonth) {
 
                                 String selctdDate = year + "-" + (monthOfYear + 1) + "-" + dayOfMonth;
                                 try {
-
-                                    btn_DlyRtne_Date.setText("" + selctdDate);
-
+                                    btn_DlyRtne_Date.setText(selctdDate);
                                 } catch (Exception e) {
                                     e.printStackTrace();
                                 }
@@ -88,7 +85,7 @@ public class DailyRtneFreStyleWrktActivity extends AppCompatActivity {
                                 String selctdDate = year + "-" + (monthOfYear + 1) + "-" + dayOfMonth;
                                 try {
 
-                                    btn_FreStylWrkt_Date.setText("" + selctdDate);
+                                    btn_FreStylWrkt_Date.setText(selctdDate);
 
                                 } catch (Exception e) {
                                     e.printStackTrace();
@@ -103,9 +100,9 @@ public class DailyRtneFreStyleWrktActivity extends AppCompatActivity {
         btn_DlyRtne.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (btn_DlyRtne_Date.getText().toString().equalsIgnoreCase("Select Date")){
+                if (btn_DlyRtne_Date.getText().toString().equalsIgnoreCase("Select Date")) {
                     Toaster.showWarningMessage("Please Select Date !");
-                }else {
+                } else {
                     Intent intent_D = new Intent(getApplicationContext(), DailyRoutineActivity.class);
                     intent_D.putExtra("Date", btn_DlyRtne_Date.getText().toString());
                     startActivity(intent_D);
@@ -117,13 +114,9 @@ public class DailyRtneFreStyleWrktActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                if (btn_DlyRtne_Date.getText().toString().equalsIgnoreCase("Select Date")){
-                    Toaster.showWarningMessage("Please Select Date !");
-                }else {
-                    Intent intent_F = new Intent(getApplicationContext(), FreeStyleWorkActivity.class);
-                    intent_F.putExtra("Date", btn_FreStylWrkt_Date.getText().toString());
-                    startActivity(intent_F);
-                }
+                Intent intent_F = new Intent(getApplicationContext(), FreeStyleWorkActivity.class);
+                startActivity(intent_F);
+
             }
         });
     }

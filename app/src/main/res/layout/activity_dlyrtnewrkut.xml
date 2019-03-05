@@ -48,7 +48,8 @@
             android:layout_margin="20dp"
             android:padding="10dp"
             android:text="Select Date"
-            android:textStyle="bold" />
+            android:textStyle="bold"
+           android:visibility="invisible"/>
 
         <android.support.v7.widget.AppCompatButton
             android:id="@+id/btn_FreStylWrkt"

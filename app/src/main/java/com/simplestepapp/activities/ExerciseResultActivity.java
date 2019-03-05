@@ -3,14 +3,25 @@ package com.simplestepapp.activities;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.StrictMode;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ListView;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
 
+import com.android.volley.AuthFailureError;
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.Volley;
 import com.simplestepapp.R;
 import com.simplestepapp.data.Exercise;
 import com.simplestepapp.data.UserExercise;
@@ -19,8 +30,14 @@ import com.simplestepapp.network.ErrorCodes;
 import com.simplestepapp.network.LakmeCallBack;
 import com.simplestepapp.network.MyCallBack;
 import com.simplestepapp.network.RestClient;
+import com.simplestepapp.utils.AppConfig;
+import com.simplestepapp.utils.SessionManager;
 
+import org.json.JSONObject;
+
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -29,8 +46,8 @@ import butterknife.ButterKnife;
 public class ExerciseResultActivity extends AppCompatActivity {
 
     RestClient mRestClient;
-    String mStrReps, mStrSets,mStrMasterId, mStrSelectedExercices;
-    int totalTime=0,workoutTime=0,restTime=0;
+    String mStrReps, mStrSets, mStrMasterId, mStrSelectedExercices, mStrStartTime, mStrEndTime, str_wrkFeel, str_HwWrkFl, mIntialStartTime;
+    int totalTime = 0, workoutTime = 0, restTime = 0;
 
     @Bind(R.id.tvExercise)
     TextView tvExercises;
@@ -56,17 +73,38 @@ public class ExerciseResultActivity extends AppCompatActivity {
     @Bind(R.id.btProceed)
     Button btnProceed;
 
+    @Bind(R.id.rg_HwYuFel)
+    RadioGroup rg_HwYuFel;
+
+    @Bind(R.id.rg_wrkFeel)
+    RadioGroup rg_wrkFeel;
+
+    ProgressDialog progressDialog;
+    RequestQueue requestQueue;
+    SessionManager sessionManager;
+    String token;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_exercise_result);
         ButterKnife.bind(this);
+        progressDialog = new ProgressDialog(this);
+        requestQueue = Volley.newRequestQueue(this);
+        sessionManager = new SessionManager(this);
+        if (sessionManager.isLoggedIn()) {
+            HashMap<String, String> user_Info = sessionManager.getUserDetails();
+            token = user_Info.get(SessionManager.KEY_TOKEN);
+        }
         mRestClient = new RestClient();
 
         mStrReps = getIntent().getStringExtra("reps");
         mStrSets = getIntent().getStringExtra("sets");
         mStrMasterId = getIntent().getStringExtra("master_id");
         mStrSelectedExercices = getIntent().getStringExtra("selected_videos");
+        mStrStartTime = getIntent().getStringExtra("mStrStartTime");
+        mStrEndTime = getIntent().getStringExtra("mStrEndTime");
+        mIntialStartTime = getIntent().getStringExtra("mIntialStartTime");
 
         tvExercises.setText(String.valueOf(mStrSelectedExercices.split(",").length));
         tvReps.setText(mStrReps);
@@ -75,77 +113,68 @@ public class ExerciseResultActivity extends AppCompatActivity {
         btnProceed.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                final ProgressDialog pd = new ProgressDialog(ExerciseResultActivity.this);
-                pd.setMessage("Please wait..");
-                pd.setCancelable(false);
-                pd.show();
-                UserExerciseMaster userExerciseMaster = new UserExerciseMaster();
-                userExerciseMaster.setWorkouttime(String.valueOf(workoutTime));
-                userExerciseMaster.setResttime(String.valueOf(restTime));
-                userExerciseMaster.setTotaltime(String.valueOf(workoutTime));
-
-                mRestClient.updateUserExerciseMaster(mStrMasterId,userExerciseMaster, new LakmeCallBack<UserExerciseMaster>() {
-                    @Override
-                    public void onFailure(String s, ErrorCodes errorCodes) {
-                        Toast.makeText(ExerciseResultActivity.this, "Something went wrong", Toast.LENGTH_SHORT).show();
-                    }
-
-                    @Override
-                    public void onSuccess(UserExerciseMaster userExercise) {
-                        pd.dismiss();
-                        Intent intent = new Intent(ExerciseResultActivity.this, ExerciseResultActivity.class);
-                        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                        startActivity(intent);
-                    }
-                });
+                postExrCseFeedback();
             }
         });
 
-        //setData();
+        rg_HwYuFel.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(RadioGroup group, int checkedId) {
+                RadioButton radioButton = findViewById(checkedId);
+                str_HwWrkFl = radioButton.getText().toString();
+            }
+        });
+
+        rg_wrkFeel.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(RadioGroup group, int checkedId) {
+                RadioButton radioButton = findViewById(checkedId);
+                str_wrkFeel = radioButton.getText().toString();
+            }
+        });
+
     }
 
-    /*private void setData() {
-        final ProgressDialog pd = new ProgressDialog(ExerciseResultActivity.this);
-        pd.setMessage("Please wait..");
-        pd.setCancelable(false);
-        pd.show();
-        mRestClient.getExercises( new MyCallBack<List<Exercise>>() {
+    private void postExrCseFeedback() {
+        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+        StrictMode.setThreadPolicy(policy);
+
+        progressDialog.setMessage("Loading...");
+        progressDialog.show();
+
+        Map<String, String> params = new HashMap<>();
+        params.put("userExerciseId", mStrMasterId);
+        params.put("startTime", mIntialStartTime);
+        params.put("endTime", mStrEndTime);
+        params.put("feedback1", "How you sweat during workout");
+        params.put("feedbackResp1", str_HwWrkFl);
+        params.put("feedback2", "I feel workout is");
+        params.put("feedbackResp2", str_wrkFeel);
+        JSONObject jsonObject = new JSONObject(params);
+
+        JsonObjectRequest request = new JsonObjectRequest(Request.Method.POST, AppConfig.postUser_Excercises_Info, jsonObject, new Response.Listener<JSONObject>() {
             @Override
-            public void onFailure(String s, ErrorCodes errorCodes) {
-                Toast.makeText(ExerciseResultActivity.this, "Something went wrong", Toast.LENGTH_SHORT).show();
+            public void onResponse(JSONObject response) {
+                progressDialog.dismiss();
+                Log.d("EResultInfo", "" + response.toString());
+                Intent intent = new Intent(getApplicationContext(), DailyRtneFreStyleWrktActivity.class);
+                startActivity(intent);
             }
-
+        }, new Response.ErrorListener() {
             @Override
-            public void onSuccess(final List<Exercise> exerciseRowDatas) {
+            public void onErrorResponse(VolleyError error) {
 
-                mRestClient.getUserExercises(getIntent().getStringExtra("master_id"),new MyCallBack<List<UserExercise>>() {
-                    @Override
-                    public void onFailure(String s, ErrorCodes errorCodes) {
-                        Toast.makeText(ExerciseResultActivity.this, "Something went wrong", Toast.LENGTH_SHORT).show();
-                    }
-
-                    @Override
-                    public void onSuccess(List<UserExercise> campaignRowDatas) {
-                        pd.dismiss();
-                        for(int i=0;i<campaignRowDatas.size();i++){
-                            if(campaignRowDatas.get(i).getGap()!=null){
-                                restTime=restTime+ Integer.parseInt(campaignRowDatas.get(i).getGap());
-                                totalTime = totalTime+ Integer.parseInt(campaignRowDatas.get(i).getGap());
-                            }
-                            if(campaignRowDatas.get(i).getWorkouttime()!=null){
-                                workoutTime = workoutTime+ Integer.parseInt(campaignRowDatas.get(i).getWorkouttime());
-                                totalTime = totalTime+ Integer.parseInt(campaignRowDatas.get(i).getWorkouttime());
-                            }
-                        }
-
-                        tvWorkoutTime.setText(String.valueOf((workoutTime%3600)/60)+" Mins "+ String.valueOf((workoutTime% 3600)%60)+" Secs.");
-                        tvTotalTime.setText(String.valueOf((totalTime%3600)/60)+" Mins "+ String.valueOf((totalTime% 3600)%60)+" Secs.");
-                        tvRestTime.setText(String.valueOf((restTime%3600)/60)+" Mins "+ String.valueOf((restTime% 3600)%60)+" Secs.");
-                        ExerciseResultAdapter adapter=new ExerciseResultAdapter(ExerciseResultActivity.this, campaignRowDatas,exerciseRowDatas);
-                        list_exercises.setAdapter(adapter);
-                    }
-                });
             }
-        });
-    }*/
+        }) {
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                HashMap<String, String> headers = new HashMap<String, String>();
+                headers.put("Content-Type", "application/json");
+                headers.put("Authorization", "token " + token);
+                //  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI1YzU1OGY3NTQzZTMxMzAwMTcyMGYxNjIiLCJsb2NhbExvZ2luSWQiOiI1YzU1OGY3NTQzZTMxMzAwMTcyMGYxNjIiLCJwYXNzcG9ydFR5cGUiOiJsb2NhbCIsImVtYWlsSWQiOiJydWRyYXNoaXJpc2hhOUBnbWFpbC5jb20iLCJleHAiOjE1NTUzMTIzMTE4LCJpYXQiOjE1NTAxMjgzMTF9.30SMbAS6lZER5uTjD7cJeuQ7tyWhi4IwwcXpTiMM1pc");
+                return headers;
+            }
+        };
+        requestQueue.add(request);
+    }
 }

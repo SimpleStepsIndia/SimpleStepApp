@@ -30,6 +30,8 @@ import com.simplestepapp.models.exercise.UExercise;
 import com.simplestepapp.utils.AppConfig;
 import com.simplestepapp.utils.SessionManager;
 
+import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.text.SimpleDateFormat;
@@ -54,7 +56,7 @@ public class FreStlVideoPlayActivity extends YouTubeBaseActivity implements YouT
 
     YouTubePlayer youTubePlayer;
     int playCount = 0, repsEntered = 0, setsCount = 0, repeatCount = 0;
-    String mStrReps, mStrSets, mStrMasterId, mStrSelectedExercices, mStrSelectedVideo, mStrStartTime, mStrEndTime, mStrGapTime, mStrInitialStartTime, token;
+    String mStrReps, mStrSets, mStrMasterId, mStrSelectedExercices, mStrSelectedVideo, mStrStartTime,mIntialStartTime, mStrEndTime, mStrGapTime, mStrInitialStartTime, token;
 
     @Bind(R.id.tvExercise)
     TextView tvExercises;
@@ -83,6 +85,8 @@ public class FreStlVideoPlayActivity extends YouTubeBaseActivity implements YouT
     SessionManager sessionManager;
 
     UExercise uExercise;
+
+    String userExerciseId;
 
     @Override
     protected void onCreate(Bundle bundle) {
@@ -115,9 +119,11 @@ public class FreStlVideoPlayActivity extends YouTubeBaseActivity implements YouT
                 btStart.setVisibility(View.GONE);
                 btStop.setVisibility(View.VISIBLE);
                 mStrStartTime = getDateTime();
+
                 if (playCount == 0 && setsCount == 0) {
                     mStrGapTime = "0";
                     mStrInitialStartTime = mStrStartTime;
+                    mIntialStartTime=getDateTime();
                 } else {
                     mStrGapTime = getDiffDuration(mStrEndTime, mStrStartTime);
                 }
@@ -130,8 +136,8 @@ public class FreStlVideoPlayActivity extends YouTubeBaseActivity implements YouT
                 mStrEndTime = getDateTime();
                 mStrGapTime = getDiffDuration(mStrEndTime, mStrStartTime);
                 String uExr_Id = uExercise.get_id();
-                postWorkoutInfo(uExr_Id, mStrStartTime, mStrEndTime);
-
+                userExerciseId = FreeStyleWorkActivity.list_Exercises.get(0).getUser();
+                postWorkoutInfo(uExr_Id, userExerciseId, mStrStartTime, mStrEndTime);
             }
         });
     }
@@ -145,12 +151,12 @@ public class FreStlVideoPlayActivity extends YouTubeBaseActivity implements YouT
         }
         mStrSelectedVideo = selectedExercises.get(playCount).getExerciseId().getVideoId();
         //selectedExercises.get(playCount).setSet(setsCount);
-        uExercise= selectedExercises.get(playCount);
+        uExercise = selectedExercises.get(playCount);
         tvName.setText(selectedExercises.get(playCount).getExerciseId().getName());
         youTubeView.initialize(AppConfig.YOUTUBE_API_KEY, FreStlVideoPlayActivity.this);
     }
 
-    private void postWorkoutInfo(final String uExrId, final String startTime, final String endTime) {
+    private void postWorkoutInfo(final String uExrId, final String userExerciseId, final String startTime, final String endTime) {
 
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
         StrictMode.setThreadPolicy(policy);
@@ -159,63 +165,76 @@ public class FreStlVideoPlayActivity extends YouTubeBaseActivity implements YouT
         progressDialog.show();
 
         Map<String, String> params = new HashMap<>();
-        params.put("userExerciseId", uExrId);
-        params.put("startTime", startTime);
-        params.put("endTime", endTime);
-        params.put("feedback1", "Good");
-        params.put("feedbackResp1", "Ok");
-        params.put("feedback2", "Not Bad");
-        params.put("feedbackResp2", "Nice");
+        params.put("userExerciseId", userExerciseId);
+        params.put("exerciseId", uExrId);
+        params.put("setId", mStrSets);
+        params.put("durationInSec", String.valueOf(Math.abs(Integer.parseInt(mStrGapTime))));
+        params.put("restDurationInSec", String.valueOf(Math.abs(Integer.parseInt(getDiffDuration(mStrEndTime, mStrStartTime)))));
+        params.put("createdDate", getDateTime());
 
         JSONObject jsonObject = new JSONObject(params);
+        JSONObject object_post = new JSONObject();
 
-        JsonObjectRequest request_workoutInfo = new JsonObjectRequest(Request.Method.POST, AppConfig.postUser_Excercises_Info, jsonObject, new Response.Listener<JSONObject>() {
+        try {
+            JSONArray jsonArray = new JSONArray();
+            jsonArray.put(jsonObject);
+            object_post.put("workouts", jsonArray);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        JsonObjectRequest request_workoutInfo = new JsonObjectRequest(Request.Method.POST, AppConfig.postUser_Workout_Info, object_post, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
                 progressDialog.dismiss();
 
-              try {
+                try {
 
-                  playCount++;
+                    playCount++;
 
-                  Log.d("WrktResElse", "PlayCount"+playCount);
+                    Log.d("Resp", "" + response.toString());
 
-                  if (playCount < selectedExercises.size()) {
+                    Log.d("WrktResElse", "PlayCount" + playCount);
 
-                      mStrSelectedVideo = selectedExercises.get(playCount).getExerciseId().getVideoId();
-                      uExercise=selectedExercises.get(playCount);
-                      tvName.setText(selectedExercises.get(playCount).getExerciseId().getName());
-                      btStart.setVisibility(View.VISIBLE);
-                      btStop.setVisibility(View.GONE);
-                      youTubePlayer.cueVideo(mStrSelectedVideo);
+                    if (playCount < selectedExercises.size()) {
 
-                      if ((playCount + 1) % 2 == 0) {
-                          setsCount++;
-                          if (setsCount < Integer.parseInt(mStrSets)) {
-                              playCount = playCount - 2;
-                          } else {
-                              setsCount = 0;
-                          }
-                      } else if (playCount == selectedExercises.size() - 1) {
-                          setsCount++;
-                          if (setsCount < Integer.parseInt(mStrSets)) {
-                              playCount = playCount - 1;
-                          } else {
-                              setsCount = 0;
-                          }
-                      }
-                  } else {
-                      Log.d("WrktResElse", "ElseBlock");
-                      Intent intent=new Intent(getApplicationContext(),ExerciseResultActivity.class);
-                      intent.putExtra("sets", mStrSets);
-                      intent.putExtra("reps", mStrReps);
-                      intent.putExtra("master_id", mStrMasterId);
-                      intent.putExtra("selected_videos", mStrSelectedExercices);
-                      startActivity(intent);
-                  }
-              }catch (Exception e){
-                  e.printStackTrace();
-              }
+                        mStrSelectedVideo = selectedExercises.get(playCount).getExerciseId().getVideoId();
+                        uExercise = selectedExercises.get(playCount);
+                        tvName.setText(selectedExercises.get(playCount).getExerciseId().getName());
+                        btStart.setVisibility(View.VISIBLE);
+                        btStop.setVisibility(View.GONE);
+                        youTubePlayer.cueVideo(mStrSelectedVideo);
+
+                        if ((playCount + 1) % 2 == 0) {
+                            setsCount++;
+                            if (setsCount < Integer.parseInt(mStrSets)) {
+                                playCount = playCount - 2;
+                            } else {
+                                setsCount = 0;
+                            }
+                        } else if (playCount == selectedExercises.size() - 1) {
+                            setsCount++;
+                            if (setsCount < Integer.parseInt(mStrSets)) {
+                                playCount = playCount - 1;
+                            } else {
+                                setsCount = 0;
+                            }
+                        }
+                    } else {
+                        Log.d("WrktResElse", "ElseBlock");
+                        Intent intent = new Intent(getApplicationContext(), ExerciseResultActivity.class);
+                        intent.putExtra("sets", mStrSets);
+                        intent.putExtra("reps", mStrReps);
+                        intent.putExtra("master_id", userExerciseId);
+                        intent.putExtra("selected_videos", mStrSelectedExercices);
+                        intent.putExtra("mStrStartTime", mStrStartTime);
+                        intent.putExtra("mIntialStartTime", mIntialStartTime);
+                        intent.putExtra("mStrEndTime", mStrEndTime);
+                        startActivity(intent);
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
             }
         }, new Response.ErrorListener() {
             @Override
@@ -227,7 +246,9 @@ public class FreStlVideoPlayActivity extends YouTubeBaseActivity implements YouT
             public Map<String, String> getHeaders() throws AuthFailureError {
                 HashMap<String, String> headers = new HashMap<String, String>();
                 headers.put("Content-Type", "application/json");
-                headers.put("Authorization", "token " + "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI1YzU1OGY3NTQzZTMxMzAwMTcyMGYxNjIiLCJsb2NhbExvZ2luSWQiOiI1YzU1OGY3NTQzZTMxMzAwMTcyMGYxNjIiLCJwYXNzcG9ydFR5cGUiOiJsb2NhbCIsImVtYWlsSWQiOiJydWRyYXNoaXJpc2hhOUBnbWFpbC5jb20iLCJleHAiOjE1NTUzMTIzMTE4LCJpYXQiOjE1NTAxMjgzMTF9.30SMbAS6lZER5uTjD7cJeuQ7tyWhi4IwwcXpTiMM1pc");
+                headers.put("Authorization", "token "+token);
+
+                //"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI1YzU1OGY3NTQzZTMxMzAwMTcyMGYxNjIiLCJsb2NhbExvZ2luSWQiOiI1YzU1OGY3NTQzZTMxMzAwMTcyMGYxNjIiLCJwYXNzcG9ydFR5cGUiOiJsb2NhbCIsImVtYWlsSWQiOiJydWRyYXNoaXJpc2hhOUBnbWFpbC5jb20iLCJleHAiOjE1NTUzMTIzMTE4LCJpYXQiOjE1NTAxMjgzMTF9.30SMbAS6lZER5uTjD7cJeuQ7tyWhi4IwwcXpTiMM1pc");
                 return headers;
             }
         };
@@ -288,4 +309,5 @@ public class FreStlVideoPlayActivity extends YouTubeBaseActivity implements YouT
         }
         return "";
     }
+
 }

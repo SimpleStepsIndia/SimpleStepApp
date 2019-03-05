@@ -426,7 +426,6 @@ public class QuestionerActivity extends AppCompatActivity {
                     JSONObject jsonObject = new JSONObject(response);
                     JSONArray jsonArray = new JSONArray(jsonObject.getString("questioner"));
                     questionerArrayList = new Gson().fromJson(String.valueOf(jsonArray), AllQuestionsModel.class);
-
                     txt_QtnHdng.setText(questionerArrayList.get(0).getQuestion());
                     txt_QtnCaptn.setText(questionerArrayList.get(0).getTimeSlotCaption());
                     txt_QtnOptns.setText(questionerArrayList.get(0).getAnswerCaption());

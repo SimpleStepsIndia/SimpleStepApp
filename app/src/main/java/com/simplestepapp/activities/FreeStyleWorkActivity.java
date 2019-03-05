@@ -64,7 +64,7 @@ public class FreeStyleWorkActivity extends AppCompatActivity {
 
     UserExerciseAdapter exerciseAdapter;
 
-    String selected_videos;
+    String selected_videos,str_UserID;
 
 
     @Override
@@ -83,11 +83,13 @@ public class FreeStyleWorkActivity extends AppCompatActivity {
             userName = user.get(SessionManager.KEY_NAME);
             eMailId = user.get(SessionManager.KEY_EMAIL);
             token = user.get(SessionManager.KEY_TOKEN);
+            str_UserID=user.get(SessionManager.KEY_USERID);
         }
 
         getUserExcercises();
 
         cb_SlctAll.setEnabled(false);
+
         cb_SlctAll.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
@@ -151,7 +153,7 @@ public class FreeStyleWorkActivity extends AppCompatActivity {
         progressDialog.show();
 
         Map<String, String> params = new HashMap<>();
-        params.put("userid", "5c558f7543e313001720f162");
+        params.put("userid", str_UserID);
         JSONObject jsonObject = new JSONObject(params);
 
         JsonObjectRequest request_Excercise = new JsonObjectRequest(Request.Method.GET, AppConfig.getUser_Excercises, jsonObject, new Response.Listener<JSONObject>() {
@@ -171,6 +173,24 @@ public class FreeStyleWorkActivity extends AppCompatActivity {
                     exerciseAdapter = new UserExerciseAdapter(FreeStyleWorkActivity.this, list_Exercises);
                     lv_Exrcis.setAdapter(exerciseAdapter);
                     cb_SlctAll.setEnabled(true);
+                    cb_SlctAll.setChecked(true);
+                    if (cb_SlctAll.isChecked()){
+                        for (int i = 0; i < list_Exercises.size(); i++) {
+                            list_Exercises.get(i).setSelected(true);
+                        }
+                    } else {
+                        for (int i = 0; i < list_Exercises.size(); i++) {
+                            list_Exercises.get(i).setSelected(false);
+                        }
+                    }
+
+                    if (exerciseAdapter == null) {
+                        exerciseAdapter = new UserExerciseAdapter(FreeStyleWorkActivity.this, list_Exercises);
+                        lv_Exrcis.setAdapter(exerciseAdapter);
+                    } else {
+                        exerciseAdapter.notifyDataSetChanged();
+
+                    }
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }

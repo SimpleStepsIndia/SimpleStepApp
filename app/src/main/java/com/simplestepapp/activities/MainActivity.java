@@ -163,9 +163,6 @@ public class MainActivity extends AppCompatActivity {
                      str_Email=edtTxt_EmailId.getText().toString().trim();
                      user_Registration(str_UserName,str_Email,edtTxt_Pwd.getText().toString().trim());
 
-
-                    Intent intent_Pager = new Intent(getApplicationContext(), QuestionerActivity.class);
-                    startActivity(intent_Pager);
                 }
             }
         });
@@ -242,13 +239,14 @@ public class MainActivity extends AppCompatActivity {
                             String userName=jsonObj_User.getString("firstName");
                             String eMail=jsonObj_User.getString("emailId");
                             String token=jsonObj_User.getString("token");
-                            session.createLoginSession(userName, eMail,token);
+                            String userID=jsonObj_User.getString("userId");
+                            session.createLoginSession(userName, eMail,token,userID);
                             Intent intent = new Intent(getApplicationContext(), QuestionerActivity.class);
                             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                             startActivity(intent);
                         } else {
-                            Toaster.showWarningMessage(""+status);
+                            Toaster.showWarningMessage("User Registration Failed !"+status);
                         }
                     } else {
                         Toaster.showErrorMessage("User Registration Failed !");

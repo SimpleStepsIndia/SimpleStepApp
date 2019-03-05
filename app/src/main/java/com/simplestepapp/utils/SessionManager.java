@@ -43,6 +43,7 @@ public class SessionManager {
 
     public static final String KEY_TOKEN = "token";
 
+    public static final String KEY_USERID = "UserId";
 
     // Constructor
     public SessionManager(Context context) {
@@ -54,7 +55,7 @@ public class SessionManager {
     /**
      * Create login session
      */
-    public void createLoginSession(String name, String email,String token) {
+    public void createLoginSession(String name, String email,String token, String userID) {
         // Storing login value as TRUE
         editor.putBoolean(IS_LOGIN, true);
 
@@ -65,6 +66,8 @@ public class SessionManager {
         editor.putString(KEY_EMAIL, email);
 
         editor.putString(KEY_TOKEN, token);
+
+        editor.putString(KEY_USERID, userID);
         // commit changes
         editor.commit();
     }
@@ -115,6 +118,8 @@ public class SessionManager {
         user.put(KEY_EMAIL, pref.getString(KEY_EMAIL, null));
 
         user.put(KEY_TOKEN, pref.getString(KEY_TOKEN, null));
+
+        user.put(KEY_USERID, pref.getString(KEY_USERID, null));
 
         // return user
         return user;

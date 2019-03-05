@@ -1,161 +1,289 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:paddingTop="10dp"
-    tools:context="com.simplestepapp.activities.VideoActivity"
-    android:orientation="vertical"
-    android:background="@color/selected_color_white">
+    android:layout_height="match_parent">
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:paddingLeft="5dp"
-        android:paddingRight="5dp">
-
-        <TextView
-            android:id="@+id/textView4"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1.4"
-            android:text="Exercise:"
-            android:textStyle="bold" />
-
-        <TextView
-            android:id="@+id/tvExercise"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:maxLines="1" />
-
-        <TextView
-            android:id="@+id/textView23"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="5dp"
-            android:layout_weight="1"
-            android:text="Sets:"
-            android:textStyle="bold" />
-
-        <TextView
-            android:id="@+id/tvSets"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:maxLines="1" />
-
-        <TextView
-            android:id="@+id/textView24"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="5dp"
-            android:layout_weight="1"
-            android:text="Reps"
-            android:textStyle="bold" />
-
-        <TextView
-            android:id="@+id/tvReps"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:maxLines="1" />
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:paddingLeft="5dp"
-        android:paddingRight="5dp"
-        android:layout_marginTop="5dp">
-
-        <TextView
-            android:id="@+id/textView27"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1.2"
-            android:text="Total Time:"
-            android:textStyle="bold" />
-
-        <TextView
-            android:id="@+id/tvTotalTime"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="3"
-            android:maxLines="1" />
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:paddingLeft="5dp"
-        android:paddingRight="5dp"
-        android:layout_marginTop="5dp">
-        <TextView
-            android:id="@+id/textView26"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1.2"
-            android:text="Workout Time:"
-            android:textStyle="bold" />
-
-        <TextView
-            android:id="@+id/tvWorkOutTime"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="3"
-            android:maxLines="1" />
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:paddingLeft="5dp"
-        android:paddingRight="5dp"
-        android:layout_marginTop="5dp">
-
-        <TextView
-            android:id="@+id/textView25"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1.2"
-            android:text="Rest Time:"
-            android:textStyle="bold" />
-
-        <TextView
-            android:id="@+id/tvRestTime"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="3"
-            android:maxLines="1" />
-    </LinearLayout>
-
-    <LinearLayout
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:background="@color/selected_color_white"
         android:orientation="vertical"
-        android:layout_marginBottom="50dp"
-        android:paddingLeft="5dp"
-        android:paddingRight="5dp">
+        android:paddingTop="10dp"
+        tools:context="com.simplestepapp.activities.VideoActivity">
 
-        <ListView
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:id="@+id/listExercise"
-            android:divider="@color/selected_color_white"
-            android:dividerHeight="5dp"/>
-    </LinearLayout>
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:paddingLeft="5dp"
+            android:paddingRight="5dp">
 
-    <Button
-        android:id="@+id/btProceed"
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:text="Proceed"
-        android:layout_marginTop="-50dp"
-        android:background="@color/colorPrimary"
-        android:textColor="@color/selected_color_white"/>
-</LinearLayout>
+            <TextView
+                android:id="@+id/textView4"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1.4"
+                android:text="Exercise:"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/tvExercise"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:maxLines="1" />
+
+            <TextView
+                android:id="@+id/textView23"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="5dp"
+                android:layout_weight="1"
+                android:text="Sets:"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/tvSets"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:maxLines="1" />
+
+            <TextView
+                android:id="@+id/textView24"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="5dp"
+                android:layout_weight="1"
+                android:text="Reps"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/tvReps"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:maxLines="1" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:orientation="horizontal"
+            android:paddingLeft="5dp"
+            android:paddingRight="5dp">
+
+            <TextView
+                android:id="@+id/textView27"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1.2"
+                android:text="Total Time:"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/tvTotalTime"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="3"
+                android:maxLines="1" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:orientation="horizontal"
+            android:paddingLeft="5dp"
+            android:paddingRight="5dp">
+
+            <TextView
+                android:id="@+id/textView26"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1.2"
+                android:text="Workout Time:"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/tvWorkOutTime"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="3"
+                android:maxLines="1" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:orientation="horizontal"
+            android:paddingLeft="5dp"
+            android:paddingRight="5dp">
+
+            <TextView
+                android:id="@+id/textView25"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1.2"
+                android:text="Rest Time:"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/tvRestTime"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="3"
+                android:maxLines="1" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="50dp"
+            android:orientation="vertical"
+            android:paddingLeft="5dp"
+            android:paddingRight="5dp">
+
+            <ListView
+                android:id="@+id/listExercise"
+                android:layout_width="match_parent"
+                android:layout_height="300dp"
+                android:divider="@color/selected_color_white"
+                android:dividerHeight="5dp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <android.support.v7.widget.AppCompatTextView
+                style="@style/style_profileInfo_Txt"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="FeedBack :" />
+        </LinearLayout>
+
+        <android.support.v7.widget.AppCompatTextView
+            style="@style/style_profileInfo_Txt"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="I feel workout is " />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <RadioGroup
+                android:id="@+id/rg_wrkFeel"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:weightSum="4">
+
+                <RadioButton
+                    android:id="@+id/rb_Esy"
+                    style="@style/style_RBtn_Txt"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Easy" />
+
+                <RadioButton
+                    android:id="@+id/rb_Fine"
+                    style="@style/style_RBtn_Txt"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Fine" />
+
+                <RadioButton
+                    android:id="@+id/rb_Hard"
+                    style="@style/style_RBtn_Txt"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Hard" />
+
+                <RadioButton
+                    android:id="@+id/rb_VHrd"
+                    style="@style/style_RBtn_Txt"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Very Hard" />
+
+            </RadioGroup>
+
+
+        </LinearLayout>
+
+        <android.support.v7.widget.AppCompatTextView
+            style="@style/style_profileInfo_Txt"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="How you sweat during workout " />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <RadioGroup
+                android:id="@+id/rg_HwYuFel"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:weightSum="4">
+
+                <RadioButton
+                    android:id="@+id/rb_FEsy"
+                    style="@style/style_RBtn_Txt"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Hard" />
+
+                <RadioButton
+                    android:id="@+id/rb_Medim"
+                    style="@style/style_RBtn_Txt"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Medium" />
+
+                <RadioButton
+                    android:id="@+id/rb_Light"
+                    style="@style/style_RBtn_Txt"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Light" />
+
+                <RadioButton
+                    android:id="@+id/rb_None"
+                    style="@style/style_RBtn_Txt"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="None" />
+
+            </RadioGroup>
+
+
+        </LinearLayout>
+
+        <Button
+            android:id="@+id/btProceed"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_marginTop="50dp"
+            android:background="@color/colorPrimary"
+            android:text="Proceed"
+            android:textColor="@color/selected_color_white" />
+    </LinearLayout>
+</ScrollView>

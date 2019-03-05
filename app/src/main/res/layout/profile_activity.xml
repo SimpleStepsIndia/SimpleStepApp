@@ -207,7 +207,6 @@
                                 android:layout_width="0dp"
                                 android:layout_height="wrap_content"
                                 android:layout_weight="1"
-                                android:checked="true"
                                 android:text="Male" />
 
 
@@ -275,7 +274,6 @@
                                 android:layout_width="0dp"
                                 android:layout_height="wrap_content"
                                 android:layout_weight="1"
-                                android:checked="true"
                                 android:text="YES" />
 
                             <RadioButton
@@ -359,7 +357,6 @@
                                 android:id="@+id/rBtn_gym"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:checked="true"
                                 android:text="New to workout" />
 
 
@@ -416,7 +413,6 @@
                                 android:id="@+id/rBtn_RWhgt"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:checked="true"
                                 android:text="Reduce Weight" />
 
 
@@ -473,7 +469,6 @@
                                 android:id="@+id/rBtn_Stnt"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:checked="true"
                                 android:text="Student" />
 
 

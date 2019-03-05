@@ -1,5 +1,6 @@
 package com.simplestepapp.activities;
 
+import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
@@ -54,27 +55,21 @@ public class ProfileActivity extends AppCompatActivity implements DiscreteScroll
 
     ProgressDialog progressDialog;
     RequestQueue requestQueue;
-
     AppCompatButton btn_PSubmit;
     public RadioGroup rBtnGrp_Surgens, rGrpGender, rG_WrkRtne, rG_AimTo, rgp_Profsion;
     public RadioButton rBtn_SYes, rBtn_SNo, rBtn_Male, rBtn_Female, rBtn_others;
-
     DiscreteScrollView age_picker;
     ArrayList<String> age_Lst;
     AgeAdapter ageAdapter;
     SessionManager sessionManager;
-
     LinearLayout lyt_SurYes;
-
     RulerValuePicker height_picker, weight_picker;
-
     AppCompatTextView txt_Name, txt_HtPicker, txt_WtPicker;
-
     String userName = "", eMailId = "", token = "", slctd_Age = "", slctd_Ht = "", slctd_Wt = "", str_Gender = "", str_Surgery = "",
             str_WrktRtne = "", str_AimTo = "", str_Profsn = "", str_DOJ = "", str_DOB = "", str_ActId = "";
-
     int sltd_Wt, sltd_Ht;
 
+    @SuppressLint("SetTextI18n")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -132,7 +127,7 @@ public class ProfileActivity extends AppCompatActivity implements DiscreteScroll
             }
         });
 
-        txt_WtPicker.setText("" + 30 + " kgs");
+        txt_WtPicker.setText(30 + " kgs");
         weight_picker.setValuePickerListener(new RulerValuePickerListener() {
             @Override
             public void onValueChange(int selectedValue) {
@@ -210,7 +205,8 @@ public class ProfileActivity extends AppCompatActivity implements DiscreteScroll
         btn_PSubmit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                int bmi = sltd_Wt / (sltd_Ht * sltd_Ht);
+                int ht_Squre=sltd_Ht * sltd_Ht;
+                float bmi = sltd_Wt / ht_Squre;
                 profileDataUpload(userName, "Kasani", slctd_Age, str_Gender, slctd_Ht, slctd_Wt, bmi, str_Surgery, str_WrktRtne, str_AimTo,
                         str_Profsn, str_DOJ, str_DOB, str_ActId);
             }
@@ -241,7 +237,7 @@ public class ProfileActivity extends AppCompatActivity implements DiscreteScroll
     }
 
     private void profileDataUpload(final String firstName, final String lastName, final String age, final String gender, final String height,
-                                   final String weight, final int bmi, final String anysurgeries, final String WorkoutRoutine,
+                                   final String weight, final float bmi, final String anysurgeries, final String WorkoutRoutine,
                                    final String Aimto, final String Profession, final String DOJ, final String DOB, final String activityLevel) {
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
         StrictMode.setThreadPolicy(policy);

@@ -85,10 +85,10 @@ public class DailyRoutineActivity extends AppCompatActivity {
     private Dialog dialog;
 
     public Integer[] imgArray_Qtns = {R.drawable.wakeup_icon, R.drawable.brushicon, R.drawable.colon, R.drawable.drining_water,
-            R.drawable.mental_fitness, R.drawable.physical_fitness, R.drawable.sun_shine,R.drawable.sun_shine};
+            R.drawable.mental_fitness, R.drawable.physical_fitness, R.drawable.sun_shine, R.drawable.sun_shine};
 
 
-    String s_WkUpTime = "", userName = "", eMailId = "", token = "",str_Date="";
+    String s_WkUpTime = "", userName = "", eMailId = "", token = "", str_Date = "";
 
     int sPosition = -1, nxt_Pos = 0;
 
@@ -105,7 +105,7 @@ public class DailyRoutineActivity extends AppCompatActivity {
         requestQueue = Volley.newRequestQueue(this);
         sessionManager = new SessionManager(this);
 
-        str_Date=getIntent().getStringExtra("Date");
+        str_Date = getIntent().getStringExtra("Date");
         if (sessionManager.isLoggedIn()) {
             HashMap<String, String> user = sessionManager.getUserDetails();
             userName = user.get(SessionManager.KEY_NAME);
@@ -270,7 +270,7 @@ public class DailyRoutineActivity extends AppCompatActivity {
                     qAnswerModel.setTimeSlotOption(s_WkUpTime);
                     qAnswerModel.setS_Position(sPosition);
                     qAnswerModel.setQuestionId(qstnrAryLstDlyRtne.get(nxt_Pos).get_id());
-                    String a_Id=qstnrAryLstDlyRtne.get(nxt_Pos).get_id();
+                    String a_Id = qstnrAryLstDlyRtne.get(nxt_Pos).get_id();
                     qAnsMdlAryLstDlyRtne.add(qAnswerModel);
                     ++nxt_Pos;
                     if (nxt_Pos <= 7) {
@@ -322,7 +322,7 @@ public class DailyRoutineActivity extends AppCompatActivity {
                         if (nxt_Pos <= 6) {
                             dialog_Brushing(nxt_Pos);
                         } else {
-                            Intent intent_FreStylWrk = new Intent(DailyRoutineActivity.this, FreeStyleWorkActivity.class);
+                            Intent intent_FreStylWrk = new Intent(DailyRoutineActivity.this, DailyRtneFreStyleWrktActivity.class);
                             startActivity(intent_FreStylWrk);
                         }
 
@@ -333,7 +333,7 @@ public class DailyRoutineActivity extends AppCompatActivity {
                 if (nxt_Pos <= 6) {
                     dialog_Brushing(nxt_Pos);
                 } else {
-                    Intent intent_FreStylWrk = new Intent(DailyRoutineActivity.this, FreeStyleWorkActivity.class);
+                    Intent intent_FreStylWrk = new Intent(DailyRoutineActivity.this, DailyRtneFreStyleWrktActivity.class);
                     startActivity(intent_FreStylWrk);
                 }
 
