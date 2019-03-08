@@ -30,6 +30,7 @@ import com.simplestepapp.models.exercise.ExerciseModel;
 import com.simplestepapp.models.exercise.UExercise;
 import com.simplestepapp.utils.AppConfig;
 import com.simplestepapp.utils.SessionManager;
+import com.simplestepapp.utils.Toaster;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -64,7 +65,7 @@ public class FreeStyleWorkActivity extends AppCompatActivity {
 
     UserExerciseAdapter exerciseAdapter;
 
-    String selected_videos,str_UserID;
+    String selected_videos, str_UserID;
 
 
     @Override
@@ -83,7 +84,7 @@ public class FreeStyleWorkActivity extends AppCompatActivity {
             userName = user.get(SessionManager.KEY_NAME);
             eMailId = user.get(SessionManager.KEY_EMAIL);
             token = user.get(SessionManager.KEY_TOKEN);
-            str_UserID=user.get(SessionManager.KEY_USERID);
+            str_UserID = user.get(SessionManager.KEY_USERID);
         }
 
         getUserExcercises();
@@ -165,33 +166,39 @@ public class FreeStyleWorkActivity extends AppCompatActivity {
                     list_Exercises = new ArrayList<>();
                     JSONArray jsonArray = new JSONArray(response.getString("userExercise"));
                     list_Exercises = new Gson().fromJson(String.valueOf(jsonArray), ExerciseModel.class);
+                    if (list_Exercises.size() > 0) {
 
-                    for (int i = 0; i < list_Exercises.size(); i++) {
-                        list_Exercises.get(i).setSelected(false);
-                    }
-
-                    exerciseAdapter = new UserExerciseAdapter(FreeStyleWorkActivity.this, list_Exercises);
-                    lv_Exrcis.setAdapter(exerciseAdapter);
-                    cb_SlctAll.setEnabled(true);
-                    cb_SlctAll.setChecked(true);
-                    if (cb_SlctAll.isChecked()){
-                        for (int i = 0; i < list_Exercises.size(); i++) {
-                            list_Exercises.get(i).setSelected(true);
-                        }
-                    } else {
                         for (int i = 0; i < list_Exercises.size(); i++) {
                             list_Exercises.get(i).setSelected(false);
                         }
-                    }
 
-                    if (exerciseAdapter == null) {
                         exerciseAdapter = new UserExerciseAdapter(FreeStyleWorkActivity.this, list_Exercises);
                         lv_Exrcis.setAdapter(exerciseAdapter);
-                    } else {
-                        exerciseAdapter.notifyDataSetChanged();
+                        cb_SlctAll.setEnabled(true);
+                        cb_SlctAll.setChecked(true);
+                        if (cb_SlctAll.isChecked()) {
+                            for (int i = 0; i < list_Exercises.size(); i++) {
+                                list_Exercises.get(i).setSelected(true);
+                            }
+                        } else {
+                            for (int i = 0; i < list_Exercises.size(); i++) {
+                                list_Exercises.get(i).setSelected(false);
+                            }
+                        }
 
+                        if (exerciseAdapter == null) {
+                            exerciseAdapter = new UserExerciseAdapter(FreeStyleWorkActivity.this, list_Exercises);
+                            lv_Exrcis.setAdapter(exerciseAdapter);
+                        } else {
+                            exerciseAdapter.notifyDataSetChanged();
+
+                        }
+                    }else{
+                        cb_SlctAll.setVisibility(View.GONE);
+                        Toaster.showInfoMessage("No Workouts !");
                     }
-                } catch (JSONException e) {
+                } catch (
+                        JSONException e) {
                     e.printStackTrace();
                 }
             }
@@ -205,7 +212,7 @@ public class FreeStyleWorkActivity extends AppCompatActivity {
             public Map<String, String> getHeaders() throws AuthFailureError {
                 HashMap<String, String> headers = new HashMap<String, String>();
                 headers.put("Content-Type", "application/json");
-                headers.put("Authorization", "token " + "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI1YzU1OGY3NTQzZTMxMzAwMTcyMGYxNjIiLCJsb2NhbExvZ2luSWQiOiI1YzU1OGY3NTQzZTMxMzAwMTcyMGYxNjIiLCJwYXNzcG9ydFR5cGUiOiJsb2NhbCIsImVtYWlsSWQiOiJydWRyYXNoaXJpc2hhOUBnbWFpbC5jb20iLCJleHAiOjE1NTUzMTIzMTE4LCJpYXQiOjE1NTAxMjgzMTF9.30SMbAS6lZER5uTjD7cJeuQ7tyWhi4IwwcXpTiMM1pc");
+                headers.put("Authorization", "token " + token);
                 return headers;
             }
         };

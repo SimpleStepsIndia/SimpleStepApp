@@ -59,15 +59,15 @@ public class ProfileActivity extends AppCompatActivity implements DiscreteScroll
     public RadioGroup rBtnGrp_Surgens, rGrpGender, rG_WrkRtne, rG_AimTo, rgp_Profsion;
     public RadioButton rBtn_SYes, rBtn_SNo, rBtn_Male, rBtn_Female, rBtn_others;
     DiscreteScrollView age_picker;
-    ArrayList<String> age_Lst;
+    ArrayList<Integer> age_Lst;
     AgeAdapter ageAdapter;
     SessionManager sessionManager;
     LinearLayout lyt_SurYes;
     RulerValuePicker height_picker, weight_picker;
     AppCompatTextView txt_Name, txt_HtPicker, txt_WtPicker;
-    String userName = "", eMailId = "", token = "", slctd_Age = "", slctd_Ht = "", slctd_Wt = "", str_Gender = "", str_Surgery = "",
+    String userName = "", eMailId = "", token = "", str_Gender = "", str_Surgery = "",
             str_WrktRtne = "", str_AimTo = "", str_Profsn = "", str_DOJ = "", str_DOB = "", str_ActId = "";
-    int sltd_Wt, sltd_Ht;
+    int sltd_Wt, sltd_Ht, slctd_Age, slctd_Ht , slctd_Wt;
 
     @SuppressLint("SetTextI18n")
     @Override
@@ -86,7 +86,7 @@ public class ProfileActivity extends AppCompatActivity implements DiscreteScroll
             txt_Name.setText(userName);
         }
         for (int i = 10; i <= 60; i++) {
-            age_Lst.add(String.valueOf(i));
+            age_Lst.add(i);
         }
 
         age_picker.setSlideOnFling(true);
@@ -95,7 +95,6 @@ public class ProfileActivity extends AppCompatActivity implements DiscreteScroll
                 .build());
         ageAdapter = new AgeAdapter(age_Lst);
         age_picker.setAdapter(ageAdapter);
-
         age_picker.addOnItemChangedListener(new DiscreteScrollView.OnItemChangedListener<RecyclerView.ViewHolder>() {
             @Override
             public void onCurrentItemChanged(@Nullable RecyclerView.ViewHolder viewHolder, int adapterPosition) {
@@ -117,13 +116,13 @@ public class ProfileActivity extends AppCompatActivity implements DiscreteScroll
             public void onValueChange(int selectedValue) {
                 sltd_Ht = selectedValue / 100;
                 txt_HtPicker.setText("" + selectedValue + " cms");
-                slctd_Ht = String.valueOf(selectedValue);
+                slctd_Ht = selectedValue;
             }
 
             @Override
             public void onIntermediateValueChange(int selectedValue) {
                 txt_HtPicker.setText("" + selectedValue + " cms");
-                slctd_Ht = String.valueOf(selectedValue);
+                slctd_Ht = selectedValue;
             }
         });
 
@@ -133,13 +132,13 @@ public class ProfileActivity extends AppCompatActivity implements DiscreteScroll
             public void onValueChange(int selectedValue) {
                 sltd_Wt = selectedValue;
                 txt_WtPicker.setText("" + selectedValue + " kgs");
-                slctd_Wt = String.valueOf(selectedValue);
+                slctd_Wt = selectedValue;
             }
 
             @Override
             public void onIntermediateValueChange(int selectedValue) {
                 txt_WtPicker.setText("" + selectedValue + " kgs");
-                slctd_Wt = String.valueOf(selectedValue);
+                slctd_Wt = selectedValue;
             }
         });
 
@@ -206,7 +205,7 @@ public class ProfileActivity extends AppCompatActivity implements DiscreteScroll
             @Override
             public void onClick(View v) {
                 int ht_Squre=sltd_Ht * sltd_Ht;
-                float bmi = sltd_Wt / ht_Squre;
+                int bmi = sltd_Wt / ht_Squre;
                 profileDataUpload(userName, "Kasani", slctd_Age, str_Gender, slctd_Ht, slctd_Wt, bmi, str_Surgery, str_WrktRtne, str_AimTo,
                         str_Profsn, str_DOJ, str_DOB, str_ActId);
             }
@@ -236,8 +235,8 @@ public class ProfileActivity extends AppCompatActivity implements DiscreteScroll
         age_Lst = new ArrayList<>();
     }
 
-    private void profileDataUpload(final String firstName, final String lastName, final String age, final String gender, final String height,
-                                   final String weight, final float bmi, final String anysurgeries, final String WorkoutRoutine,
+    private void profileDataUpload(final String firstName, final String lastName, final int age, final String gender, final int height,
+                                   final int weight, final float bmi, final String anysurgeries, final String WorkoutRoutine,
                                    final String Aimto, final String Profession, final String DOJ, final String DOB, final String activityLevel) {
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
         StrictMode.setThreadPolicy(policy);
@@ -247,15 +246,15 @@ public class ProfileActivity extends AppCompatActivity implements DiscreteScroll
         Map<String, String> params = new HashMap<>();
         params.put("firstName", firstName);
         params.put("lastName", lastName);
-        params.put("age", age);
+        params.put("age", String.valueOf(age));
         params.put("gender", gender);
-        params.put("height", height);
-        params.put("weight", weight);
+        params.put("height", String.valueOf(height));
+        params.put("weight", String.valueOf(weight));
         params.put("bmi", String.valueOf(bmi));
-        params.put("anysurgeries", anysurgeries);
-        params.put("WorkoutRoutine", WorkoutRoutine);
-        params.put("Aimto", Aimto);
-        params.put("Profession", Profession);
+        params.put("anySurgeries", anysurgeries);
+        params.put("workoutRoutine", WorkoutRoutine);
+        params.put("aimTo", Aimto);
+        params.put("profession", Profession);
         params.put("DOJ", DOJ);
         params.put("DOB", DOB);
         params.put("activityLevel", activityLevel);

@@ -126,7 +126,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         //toolbarsetUp();
-        progressDialog=new ProgressDialog(this);
+        progressDialog = new ProgressDialog(this);
         session = new SessionManager(getApplicationContext());
         requestQueue = Volley.newRequestQueue(this);
         timeSlots = new ArrayList<>();
@@ -148,7 +148,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                 if (edtTxt_Name.getText().toString().isEmpty()) {
+                if (edtTxt_Name.getText().toString().isEmpty()) {
                     edtTxt_Name.setError("Please Enter the Name !");
                     edtTxt_Name.requestFocus();
                 } else if (edtTxt_EmailId.getText().toString().isEmpty() ||
@@ -156,12 +156,12 @@ public class MainActivity extends AppCompatActivity {
                     edtTxt_EmailId.setError("Please Enter valid Email !");
                     edtTxt_EmailId.requestFocus();
                 } else if (edtTxt_Pwd.getText().toString().trim().isEmpty()) {
-                     edtTxt_Pwd.setError("Please Enter the Password !");
+                    edtTxt_Pwd.setError("Please Enter the Password !");
                 } else {
 
-                     str_UserName=edtTxt_Name.getText().toString().trim();
-                     str_Email=edtTxt_EmailId.getText().toString().trim();
-                     user_Registration(str_UserName,str_Email,edtTxt_Pwd.getText().toString().trim());
+                    str_UserName = edtTxt_Name.getText().toString().trim();
+                    str_Email = edtTxt_EmailId.getText().toString().trim();
+                    user_Registration(str_UserName, str_Email, edtTxt_Pwd.getText().toString().trim());
 
                 }
             }
@@ -230,23 +230,24 @@ public class MainActivity extends AppCompatActivity {
             public void onResponse(JSONObject response) {
                 progressDialog.dismiss();
                 try {
-                    if (null != response.toString()) {
-                        String status = response.getString("Message");
+                    if (null != response) {
 
+                        Log.d("Login Res: ", "" + response.toString());
+                        String status = response.getString("Message");
                         if ("User created".equals(status)) {
                             Toaster.showSuccessMessage("User Registered Successfully !");
-                            JSONObject jsonObj_User=response.getJSONObject("User");
-                            String userName=jsonObj_User.getString("firstName");
-                            String eMail=jsonObj_User.getString("emailId");
-                            String token=jsonObj_User.getString("token");
-                            String userID=jsonObj_User.getString("userId");
-                            session.createLoginSession(userName, eMail,token,userID);
+                            JSONObject jsonObj_User = response.getJSONObject("User");
+                            String userName = jsonObj_User.getString("firstName");
+                            String eMail = jsonObj_User.getString("emailId");
+                            String token = jsonObj_User.getString("token");
+                            String userID = jsonObj_User.getString("userId");
+                            session.createLoginSession(userName, eMail, token, userID);
                             Intent intent = new Intent(getApplicationContext(), QuestionerActivity.class);
                             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                             startActivity(intent);
                         } else {
-                            Toaster.showWarningMessage("User Registration Failed !"+status);
+                            Toaster.showWarningMessage("User Registration Failed !" + status);
                         }
                     } else {
                         Toaster.showErrorMessage("User Registration Failed !");

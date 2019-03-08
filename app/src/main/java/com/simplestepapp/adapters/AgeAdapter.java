@@ -21,11 +21,11 @@ import java.util.List;
 
 public class AgeAdapter extends RecyclerView.Adapter<AgeAdapter.ViewHolder> {
 
-    private List<String> data;
+    private List<Integer> data;
     private int selectedIndex = -1;
 
 
-    public AgeAdapter(List<String> data) {
+    public AgeAdapter(List<Integer> data) {
         this.data = data;
     }
 
@@ -47,7 +47,7 @@ public class AgeAdapter extends RecyclerView.Adapter<AgeAdapter.ViewHolder> {
         /*Glide.with(holder.itemView.getContext())
                 .load(data.get(position).getImage())
                 .into(holder.image);*/
-        holder.txt_Age.setText(data.get(position));
+        holder.txt_Age.setText(String.valueOf(data.get(position)));
 
         if (selectedIndex != -1 && position == selectedIndex) {
             holder.txt_Age.setTextColor(Color.GREEN);

@@ -56,7 +56,7 @@ public class FreStlVideoPlayActivity extends YouTubeBaseActivity implements YouT
 
     YouTubePlayer youTubePlayer;
     int playCount = 0, repsEntered = 0, setsCount = 0, repeatCount = 0;
-    String mStrReps, mStrSets, mStrMasterId, mStrSelectedExercices, mStrSelectedVideo, mStrStartTime,mIntialStartTime, mStrEndTime, mStrGapTime, mStrInitialStartTime, token;
+    String mStrReps, mStrSets, mStrMasterId, mStrSelectedExercices, mStrSelectedVideo, mStrStartTime, mIntialStartTime, mStrEndTime, mStrGapTime, mStrRestpGapTime, mStrInitialStartTime, token;
 
     @Bind(R.id.tvExercise)
     TextView tvExercises;
@@ -119,13 +119,13 @@ public class FreStlVideoPlayActivity extends YouTubeBaseActivity implements YouT
                 btStart.setVisibility(View.GONE);
                 btStop.setVisibility(View.VISIBLE);
                 mStrStartTime = getDateTime();
-
                 if (playCount == 0 && setsCount == 0) {
                     mStrGapTime = "0";
                     mStrInitialStartTime = mStrStartTime;
-                    mIntialStartTime=getDateTime();
+                    mIntialStartTime = getDateTime();
                 } else {
                     mStrGapTime = getDiffDuration(mStrEndTime, mStrStartTime);
+                    mStrRestpGapTime = getDiffDuration(mStrEndTime, mStrStartTime);
                 }
             }
         });
@@ -133,6 +133,7 @@ public class FreStlVideoPlayActivity extends YouTubeBaseActivity implements YouT
         btStop.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
                 mStrEndTime = getDateTime();
                 mStrGapTime = getDiffDuration(mStrEndTime, mStrStartTime);
                 String uExr_Id = uExercise.get_id();
@@ -169,7 +170,7 @@ public class FreStlVideoPlayActivity extends YouTubeBaseActivity implements YouT
         params.put("exerciseId", uExrId);
         params.put("setId", mStrSets);
         params.put("durationInSec", String.valueOf(Math.abs(Integer.parseInt(mStrGapTime))));
-        params.put("restDurationInSec", String.valueOf(Math.abs(Integer.parseInt(getDiffDuration(mStrEndTime, mStrStartTime)))));
+        params.put("restDurationInSec", !mStrRestpGapTime.equals("") ? mStrRestpGapTime : "0");
         params.put("createdDate", getDateTime());
 
         JSONObject jsonObject = new JSONObject(params);
@@ -246,7 +247,7 @@ public class FreStlVideoPlayActivity extends YouTubeBaseActivity implements YouT
             public Map<String, String> getHeaders() throws AuthFailureError {
                 HashMap<String, String> headers = new HashMap<String, String>();
                 headers.put("Content-Type", "application/json");
-                headers.put("Authorization", "token "+token);
+                headers.put("Authorization", "token " + token);
 
                 //"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI1YzU1OGY3NTQzZTMxMzAwMTcyMGYxNjIiLCJsb2NhbExvZ2luSWQiOiI1YzU1OGY3NTQzZTMxMzAwMTcyMGYxNjIiLCJwYXNzcG9ydFR5cGUiOiJsb2NhbCIsImVtYWlsSWQiOiJydWRyYXNoaXJpc2hhOUBnbWFpbC5jb20iLCJleHAiOjE1NTUzMTIzMTE4LCJpYXQiOjE1NTAxMjgzMTF9.30SMbAS6lZER5uTjD7cJeuQ7tyWhi4IwwcXpTiMM1pc");
                 return headers;
