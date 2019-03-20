@@ -81,16 +81,12 @@ public class DailyRtneFreStyleWrktActivity extends AppCompatActivity {
                             @Override
                             public void onDateSet(DatePicker view, int year,
                                                   int monthOfYear, int dayOfMonth) {
-
                                 String selctdDate = year + "-" + (monthOfYear + 1) + "-" + dayOfMonth;
                                 try {
-
                                     btn_FreStylWrkt_Date.setText(selctdDate);
-
                                 } catch (Exception e) {
                                     e.printStackTrace();
                                 }
-
                             }
                         }, mYear, mMonth, mDay);
                 datePickerDialog.show();
@@ -114,8 +110,13 @@ public class DailyRtneFreStyleWrktActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                Intent intent_F = new Intent(getApplicationContext(), FreeStyleWorkActivity.class);
-                startActivity(intent_F);
+                //Intent intent_F = new Intent(getApplicationContext(), FreeStyleWorkActivity.class);
+                Intent intent= new Intent(getApplicationContext(), FreStyleVideoPlayerActivity.class);
+                intent.putExtra("sets", "3");
+                intent.putExtra("reps", "5");
+                intent.putExtra("selected_videos", "461665");
+                intent.putExtra("master_id", "5545688655");
+                startActivity(intent);
 
             }
         });

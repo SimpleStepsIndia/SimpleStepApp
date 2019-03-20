@@ -24,6 +24,7 @@ import com.google.android.youtube.player.YouTubeInitializationResult;
 import com.google.android.youtube.player.YouTubePlayer;
 import com.google.android.youtube.player.YouTubePlayerView;
 import com.google.gson.JsonObject;
+import com.khizar1556.mkvideoplayer.MKPlayer;
 import com.simplestepapp.R;
 import com.simplestepapp.data.Exercise;
 import com.simplestepapp.models.exercise.UExercise;
@@ -88,6 +89,10 @@ public class FreStlVideoPlayActivity extends YouTubeBaseActivity implements YouT
 
     String userExerciseId;
 
+    ArrayList<String> list_VideoUrls;
+
+    MKPlayer mkplayer;
+
     @Override
     protected void onCreate(Bundle bundle) {
         super.onCreate(bundle);
@@ -97,6 +102,11 @@ public class FreStlVideoPlayActivity extends YouTubeBaseActivity implements YouT
         requestQueue = Volley.newRequestQueue(this);
         progressDialog = new ProgressDialog(this);
         sessionManager = new SessionManager(this);
+        list_VideoUrls=new ArrayList<>();
+        mkplayer = new MKPlayer(FreStlVideoPlayActivity.this);
+        list_VideoUrls.add("https://content-na.drive.amazonaws.com/cdproxy/templink/HpNkm8XIgueonEFl0s1xvRxMids5hDhCoGc7Mc4bu7ceJxFPc?ownerId=ANLEUR5A3BTRE");
+        list_VideoUrls.add("https://content-na.drive.amazonaws.com/cdproxy/templink/921O6fccoj6NGh4KEIM0v_USEaP3UpbelCMDfEyVSE0eJxFPc?ownerId=ANLEUR5A3BTRE");
+        list_VideoUrls.add("https://content-na.drive.amazonaws.com/cdproxy/templink/5sODNqml087gFDjnANogiyK3Pa9dzm6GtGPs6LiHANoeJxFPc?ownerId=ANLEUR5A3BTRE");
         if (sessionManager.isLoggedIn()) {
             HashMap<String, String> user_Info = sessionManager.getUserDetails();
             token = user_Info.get(SessionManager.KEY_TOKEN);
@@ -150,11 +160,14 @@ public class FreStlVideoPlayActivity extends YouTubeBaseActivity implements YouT
                 selectedExercises.add(FreeStyleWorkActivity.list_Exercises.get(i));
             }
         }
-        mStrSelectedVideo = selectedExercises.get(playCount).getExerciseId().getVideoId();
+       // mStrSelectedVideo = selectedExercises.get(playCount).getExerciseId().getVideoId();
+        mStrSelectedVideo = list_VideoUrls.get(playCount);
         //selectedExercises.get(playCount).setSet(setsCount);
         uExercise = selectedExercises.get(playCount);
         tvName.setText(selectedExercises.get(playCount).getExerciseId().getName());
-        youTubeView.initialize(AppConfig.YOUTUBE_API_KEY, FreStlVideoPlayActivity.this);
+        mkplayer.play(mStrSelectedVideo);
+
+       // youTubeView.initialize(AppConfig.YOUTUBE_API_KEY, FreStlVideoPlayActivity.this);
     }
 
     private void postWorkoutInfo(final String uExrId, final String userExerciseId, final String startTime, final String endTime) {
@@ -199,12 +212,14 @@ public class FreStlVideoPlayActivity extends YouTubeBaseActivity implements YouT
 
                     if (playCount < selectedExercises.size()) {
 
-                        mStrSelectedVideo = selectedExercises.get(playCount).getExerciseId().getVideoId();
+                        // mStrSelectedVideo = selectedExercises.get(playCount).getExerciseId().getVideoId();
+                        mStrSelectedVideo = list_VideoUrls.get(playCount);
                         uExercise = selectedExercises.get(playCount);
                         tvName.setText(selectedExercises.get(playCount).getExerciseId().getName());
                         btStart.setVisibility(View.VISIBLE);
                         btStop.setVisibility(View.GONE);
-                        youTubePlayer.cueVideo(mStrSelectedVideo);
+                       // youTubePlayer.cueVideo(mStrSelectedVideo);
+                        mkplayer.play(mStrSelectedVideo);
 
                         if ((playCount + 1) % 2 == 0) {
                             setsCount++;

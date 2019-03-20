@@ -66,6 +66,7 @@ import com.simplestepapp.utils.ConnectivityUtils;
 import com.simplestepapp.utils.SessionManager;
 import com.simplestepapp.utils.Toaster;
 import com.simplestepapp.utils.ValidationUtils;
+import com.sms.sma.UnityPlayerActivity;
 
 import org.json.JSONObject;
 
@@ -111,7 +112,7 @@ public class MainActivity extends AppCompatActivity {
 
     private int year, month, day, hour, minute;
 
-    private static final int RC_SIGN_IN = 007;
+    private static final int RC_SIGN_IN = 7;
 
     private GoogleApiClient mGoogleApiClient;
 
@@ -119,7 +120,7 @@ public class MainActivity extends AppCompatActivity {
 
     SessionManager session;
 
-    RequestQueue requestQueue;
+    RequestQueue requestQueue; //  9866730401 sudan
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -161,11 +162,14 @@ public class MainActivity extends AppCompatActivity {
 
                     str_UserName = edtTxt_Name.getText().toString().trim();
                     str_Email = edtTxt_EmailId.getText().toString().trim();
-                    user_Registration(str_UserName, str_Email, edtTxt_Pwd.getText().toString().trim());
 
+                    /*Intent intent=new Intent(getApplicationContext(), UnityActivity.class);
+                    startActivity(intent);*/
+                    user_Registration(str_UserName, str_Email, edtTxt_Pwd.getText().toString().trim());
                 }
             }
         });
+
 
         img_Profile.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -242,7 +246,7 @@ public class MainActivity extends AppCompatActivity {
                             String token = jsonObj_User.getString("token");
                             String userID = jsonObj_User.getString("userId");
                             session.createLoginSession(userName, eMail, token, userID);
-                            Intent intent = new Intent(getApplicationContext(), QuestionerActivity.class);
+                            Intent intent = new Intent(getApplicationContext(), UnityActivity.class);
                             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                             startActivity(intent);
@@ -273,7 +277,6 @@ public class MainActivity extends AppCompatActivity {
         requestQueue.add(req);
     }
 
-
     private void handleSignInResult(GoogleSignInResult result) {
 
         Log.d("GmailData", "" + result.isSuccess());
@@ -289,7 +292,6 @@ public class MainActivity extends AppCompatActivity {
 
 
         } else {
-            // Signed out, show unauthenticated UI.
 
             Intent intent_Pager = new Intent(getApplicationContext(), ViewPagerActivity.class);
             startActivity(intent_Pager);
@@ -514,6 +516,4 @@ public class MainActivity extends AppCompatActivity {
             handleSignInResult(result);
         }*/
     }
-
-
 }

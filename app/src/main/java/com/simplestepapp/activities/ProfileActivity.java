@@ -7,32 +7,23 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.StrictMode;
 import android.support.annotation.IdRes;
-import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.AppCompatButton;
 import android.support.v7.widget.AppCompatTextView;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
-import android.view.ViewTreeObserver;
-import android.widget.Button;
-import android.widget.EditText;
 import android.widget.LinearLayout;
-import android.widget.NumberPicker;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
-import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
-import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.JsonObjectRequest;
-import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.kevalpatel2106.rulerpicker.RulerValuePicker;
 import com.kevalpatel2106.rulerpicker.RulerValuePickerListener;
@@ -43,7 +34,6 @@ import com.simplestepapp.utils.SessionManager;
 import com.yarolegovich.discretescrollview.DiscreteScrollView;
 import com.yarolegovich.discretescrollview.transform.ScaleTransformer;
 
-import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
@@ -65,8 +55,7 @@ public class ProfileActivity extends AppCompatActivity implements DiscreteScroll
     LinearLayout lyt_SurYes;
     RulerValuePicker height_picker, weight_picker;
     AppCompatTextView txt_Name, txt_HtPicker, txt_WtPicker;
-    String userName = "", eMailId = "", token = "", str_Gender = "", str_Surgery = "",
-            str_WrktRtne = "", str_AimTo = "", str_Profsn = "", str_DOJ = "", str_DOB = "", str_ActId = "";
+    String userName = "", eMailId = "", token = "", str_Gender = "", str_Surgery = "", str_WrktRtne = "", str_AimTo = "", str_Profsn = "", str_DOJ = "", str_DOB = "", str_ActId = "";
     int sltd_Wt, sltd_Ht, slctd_Age, slctd_Ht , slctd_Wt;
 
     @SuppressLint("SetTextI18n")
@@ -206,7 +195,7 @@ public class ProfileActivity extends AppCompatActivity implements DiscreteScroll
             public void onClick(View v) {
                 int ht_Squre=sltd_Ht * sltd_Ht;
                 int bmi = sltd_Wt / ht_Squre;
-                profileDataUpload(userName, "Kasani", slctd_Age, str_Gender, slctd_Ht, slctd_Wt, bmi, str_Surgery, str_WrktRtne, str_AimTo,
+                profileDataUpload(userName, slctd_Age, str_Gender, slctd_Ht, slctd_Wt, bmi, str_Surgery, str_WrktRtne, str_AimTo,
                         str_Profsn, str_DOJ, str_DOB, str_ActId);
             }
         });
@@ -235,7 +224,7 @@ public class ProfileActivity extends AppCompatActivity implements DiscreteScroll
         age_Lst = new ArrayList<>();
     }
 
-    private void profileDataUpload(final String firstName, final String lastName, final int age, final String gender, final int height,
+    private void profileDataUpload(final String firstName, final int age, final String gender, final int height,
                                    final int weight, final float bmi, final String anysurgeries, final String WorkoutRoutine,
                                    final String Aimto, final String Profession, final String DOJ, final String DOB, final String activityLevel) {
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
@@ -245,7 +234,7 @@ public class ProfileActivity extends AppCompatActivity implements DiscreteScroll
         progressDialog.show();
         Map<String, String> params = new HashMap<>();
         params.put("firstName", firstName);
-        params.put("lastName", lastName);
+        params.put("lastName", "Kasani");
         params.put("age", String.valueOf(age));
         params.put("gender", gender);
         params.put("height", String.valueOf(height));
@@ -288,18 +277,7 @@ public class ProfileActivity extends AppCompatActivity implements DiscreteScroll
         requestQueue.add(request_Profile);
     }
 
-    private void showDialog() {
-        if (!progressDialog.isShowing())
-            progressDialog.show();
-    }
-
-    private void hideDialog() {
-        if (progressDialog.isShowing())
-            progressDialog.dismiss();
-    }
-
     @Override
     public void onCurrentItemChanged(@Nullable RecyclerView.ViewHolder viewHolder, int position) {
-
     }
 }

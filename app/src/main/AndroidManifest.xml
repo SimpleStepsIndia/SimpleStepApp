@@ -3,7 +3,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="com.simplestepapp">
 
-    <uses-permission android:name="android.permission.WRITE_SETTINGS"
+    <uses-permission
+        android:name="android.permission.WRITE_SETTINGS"
         tools:ignore="ProtectedPermissions" />
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
@@ -24,12 +25,15 @@
         android:name=".App"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
-        android:logo="@mipmap/ic_launcher"
         android:label="@string/app_name"
+        android:largeHeap="true"
+        android:logo="@mipmap/ic_launcher"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
-        tools:ignore="GoogleAppIndexingWarning">
+        tools:ignore="GoogleAppIndexingWarning"
+        tools:node="replace">
+
         <provider
             android:name="android.support.v4.content.FileProvider"
             android:authorities="com.simplestepapp.provider"
@@ -37,8 +41,9 @@
             android:grantUriPermissions="true">
             <meta-data
                 android:name="android.support.FILE_PROVIDER_PATHS"
-                android:resource="@xml/file_paths"/>
+                android:resource="@xml/file_paths" />
         </provider>
+
         <activity android:name=".activities.SplashActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -46,22 +51,31 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".activities.MainActivity"
-            android:theme="@style/AppNoActionBarTheme"/>
-
-        <activity android:name=".activities.ViewPagerActivity"/>
-        <activity android:name=".activities.HomeActivity"/>
-        <activity android:name=".activities.PersonalInfoActivity"/>
-        <activity android:name=".activities.ConclusionActivity"/>
-        <activity android:name=".activities.ProfileActivity"/>
+        <activity
+            android:name=".activities.MainActivity"
+            android:theme="@style/AppNoActionBarTheme" />
+        <activity android:name=".activities.ViewPagerActivity" />
+        <activity android:name=".activities.HomeActivity" />
+        <activity android:name=".activities.PersonalInfoActivity" />
+        <activity android:name=".activities.ConclusionActivity" />
+        <activity android:name=".activities.ProfileActivity" />
         <activity android:name=".activities.QuestionerActivity" />
-        <activity android:name=".activities.DailyRoutineActivity"/>
-        <activity android:name=".activities.FreeStyleWorkActivity"/>
-        <activity android:name=".activities.DailyRtneFreStyleWrktActivity"/>
-        <activity android:name=".activities.VideoActivity"/>
-        <activity android:name=".activities.ExerciseActivity"/>
-        <activity android:name=".activities.ExerciseResultActivity"/>
+        <activity android:name=".activities.DailyRoutineActivity" />
+        <activity android:name=".activities.FreeStyleWorkActivity" />
+        <activity android:name=".activities.DailyRtneFreStyleWrktActivity" />
+        <activity android:name=".activities.VideoActivity" />
+        <activity android:name=".activities.ExerciseActivity" />
+        <activity android:name=".activities.ExerciseResultActivity" />
         <activity android:name=".activities.FreStlVideoPlayActivity" />
+        <activity
+            android:name="com.sms.sma.UnityPlayerActivity"
+            android:launchMode="singleTask"
+            android:process=":unityplayer"/>
+        <activity android:name=".activities.UnityActivity"
+            android:launchMode="singleTask"
+            android:process=":unityplayer"/>
+        <activity android:name=".activities.FreStyleVideoPlayerActivity" />
+
     </application>
 
 </manifest>

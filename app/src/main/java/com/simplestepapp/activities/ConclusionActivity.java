@@ -17,6 +17,7 @@ import com.simplestepapp.adapters.ConclusionAdapter;
 import com.simplestepapp.models.AnswerOptions;
 import com.simplestepapp.models.WhyOptions;
 import com.simplestepapp.utils.MyGridView;
+import com.sms.sma.UnityPlayerActivity;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -31,7 +32,7 @@ public class ConclusionActivity extends AppCompatActivity {
     ConclusionAdapter conclusionAdapter;
 
     ArrayList<String> timeSlots;
-   final ArrayList<String> pre_TimeSlots = new ArrayList<>();
+    final ArrayList<String> pre_TimeSlots = new ArrayList<>();
 
     ArrayList<AnswerOptions> answerOptions;
     ArrayList<WhyOptions> whyOptions;
@@ -64,7 +65,8 @@ public class ConclusionActivity extends AppCompatActivity {
         });
 
         timeSlots = new ArrayList<>();
-        timeSlots.add("< 5:00");
+
+        /*timeSlots.add("< 5:00");
         timeSlots.add("5:00");
         timeSlots.add("5:15");
         timeSlots.add("5:30");
@@ -83,7 +85,7 @@ public class ConclusionActivity extends AppCompatActivity {
         timeSlots.add("8:45");
         timeSlots.add("9:00");
         timeSlots.add("9:00 >");
-        timeSlots.add("None");
+        timeSlots.add("None");*/
 
 
         try {
@@ -102,9 +104,8 @@ public class ConclusionActivity extends AppCompatActivity {
                 for (Integer val : integerArrayList) {
 
                     if (!hashSet_RePos.add(val)) {
-                        Log.d("Rep_Pos", "" + val);
                         ++inc_Val;
-                        timeSlots.add(val+inc_Val, timeSlots.get(val+inc_Val-1));
+                        timeSlots.add(val + inc_Val, timeSlots.get(val + inc_Val - 1));
                         repeatedTimes.add(repeatedTimes.size(), repeatedTimes.get(repeatedTimes.size() - 1) + 1);
 
                     } else {

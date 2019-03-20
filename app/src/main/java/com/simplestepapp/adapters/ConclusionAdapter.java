@@ -25,10 +25,6 @@ import java.util.List;
 
 import static com.simplestepapp.activities.ConclusionActivity.imagesarray;
 
-/**
- * Created by Srinivas on 12/14/2018.
- */
-
 public class ConclusionAdapter extends ArrayAdapter {
     private ArrayList<String> timeSlots, colorCodes;
     private Context context;
@@ -40,7 +36,6 @@ public class ConclusionAdapter extends ArrayAdapter {
 
     ArrayList<QAnswerModel> qAnswerModels;
     ArrayList<Integer> repeatedSlots;
-
 
     public ConclusionAdapter(Context context, int resourceId, ArrayList<String> timeSlots, ArrayList<QAnswerModel> qAnswerModels,
                              ArrayList<Integer> repeatedSlots) {
@@ -128,5 +123,4 @@ public class ConclusionAdapter extends ArrayAdapter {
         public AppCompatImageView img_Con;
         public CardView card;
     }
-
 }

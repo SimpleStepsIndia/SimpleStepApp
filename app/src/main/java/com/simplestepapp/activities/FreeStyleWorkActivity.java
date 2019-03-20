@@ -129,10 +129,14 @@ public class FreeStyleWorkActivity extends AppCompatActivity {
                     }
                 }
                 Intent intent = new Intent(FreeStyleWorkActivity.this, FreStlVideoPlayActivity.class);
-                intent.putExtra("sets", list_Exercises.get(0).getSets());
+                /*intent.putExtra("sets", list_Exercises.get(0).getSets());
                 intent.putExtra("reps", list_Exercises.get(0).getReps());
                 intent.putExtra("selected_videos", selected_videos);
-                intent.putExtra("master_id", String.valueOf(list_Exercises.get(0).get_id()));
+                intent.putExtra("master_id", String.valueOf(list_Exercises.get(0).get_id()));*/
+                intent.putExtra("sets", "3");
+                intent.putExtra("reps", "5");
+                intent.putExtra("selected_videos", selected_videos);
+                intent.putExtra("master_id", "5545688655");
                 startActivity(intent);
             }
         });
