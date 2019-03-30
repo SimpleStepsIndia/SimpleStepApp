@@ -246,7 +246,7 @@ public class MainActivity extends AppCompatActivity {
                             String token = jsonObj_User.getString("token");
                             String userID = jsonObj_User.getString("userId");
                             session.createLoginSession(userName, eMail, token, userID);
-                            Intent intent = new Intent(getApplicationContext(), UnityActivity.class);
+                            Intent intent = new Intent(getApplicationContext(), QuestionerActivity.class);
                             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                             startActivity(intent);

@@ -5,7 +5,7 @@ android {
     compileSdkVersion 28
     defaultConfig {
         applicationId "com.simplestepapp"
-        minSdkVersion 19
+        minSdkVersion 21
         targetSdkVersion 28
         versionCode 1
         versionName "1.0"
@@ -41,7 +41,6 @@ android {
         exclude 'META-INF/license.txt'
         exclude 'META-INF/dependencies.txt'
         exclude 'META-INF/LGPL2.1'
-
         exclude "lib/armeabi/libbitmaps.so"
         exclude "lib/armeabi/libgifimage.so"
         exclude "lib/armeabi/libimagepipeline.so"
@@ -61,7 +60,6 @@ android {
         exclude "lib/x86_64/libwebp.so"
         exclude "lib/x86_64/libwebpimage.so"
     }
-
 }
 
 dependencies {
@@ -97,5 +95,7 @@ dependencies {
     testImplementation 'junit:junit:4.12'
     implementation files('libs/YouTubeAndroidPlayerApi.jar')
     implementation 'com.github.khizar1556.MKVideoPlayer:mkvideoplayer:0.1.5'
+    implementation 'com.roughike:bottom-bar:2.3.1'
+    implementation 'uk.co.jakelee:vidsta:1.0.0'
     implementation project(':sma')
 }

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<tabs>
+    <tab
+        id="@+id/tab_transform"
+        icon="@drawable/profile"
+        title="Transform"
+        activeColor="@color/colorAccent"
+        />
+    <tab
+        id="@+id/tab_stats"
+        icon="@drawable/stats"
+        title="Stats"
+        activeColor="@color/colorAccent" />
+    <tab
+        id="@+id/tab_you"
+        icon="@drawable/profile"
+        title="You"
+        activeColor="@color/colorAccent"/>
+</tabs>

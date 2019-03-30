@@ -1,38 +1,37 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:tools="http://schemas.android.com/tools"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/app_video_box"
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    android:background="#000"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    >
+    android:background="#000">
 
     <com.khizar1556.mkvideoplayer.IjkVideoView
         android:id="@+id/video_view"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        />
+        android:layout_height="match_parent" />
 
     <RelativeLayout
         android:id="@+id/seekbar_Lyt"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_above="@+id/btns_StopStarts"
         android:layout_marginTop="0px">
 
         <LinearLayout
             android:id="@+id/app_video_replay"
-            android:gravity="center"
-            android:visibility="gone"
-            android:background="#B3616161"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:background="#B3616161"
+            android:gravity="center"
+            android:visibility="gone">
+
             <ImageView
                 android:id="@+id/app_video_replay_icon"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerHorizontal="true"
-                android:src="@drawable/ic_play_circle_outline_white_36dp"
-                />
+                android:src="@drawable/ic_play_circle_outline_white_36dp" />
         </LinearLayout>
 
         <FrameLayout
@@ -41,8 +40,7 @@
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
             android:background="@drawable/app_video_center_bg"
-            android:visibility="visible"
-            >
+            android:visibility="visible">
             <!-- volume-->
             <LinearLayout
                 android:id="@+id/app_video_volume_box"
@@ -50,15 +48,14 @@
                 android:layout_height="80dp"
                 android:gravity="center"
                 android:orientation="vertical"
-                android:visibility="gone"
-                >
+                android:visibility="gone">
 
                 <ImageView
                     android:id="@+id/app_video_volume_icon"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:src="@drawable/ic_volume_up_white_36dp"/>
+                    android:src="@drawable/ic_volume_up_white_36dp" />
 
                 <TextView
                     android:id="@+id/app_video_volume"
@@ -66,7 +63,7 @@
                     android:layout_height="wrap_content"
                     android:text="50%"
                     android:textColor="@android:color/white"
-                    android:textSize="18dp"/>
+                    android:textSize="18dp" />
             </LinearLayout>
             <!-- brightness-->
             <LinearLayout
@@ -75,15 +72,14 @@
                 android:layout_height="80dp"
                 android:gravity="center"
                 android:orientation="vertical"
-                android:visibility="gone"
-                >
+                android:visibility="gone">
 
                 <ImageView
                     android:id="@+id/app_video_brightness_icon"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:src="@drawable/ic_brightness_6_white_36dp"/>
+                    android:src="@drawable/ic_brightness_6_white_36dp" />
 
                 <TextView
                     android:id="@+id/app_video_brightness"
@@ -93,7 +89,7 @@
                     android:paddingTop="8dp"
                     android:text="50%"
                     android:textColor="@android:color/white"
-                    android:textSize="16dp"/>
+                    android:textSize="16dp" />
             </LinearLayout>
             <!-- fast forward-->
             <LinearLayout
@@ -103,8 +99,7 @@
                 android:layout_margin="8dp"
                 android:gravity="center"
                 android:orientation="vertical"
-                android:visibility="gone"
-                >
+                android:visibility="gone">
 
                 <TextView
                     android:id="@+id/app_video_fastForward"
@@ -115,7 +110,7 @@
 
                     android:text="50%"
                     android:textColor="@android:color/white"
-                    android:textSize="16dp"/>
+                    android:textSize="16dp" />
 
                 <LinearLayout
                     android:layout_width="wrap_content"
@@ -129,7 +124,7 @@
                         android:layout_height="wrap_content"
                         android:text="50%"
                         android:textColor="@android:color/white"
-                        android:textSize="16dp"/>
+                        android:textSize="16dp" />
 
                     <TextView
                         android:id="@+id/app_video_fastForward_all"
@@ -137,7 +132,7 @@
                         android:layout_height="wrap_content"
                         android:text="50%"
                         android:textColor="@color/Grey_300"
-                        android:textSize="16dp"/>
+                        android:textSize="16dp" />
 
                 </LinearLayout>
 
@@ -161,7 +156,7 @@
                 android:layout_height="wrap_content"
                 android:text="@string/small_problem"
                 android:textColor="@android:color/white"
-                android:textSize="14dp"/>
+                android:textSize="14dp" />
         </LinearLayout>
 
         <!-- loading-->
@@ -172,7 +167,7 @@
             android:layout_centerInParent="true"
             android:indeterminateBehavior="repeat"
             android:indeterminateOnly="true"
-            android:visibility="gone"/>
+            android:visibility="gone" />
 
         <RelativeLayout
 
@@ -181,125 +176,104 @@
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
             android:visibility="visible">
+
             <View
-                android:alpha="0.5"
                 android:layout_width="match_parent"
-                android:layout_height="70dp"
-                android:background="#0D47A1"/>
+                android:layout_height="30dp"
+                android:alpha="0.5"
+                android:background="#0D47A1" />
 
 
             <TextView
-                android:text="06:21"
                 android:id="@+id/app_video_currentTime"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="3dp"
-                android:layout_marginLeft="5dp"
                 android:layout_alignParentLeft="true"
+                android:layout_marginLeft="5dp"
+                android:layout_marginTop="3dp"
+                android:text="06:21"
                 android:textColor="@android:color/white"
-                android:textSize="12dp"
-                />
+                android:textSize="12dp" />
 
             <SeekBar
                 android:id="@+id/app_video_seekBar"
+                style="@style/Base.Widget.AppCompat.SeekBar"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
 
+                android:layout_height="wrap_content"
                 android:layout_marginLeft="3dp"
                 android:layout_marginRight="3dp"
                 android:layout_toLeftOf="@+id/app_video_endTime"
-                android:layout_toRightOf="@+id/app_video_currentTime"
-                style="@style/Base.Widget.AppCompat.SeekBar"
-                />
+                android:layout_toRightOf="@+id/app_video_currentTime" />
 
             <TextView
                 android:id="@+id/app_video_endTime"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="3dp"
-                android:text="10:10"
-                android:layout_marginRight="5dp"
                 android:layout_alignParentRight="true"
+                android:layout_marginTop="3dp"
+                android:layout_marginRight="5dp"
+                android:text="10:10"
                 android:textColor="@android:color/white"
-                android:textSize="12dp"
-                />
+                android:textSize="12dp" />
 
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="#E4E4E4"
-                android:layout_below="@+id/app_video_currentTime">
-                <android.support.v7.widget.AppCompatButton
-                    android:id="@+id/btStart"
-                    android:layout_width="match_parent"
-                    android:layout_height="50dp"
-                    android:text="Start"
-                    android:background="#377641"
-                    android:textColor="@color/selected_color_white"/>
-
-                <android.support.v7.widget.AppCompatButton
-                    android:id="@+id/btStop"
-                    android:layout_width="match_parent"
-                    android:layout_height="50dp"
-                    android:text="Stop"
-                    android:visibility="gone"
-                    android:background="#d7602c"
-                    android:textColor="@color/selected_color_white"/>
-            </RelativeLayout>
             <ImageView
                 android:id="@+id/app_video_lock"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:layout_marginLeft="12dp"
                 android:layout_below="@+id/app_video_currentTime"
+                android:layout_marginLeft="12dp"
+                android:layout_marginTop="8dp"
                 android:padding="10dp"
                 android:src="@drawable/hplib_ic_lock"
-                android:visibility="gone"/>
+                android:visibility="gone" />
+
             <ImageView
                 android:id="@+id/app_video_play"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:padding="10dp"
                 android:layout_below="@+id/app_video_currentTime"
-                android:layout_marginTop="8dp"
                 android:layout_centerHorizontal="true"
-                android:src="@drawable/hplib_ic_play_download"
-                android:visibility="gone"/>
-            <ImageView
                 android:layout_marginTop="8dp"
+                android:padding="10dp"
+                android:src="@drawable/hplib_ic_play_download"
+                android:visibility="gone" />
+
+            <ImageView
                 android:id="@+id/app_video_next"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:padding="10dp"
                 android:layout_below="@+id/app_video_currentTime"
                 android:layout_marginLeft="12dp"
+                android:layout_marginTop="8dp"
                 android:layout_toRightOf="@+id/app_video_play"
+                android:padding="10dp"
                 android:src="@drawable/hplib_ic_next"
-                android:visibility="gone"/>
+                android:visibility="gone" />
+
             <ImageView
                 android:id="@+id/app_video_previous"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:padding="10dp"
-                android:layout_marginTop="8dp"
                 android:layout_below="@+id/app_video_currentTime"
+                android:layout_marginTop="8dp"
                 android:layout_marginRight="12dp"
                 android:layout_toLeftOf="@+id/app_video_play"
+                android:padding="10dp"
                 android:src="@drawable/hplib_ic_previous"
-                android:visibility="gone"/>
+                android:visibility="gone" />
 
             <ImageView
                 android:id="@+id/app_video_crop"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
                 android:layout_below="@+id/app_video_currentTime"
-                android:layout_marginRight="12dp"
+                android:layout_alignParentRight="true"
                 android:layout_marginTop="8dp"
+                android:layout_marginRight="12dp"
                 android:padding="10dp"
                 android:src="@drawable/hplib_ic_crop"
-                android:visibility="gone"/>
+                android:visibility="gone" />
 
 
         </RelativeLayout>
@@ -308,18 +282,19 @@
             android:id="@+id/app_video_unlock_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:visibility="invisible"
-            android:layout_above="@+id/app_video_bottom_box">
+            android:layout_above="@+id/app_video_bottom_box"
+            android:visibility="invisible">
+
             <ImageView
 
                 android:id="@+id/app_video_unlock"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:layout_marginLeft="12dp"
                 android:layout_below="@+id/app_video_currentTime"
+                android:layout_marginLeft="12dp"
+                android:layout_marginTop="8dp"
                 android:padding="10dp"
-                android:src="@drawable/hplib_ic_lock_open"/>
+                android:src="@drawable/hplib_ic_lock_open" />
         </LinearLayout>
     </RelativeLayout>
 
@@ -327,18 +302,19 @@
         android:id="@+id/lyt_fullScrn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content">
+
         <LinearLayout
             android:id="@+id/app_video_top_box"
-            android:orientation="horizontal"
-            android:gravity="center_vertical"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
 
             <ImageView
                 android:id="@+id/app_video_finish"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@drawable/ic_chevron_left_white_36dp"/>
+                android:src="@drawable/ic_chevron_left_white_36dp" />
 
             <TextView
                 android:id="@+id/app_video_title"
@@ -349,55 +325,183 @@
                 android:singleLine="true"
                 android:textColor="@android:color/white"
                 android:textSize="12dp"
-                android:visibility="visible"
-                />
+                android:visibility="visible" />
         </LinearLayout>
+
         <ImageView
-            android:layout_centerVertical="true"
             android:id="@+id/app_video_fullscreen"
-            android:padding="10dp"
-            android:layout_marginTop="16dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_below="@+id/app_video_top_box"
             android:layout_alignParentLeft="true"
-            android:src="@drawable/hplib_ic_screen_rotation"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
+            android:layout_centerVertical="true"
+            android:layout_marginTop="16dp"
+            android:padding="10dp"
+            android:src="@drawable/hplib_ic_screen_rotation" />
     </RelativeLayout>
+
+    <!--Total WorkOut Time-->
+    <RelativeLayout
+        android:id="@+id/totalWrkTime"
+        android:layout_width="match_parent"
+        android:layout_toEndOf="@+id/lyt_fullScrn"
+        android:layout_height="50dp">
+
+        <LinearLayout
+            android:id="@+id/lyt_ttlWktTime"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:background="#E3E2E2"
+            android:orientation="horizontal"
+            android:layout_margin="5dp"
+            tools:ignore="UselessParent"
+            android:gravity="center"
+            android:weightSum="2">
+
+            <android.support.v7.widget.AppCompatTextView
+                style="@style/style_profileInfo_Txt"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="Total WorkOut Time :"
+                android:textColor="@color/background"
+                android:layout_weight="1"/>
+
+            <android.support.v7.widget.AppCompatTextView
+                android:id="@+id/txt_TotalWrkTime"
+                style="@style/style_profileInfo_Txt"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text=""
+                android:layout_weight="1"/>
+        </LinearLayout>
+
+    </RelativeLayout>
+
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="2dp"
         android:layout_toEndOf="@+id/lyt_fullScrn"
-        tools:ignore="UnknownId"
-        android:layout_marginTop="20dp"
-        android:gravity="center">
+        android:layout_below="@+id/totalWrkTime"
+        tools:ignore="UnknownId">
 
         <LinearLayout
-            android:layout_width="60dp"
-            android:layout_height="50dp"
-            android:background="#E3E2E2"
-            android:orientation="vertical">
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:weightSum="5">
 
-            <android.support.v7.widget.AppCompatTextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Sets"
-                style="@style/style_profileInfo_Txt"
-                android:gravity="center"
-                android:background="@color/background"/>
+            <LinearLayout
+                android:id="@+id/lyt_Sets"
+                android:layout_width="0dp"
+                android:layout_height="50dp"
+                android:background="#E3E2E2"
+                android:orientation="vertical"
+                android:layout_weight="1"
+                android:layout_margin="5dp">
 
-            <android.support.v7.widget.AppCompatTextView
-                android:id="@+id/txt_Sets"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="1/3"
-                style="@style/style_profileInfo_Txt"
-                android:gravity="center"/>
+                <android.support.v7.widget.AppCompatTextView
+                    style="@style/style_profileInfo_Txt"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/background"
+                    android:gravity="center"
+                    android:text="Sets" />
+
+                <android.support.v7.widget.AppCompatTextView
+                    android:id="@+id/txt_Sets"
+                    style="@style/style_profileInfo_Txt"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:text="1/3" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/lyt_WorkOutTime"
+                android:layout_width="0dp"
+                android:layout_height="50dp"
+                android:background="#E3E2E2"
+                android:orientation="vertical"
+                android:layout_weight="2"
+                android:layout_margin="5dp">
+
+                <android.support.v7.widget.AppCompatTextView
+                    style="@style/style_profileInfo_Txt"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/background"
+                    android:gravity="center"
+                    android:text="WorkOut Time" />
+
+                <android.support.v7.widget.AppCompatTextView
+                    android:id="@+id/txt_wrkOutTime"
+                    style="@style/style_profileInfo_Txt"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:text="" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/lyt_RestTime"
+                android:layout_width="0dp"
+                android:layout_height="50dp"
+                android:background="#E3E2E2"
+                android:orientation="vertical"
+                android:layout_weight="2"
+                android:layout_margin="5dp">
+
+                <android.support.v7.widget.AppCompatTextView
+                    style="@style/style_profileInfo_Txt"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/background"
+                    android:gravity="center"
+                    android:text="Rest Time" />
+
+                <android.support.v7.widget.AppCompatTextView
+                    android:id="@+id/txt_RestTime"
+                    style="@style/style_profileInfo_Txt"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:text="" />
+            </LinearLayout>
+
         </LinearLayout>
 
 
     </RelativeLayout>
 
+
+    <RelativeLayout
+        android:id="@+id/btns_StopStarts"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:background="#E4E4E4">
+
+        <android.support.v7.widget.AppCompatButton
+            android:id="@+id/btStart"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:background="#377641"
+            android:text="Start"
+            android:textColor="@color/selected_color_white" />
+
+        <android.support.v7.widget.AppCompatButton
+            android:id="@+id/btStop"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:background="#d7602c"
+            android:text="Stop"
+            android:textColor="@color/selected_color_white"
+            android:visibility="gone" />
+    </RelativeLayout>
 
 
 </RelativeLayout>

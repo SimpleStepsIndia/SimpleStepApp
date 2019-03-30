@@ -57,8 +57,6 @@ public class BrushingFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.frag_brushing, container, false);
         initviews(v);
-
-
         timeSlots = new ArrayList<>();
         timeSlots.add("< 5:00");
         timeSlots.add("5:00");

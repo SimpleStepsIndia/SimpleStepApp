@@ -75,6 +75,8 @@
             android:launchMode="singleTask"
             android:process=":unityplayer"/>
         <activity android:name=".activities.FreStyleVideoPlayerActivity" />
+        <activity android:name=".activities.BottomNavigationActivity" />
+        <activity android:name=".activities.VideoPlayerAcitivity" />
 
     </application>
 

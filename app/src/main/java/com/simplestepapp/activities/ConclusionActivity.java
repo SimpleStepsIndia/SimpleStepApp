@@ -59,14 +59,13 @@ public class ConclusionActivity extends AppCompatActivity {
         submit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent_Profile = new Intent(ConclusionActivity.this, ProfileActivity.class);
+                Intent intent_Profile = new Intent(ConclusionActivity.this, BottomNavigationActivity.class);
                 startActivity(intent_Profile);
             }
         });
 
         timeSlots = new ArrayList<>();
-
-        /*timeSlots.add("< 5:00");
+        timeSlots.add("< 5:00");
         timeSlots.add("5:00");
         timeSlots.add("5:15");
         timeSlots.add("5:30");
@@ -85,29 +84,23 @@ public class ConclusionActivity extends AppCompatActivity {
         timeSlots.add("8:45");
         timeSlots.add("9:00");
         timeSlots.add("9:00 >");
-        timeSlots.add("None");*/
-
+        timeSlots.add("None");
 
         try {
-
             try {
                 ArrayList<Integer> integerArrayList = new ArrayList<>();
-
                 for (int i = 0; i < QuestionerActivity.qAnswerModelArrayList.size(); i++) {
                     integerArrayList.add(QuestionerActivity.qAnswerModelArrayList.get(i).getS_Position());
                     //repeatedTimes.add(QuestionerActivity.qAnswerModelArrayList.get(i).getS_Position());
                 }
 
                 Set<Integer> hashSet_RePos = new HashSet<>();
-
                 int inc_Val = 0;
                 for (Integer val : integerArrayList) {
-
                     if (!hashSet_RePos.add(val)) {
                         ++inc_Val;
                         timeSlots.add(val + inc_Val, timeSlots.get(val + inc_Val - 1));
                         repeatedTimes.add(repeatedTimes.size(), repeatedTimes.get(repeatedTimes.size() - 1) + 1);
-
                     } else {
                         repeatedTimes.add(val + inc_Val);
                     }
@@ -116,10 +109,8 @@ public class ConclusionActivity extends AppCompatActivity {
             } catch (Exception e) {
                 e.printStackTrace();
             }
-
             conclusionAdapter = new ConclusionAdapter(getApplicationContext(), R.layout.conclusion_item, timeSlots, QuestionerActivity.qAnswerModelArrayList, repeatedTimes);
             conclusin_Grid.setAdapter(conclusionAdapter);
-
         } catch (Exception e) {
             e.printStackTrace();
         }

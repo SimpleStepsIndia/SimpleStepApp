@@ -225,16 +225,16 @@ public class MKPlayer {
     }
 
     private void showBottomControl(boolean show) {
-        $.id(R.id.app_video_play).visibility(show ? View.VISIBLE : View.GONE);
+        $.id(R.id.app_video_play).visibility(show ? View.GONE : View.GONE);
         $.id(R.id.app_video_currentTime).visibility(show ? View.VISIBLE : View.GONE);
         $.id(R.id.app_video_endTime).visibility(show ? View.VISIBLE : View.GONE);
         $.id(R.id.app_video_seekBar).visibility(show ? View.VISIBLE : View.GONE);
-        $.id(R.id.app_video_lock).visibility(show ? View.VISIBLE : View.GONE);
-        $.id(R.id.app_video_previous).visibility(show ? View.VISIBLE : View.GONE);
-        $.id(R.id.app_video_next).visibility(show ? View.VISIBLE : View.GONE);
+        $.id(R.id.app_video_lock).visibility(show ? View.GONE : View.GONE);
+        $.id(R.id.app_video_previous).visibility(show ? View.GONE : View.GONE);
+        $.id(R.id.app_video_next).visibility(show ? View.GONE : View.GONE);
         $.id(R.id.app_video_bottom_box).visibility(show ? View.VISIBLE : View.GONE);
 
-        $.id(R.id.app_video_crop).visibility(show ? View.VISIBLE : View.GONE);
+        $.id(R.id.app_video_crop).visibility(show ? View.GONE : View.GONE);
     }
     private void showLockControl(boolean show) {
         if (lock){
@@ -245,25 +245,25 @@ public class MKPlayer {
             $.id(R.id.app_video_lock).gone();
             $.id(R.id.app_video_previous).gone();
             $.id(R.id.app_video_next).gone();
-            $.id(R.id.app_video_unlock_layout).visible();
+            $.id(R.id.app_video_unlock_layout).gone();
             $.id(R.id.app_video_crop).gone();
             $.id(R.id.app_video_bottom_box).gone();
             $.id(R.id.app_video_top_box).gone();
             $.id(R.id.app_video_fullscreen).gone();
-            $.id(R.id.app_video_unlock).visible();
+            $.id(R.id.app_video_unlock).gone();
         }else {
-            $.id(R.id.app_video_play).visible();
-            $.id(R.id.app_video_currentTime).visible();
+            $.id(R.id.app_video_play).gone();
+            $.id(R.id.app_video_currentTime).gone();
             $.id(R.id.app_video_endTime).visible();
             $.id(R.id.app_video_seekBar).visible();
-            $.id(R.id.app_video_lock).visible();
-            $.id(R.id.app_video_previous).visible();
-            $.id(R.id.app_video_next).visible();
+            $.id(R.id.app_video_lock).gone();
+            $.id(R.id.app_video_previous).gone();
+            $.id(R.id.app_video_next).gone();
             $.id(R.id.app_video_unlock_layout).gone();
-            $.id(R.id.app_video_crop).visible();
+            $.id(R.id.app_video_crop).gone();
             $.id(R.id.app_video_bottom_box).visible();
-            $.id(R.id.app_video_top_box).visible();
-            $.id(R.id.app_video_fullscreen).visible();
+            $.id(R.id.app_video_top_box).gone();
+            $.id(R.id.app_video_fullscreen).gone();
             $.id(R.id.app_video_unlock).gone();
         }
     }

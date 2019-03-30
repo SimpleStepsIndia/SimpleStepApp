@@ -16,7 +16,7 @@ public class UnityActivity extends UnityPlayerActivity {
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if ((keyCode == KeyEvent.KEYCODE_BACK)) {
-            Intent intent_Profile=new Intent(getApplicationContext(),ProfileActivity.class);
+            Intent intent_Profile=new Intent(getApplicationContext(),BottomNavigationActivity.class);
             startActivity(intent_Profile);
             finish();
         }
