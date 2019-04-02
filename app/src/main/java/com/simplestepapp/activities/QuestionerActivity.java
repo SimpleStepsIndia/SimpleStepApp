@@ -100,6 +100,7 @@ public class QuestionerActivity extends AppCompatActivity {
     GifImageView img_GifView;
 
     public Integer[] imgArray_Qtns = {R.drawable.wakeup_icon, R.drawable.brushicon, R.drawable.colon, R.drawable.drining_water,
+            R.drawable.mental_fitness, R.drawable.physical_fitness, R.drawable.sun_shine,R.drawable.wakeup_icon, R.drawable.brushicon, R.drawable.colon, R.drawable.drining_water,
             R.drawable.mental_fitness, R.drawable.physical_fitness, R.drawable.sun_shine};
 
     Animation anim_SlideLeft, anim_FadeIn, anim_SlideRight, anim_Bounce;
@@ -222,10 +223,19 @@ public class QuestionerActivity extends AppCompatActivity {
             txt_QtnOptns.setText(questionerArrayList.get(postn).getAnswerCaption());
             answerOptions = new ArrayList<>();
             answerOptions = questionerArrayList.get(postn).getAnswerOptions();
-            rBtn_WOne.setText(answerOptions.get(0).getDescription());
-            rBtn_WTwo.setText(answerOptions.get(1).getDescription());
-            rBtn_WThre.setText(answerOptions.get(2).getDescription());
-            rBtn_WFur.setText(answerOptions.get(3).getDescription());
+            if (answerOptions.size() > 2) {
+                rBtn_WThre.setVisibility(View.VISIBLE);
+                rBtn_WFur.setVisibility(View.VISIBLE);
+                rBtn_WOne.setText(answerOptions.get(0).getDescription());
+                rBtn_WTwo.setText(answerOptions.get(1).getDescription());
+                rBtn_WThre.setText(!answerOptions.get(2).getDescription().equals("") ? answerOptions.get(2).getDescription() : "");
+                rBtn_WFur.setText(!(answerOptions.get(3).getDescription() == null) ? answerOptions.get(3).getDescription() : "");
+            }else {
+                rBtn_WOne.setText(answerOptions.get(0).getDescription());
+                rBtn_WTwo.setText(answerOptions.get(1).getDescription());
+                rBtn_WThre.setVisibility(View.GONE);
+                rBtn_WFur.setVisibility(View.GONE);
+            }
             whyOptions = new ArrayList<>();
             whyOptions = questionerArrayList.get(postn).getWhyOptions();
             rBtn_op1.setText(whyOptions.get(0).getDescription());
@@ -308,7 +318,7 @@ public class QuestionerActivity extends AppCompatActivity {
                     qAnswerModel.setQuestionId(questionerArrayList.get(nxt_Pos).get_id());
                     qAnswerModelArrayList.add(qAnswerModel);
                     ++nxt_Pos;
-                    if (nxt_Pos <= 7) {
+                    if (nxt_Pos <= questionerArrayList.size()) {
                         //dialog_Brushing(nxt_Pos);
                         answer_Submission(questionerArrayList.get(nxt_Pos - 1).get_id(), s_WkUpTime, s_WkUpQtnOption, s_WkUpWhyOptn, nxt_Pos);
                     }
@@ -506,7 +516,7 @@ public class QuestionerActivity extends AppCompatActivity {
                         String status = response.getString("message");
                         if ("SUCCESS".equals(status)) {
 
-                            if (nxt_Pos <= 6) {
+                            if (nxt_Pos <= questionerArrayList.size()-1) {
                                 dialog_Brushing(nxt_Pos);
                             } else {
                                 sessionManager.questn_SubSession();
@@ -515,7 +525,7 @@ public class QuestionerActivity extends AppCompatActivity {
                             }
                         } else {
                             Toaster.showWarningMessage("" + status);
-                            if (nxt_Pos <= 6) {
+                            if (nxt_Pos <= questionerArrayList.size()-1) {
                                 dialog_Brushing(nxt_Pos);
                             } else {
                                 dialog.dismiss();
@@ -535,7 +545,7 @@ public class QuestionerActivity extends AppCompatActivity {
             @Override
             public void onErrorResponse(VolleyError error) {
                 Log.w("error in response", "Error: " + error.getMessage());
-                if (nxt_Pos <= 6) {
+                if (nxt_Pos <= questionerArrayList.size()-1) {
                     dialog_Brushing(nxt_Pos);
                 } else {
                     sessionManager.questn_SubSession();

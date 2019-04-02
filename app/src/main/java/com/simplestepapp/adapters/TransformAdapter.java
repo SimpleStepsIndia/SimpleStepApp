@@ -66,9 +66,11 @@ public class TransformAdapter extends BaseAdapter {
                 Log.d("Positon", "" + position);
                 if (position==0) {
                     Intent intent = new Intent(context, UnityActivity.class);
+                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                     context.startActivity(intent);
                 }else if (position==1){
                     Intent intent = new Intent(context, DailyRtneFreStyleWrktActivity.class);
+                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                     context.startActivity(intent);
                 }else if (position==2){
                     Intent intent = new Intent(context, FreStyleVideoPlayerActivity.class);
@@ -76,6 +78,7 @@ public class TransformAdapter extends BaseAdapter {
                     intent.putExtra("reps", "5");
                     intent.putExtra("selected_videos", "461665");
                     intent.putExtra("master_id", "5545688655");
+                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                     context.startActivity(intent);
                 }
             }

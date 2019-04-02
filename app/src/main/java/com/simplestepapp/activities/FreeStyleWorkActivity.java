@@ -137,6 +137,7 @@ public class FreeStyleWorkActivity extends AppCompatActivity {
                 intent.putExtra("reps", "5");
                 intent.putExtra("selected_videos", selected_videos);
                 intent.putExtra("master_id", "5545688655");
+
                 startActivity(intent);
             }
         });

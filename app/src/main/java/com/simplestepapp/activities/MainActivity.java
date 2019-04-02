@@ -56,6 +56,7 @@ import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.OptionalPendingResult;
 import com.google.android.gms.common.api.ResultCallback;
 import com.google.android.gms.common.internal.Constants;
+import com.google.android.gms.plus.Plus;
 import com.google.android.gms.tasks.Task;
 import com.nabinbhandari.android.permissions.PermissionHandler;
 import com.nabinbhandari.android.permissions.Permissions;
@@ -86,7 +87,7 @@ import de.hdodenhof.circleimageview.CircleImageView;
 
 import static android.provider.Settings.Secure.LOCATION_MODE_HIGH_ACCURACY;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements GoogleApiClient.OnConnectionFailedListener{
 
     private AppCompatButton btn_SignUp;
 
@@ -145,6 +146,19 @@ public class MainActivity extends AppCompatActivity {
         timeSlots.add("7:45");
         initviews();
 
+        GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                .requestIdToken(AppConfig.sClientId)
+                .requestEmail()
+                .build();
+
+        mGoogleApiClient = new GoogleApiClient.Builder(MainActivity.this)
+                .enableAutoManage(this, this)
+                .addApi(Auth.GOOGLE_SIGN_IN_API, gso)
+                .build();
+
+        btn_sign_in.setSize(SignInButton.SIZE_STANDARD);
+        btn_sign_in.setScopes(gso.getScopeArray());
+
         btn_SignUp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -167,6 +181,14 @@ public class MainActivity extends AppCompatActivity {
                     startActivity(intent);*/
                     user_Registration(str_UserName, str_Email, edtTxt_Pwd.getText().toString().trim());
                 }
+            }
+        });
+
+        btn_sign_in.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent signInIntent = Auth.GoogleSignInApi.getSignInIntent(mGoogleApiClient);
+                startActivityForResult(signInIntent, 7);
             }
         });
 
@@ -208,6 +230,7 @@ public class MainActivity extends AppCompatActivity {
         edtTxt_EmailId = findViewById(R.id.edtTxt_EmailId);
         edtTxt_Pwd = findViewById(R.id.edtTxt_Pwd);
         btn_SignUp = findViewById(R.id.btn_SignUp);
+        btn_sign_in=findViewById(R.id.btn_sign_in);
 
 
         img_Profile = (CircleImageView) findViewById(R.id.img_Profile);
@@ -284,18 +307,14 @@ public class MainActivity extends AppCompatActivity {
         if (result.isSuccess()) {
             // Signed in successfully, show authenticated UI.
             GoogleSignInAccount acct = result.getSignInAccount();
-            String personName = acct.getDisplayName();
+            String personName = Objects.requireNonNull(acct).getDisplayName();
             String email = acct.getEmail();
             Log.d("Info", "Name: " + personName + ", email: " + email);
-            Intent intent_Pager = new Intent(getApplicationContext(), ViewPagerActivity.class);
+            Intent intent_Pager = new Intent(getApplicationContext(), QuestionerActivity.class);
             startActivity(intent_Pager);
-
-
         } else {
-
-            Intent intent_Pager = new Intent(getApplicationContext(), ViewPagerActivity.class);
+            Intent intent_Pager = new Intent(getApplicationContext(), QuestionerActivity.class);
             startActivity(intent_Pager);
-
         }
     }
 
@@ -403,7 +422,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
-        /*OptionalPendingResult<GoogleSignInResult> opr = Auth.GoogleSignInApi.silentSignIn(mGoogleApiClient);
+       /* OptionalPendingResult<GoogleSignInResult> opr = Auth.GoogleSignInApi.silentSignIn(mGoogleApiClient);
         if (opr.isDone()) {
             GoogleSignInResult result = opr.get();
             handleSignInResult(result);
@@ -503,7 +522,8 @@ public class MainActivity extends AppCompatActivity {
 
 
         }
-        /*if (requestCode == RC_SIGN_IN) {
+        if (requestCode == 7) {
+
 
             Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(data);
             try {
@@ -514,6 +534,11 @@ public class MainActivity extends AppCompatActivity {
             }
             GoogleSignInResult result = Auth.GoogleSignInApi.getSignInResultFromIntent(data);
             handleSignInResult(result);
-        }*/
+        }
+    }
+
+    @Override
+    public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
+
     }
 }

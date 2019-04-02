@@ -105,6 +105,7 @@ public class ExerciseActivity extends YouTubeBaseActivity implements YouTubePlay
         btStop.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
                 mStrEndTime = getDateTime();
                 int mEmployeeId = 0;
                 //mEmployeeId = QuickUtils.prefs.getInt(Constants.USERID, mEmployeeId);
@@ -127,6 +128,7 @@ public class ExerciseActivity extends YouTubeBaseActivity implements YouTubePlay
                 pd.setCancelable(false);
                 pd.show();
                 mRestClient.insertUserExercise(usrExr, new LakmeCallBack<UserExercise>() {
+
                     @Override
                     public void onFailure(String s, ErrorCodes errorCodes) {
                         Toast.makeText(ExerciseActivity.this, "Something went wrong", Toast.LENGTH_SHORT).show();
@@ -203,7 +205,6 @@ public class ExerciseActivity extends YouTubeBaseActivity implements YouTubePlay
         });
     }
 
-
     @Override
     public void onBackPressed() {
 
@@ -221,6 +222,7 @@ public class ExerciseActivity extends YouTubeBaseActivity implements YouTubePlay
                 .show();
 
     }
+
     @Override
     public void onInitializationSuccess(YouTubePlayer.Provider provider, YouTubePlayer player, boolean wasRestored) {
         if (!wasRestored) {
@@ -250,7 +252,6 @@ public class ExerciseActivity extends YouTubeBaseActivity implements YouTubePlay
     protected YouTubePlayer.Provider getYouTubePlayerProvider() {
         return youTubeView;
     }
-
 
     private void setData() {
         final ProgressDialog pd = new ProgressDialog(ExerciseActivity.this);

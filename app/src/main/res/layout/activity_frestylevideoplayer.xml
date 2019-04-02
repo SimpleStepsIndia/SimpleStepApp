@@ -340,41 +340,64 @@
             android:src="@drawable/hplib_ic_screen_rotation" />
     </RelativeLayout>
 
+    <!--WorkOut Name-->
+    <RelativeLayout
+        android:id="@+id/WrktOutName"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_toEndOf="@+id/lyt_fullScrn">
+
+
+        <android.support.v7.widget.AppCompatTextView
+            android:id="@+id/txt_WrkOut_Name"
+            style="@style/style_profileInfo_Txt"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:gravity="center"
+            android:text="WorkOut Name :"
+            android:textColor="@color/background"
+            android:background="#E3E2E2"
+            android:layout_margin="5dp"
+            android:maxLines="2"/>
+
+    </RelativeLayout>
+
     <!--Total WorkOut Time-->
     <RelativeLayout
         android:id="@+id/totalWrkTime"
         android:layout_width="match_parent"
+        android:layout_height="50dp"
         android:layout_toEndOf="@+id/lyt_fullScrn"
-        android:layout_height="50dp">
+        android:layout_below="@+id/WrktOutName">
 
         <LinearLayout
             android:id="@+id/lyt_ttlWktTime"
             android:layout_width="match_parent"
             android:layout_height="50dp"
-            android:background="#E3E2E2"
-            android:orientation="horizontal"
             android:layout_margin="5dp"
-            tools:ignore="UselessParent"
+            android:background="#E3E2E2"
             android:gravity="center"
-            android:weightSum="2">
+            android:orientation="horizontal"
+            android:weightSum="2"
+            tools:ignore="UselessParent">
 
             <android.support.v7.widget.AppCompatTextView
                 style="@style/style_profileInfo_Txt"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:layout_weight="1"
                 android:gravity="center"
                 android:text="Total WorkOut Time :"
-                android:textColor="@color/background"
-                android:layout_weight="1"/>
+                android:textColor="@color/background" />
 
             <android.support.v7.widget.AppCompatTextView
                 android:id="@+id/txt_TotalWrkTime"
                 style="@style/style_profileInfo_Txt"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:layout_weight="1"
                 android:gravity="center"
-                android:text=""
-                android:layout_weight="1"/>
+                android:text="" />
         </LinearLayout>
 
     </RelativeLayout>
@@ -383,9 +406,9 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_below="@+id/totalWrkTime"
         android:layout_marginTop="2dp"
         android:layout_toEndOf="@+id/lyt_fullScrn"
-        android:layout_below="@+id/totalWrkTime"
         tools:ignore="UnknownId">
 
         <LinearLayout
@@ -398,10 +421,10 @@
                 android:id="@+id/lyt_Sets"
                 android:layout_width="0dp"
                 android:layout_height="50dp"
-                android:background="#E3E2E2"
-                android:orientation="vertical"
+                android:layout_margin="5dp"
                 android:layout_weight="1"
-                android:layout_margin="5dp">
+                android:background="#E3E2E2"
+                android:orientation="vertical">
 
                 <android.support.v7.widget.AppCompatTextView
                     style="@style/style_profileInfo_Txt"
@@ -424,10 +447,10 @@
                 android:id="@+id/lyt_WorkOutTime"
                 android:layout_width="0dp"
                 android:layout_height="50dp"
-                android:background="#E3E2E2"
-                android:orientation="vertical"
+                android:layout_margin="5dp"
                 android:layout_weight="2"
-                android:layout_margin="5dp">
+                android:background="#E3E2E2"
+                android:orientation="vertical">
 
                 <android.support.v7.widget.AppCompatTextView
                     style="@style/style_profileInfo_Txt"
@@ -450,10 +473,10 @@
                 android:id="@+id/lyt_RestTime"
                 android:layout_width="0dp"
                 android:layout_height="50dp"
-                android:background="#E3E2E2"
-                android:orientation="vertical"
+                android:layout_margin="5dp"
                 android:layout_weight="2"
-                android:layout_margin="5dp">
+                android:background="#E3E2E2"
+                android:orientation="vertical">
 
                 <android.support.v7.widget.AppCompatTextView
                     style="@style/style_profileInfo_Txt"
