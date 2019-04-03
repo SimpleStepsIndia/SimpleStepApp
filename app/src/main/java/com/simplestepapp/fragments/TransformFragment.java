@@ -37,6 +37,10 @@ public class TransformFragment extends Fragment {
         list_Transforms.add("Personalized freestyle workout");
         list_Transforms.add("Personalized easy yoga");
         list_Transforms.add("Affirmations");
+        list_Transforms.add("Grattitude");
+        list_Transforms.add("SunBath");
+        list_Transforms.add("Water Intake");
+        list_Transforms.add("To - Do");
         transformAdapter = new TransformAdapter(Objects.requireNonNull(getActivity()).getApplicationContext(), list_Transforms);
         grid_Transform.setAdapter(transformAdapter);
 

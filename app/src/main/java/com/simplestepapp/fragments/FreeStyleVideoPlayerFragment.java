@@ -1,16 +1,18 @@
-package com.simplestepapp.activities;
+package com.simplestepapp.fragments;
 
-import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.StrictMode;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.v7.app.AppCompatActivity;
+import android.support.v4.app.Fragment;
 import android.support.v7.widget.AppCompatButton;
 import android.support.v7.widget.AppCompatTextView;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 
@@ -23,7 +25,7 @@ import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 import com.google.gson.Gson;
 import com.simplestepapp.R;
-import com.simplestepapp.adapters.UserExerciseAdapter;
+import com.simplestepapp.activities.BottomNavigationActivity;
 import com.simplestepapp.models.exercise.ExerciseModel;
 import com.simplestepapp.models.exercise.UExercise;
 import com.simplestepapp.utils.AppConfig;
@@ -42,16 +44,17 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.Objects;
 import java.util.TimeZone;
 import java.util.Timer;
 import java.util.TimerTask;
 
-public class FreStyleVideoPlayerActivity extends AppCompatActivity {
+public class FreeStyleVideoPlayerFragment extends Fragment {
     MKPlayer mkplayer;
     int total_Sets = 3;
     int sets = 1;
     int playCount = 0, repsEntered = 0, setsCount = 1, repeatCount = 0;
-    String mStrReps, mStrSets, mStrMasterId, mStrSelectedExercices, mStrSelectedVideo, mStrStartTime, mIntialStartTime, mStrEndTime, mStrGapTime, mStrRestpGapTime="",
+    String mStrReps, mStrSets="3", mStrMasterId, mStrSelectedExercices, mStrSelectedVideo, mStrStartTime, mIntialStartTime, mStrEndTime, mStrGapTime, mStrRestpGapTime="",
             mStrInitialStartTime, token;
     AppCompatTextView txt_Sets, txt_wrkOutTime, txt_RestTime, txt_TotalWrkTime, txt_WrkOut_Name;
     AppCompatButton btStart, btStop;
@@ -73,17 +76,14 @@ public class FreStyleVideoPlayerActivity extends AppCompatActivity {
     public static List<UExercise> list_Exercises = new ArrayList<>();
 
     String userName = "", eMailId = "", str_UserID = "", userExerciseId = "";
-
-    @SuppressLint({"SetTextI18n", "DefaultLocale"})
+    @Nullable
     @Override
-    protected void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_frestylevideoplayer);
-        initviews();
-
-        progressDialog = new ProgressDialog(this);
-        requestQueue = Volley.newRequestQueue(this);
-        sessionManager = new SessionManager(this);
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        final View v = inflater.inflate(R.layout.profile_activity, container, false);
+        initviews(v);
+        progressDialog = new ProgressDialog(getActivity());
+        requestQueue = Volley.newRequestQueue(Objects.requireNonNull(getActivity()).getApplicationContext());
+        sessionManager = new SessionManager(getActivity());
 
         if (sessionManager.isLoggedIn()) {
             HashMap<String, String> user = sessionManager.getUserDetails();
@@ -94,13 +94,8 @@ public class FreStyleVideoPlayerActivity extends AppCompatActivity {
         }
 
         getUserExcercises();
+        mkplayer = new MKPlayer(getActivity());
 
-        mkplayer = new MKPlayer(this);
-        mStrReps = getIntent().getStringExtra("reps");
-        mStrSets = getIntent().getStringExtra("sets");
-        mStrMasterId = getIntent().getStringExtra("master_id");
-        mStrSelectedExercices = getIntent().getStringExtra("selected_videos");
-        repsEntered = Integer.parseInt(mStrReps);
 
         updateTimerText();
         updateTotalTimerText();
@@ -160,21 +155,22 @@ public class FreStyleVideoPlayerActivity extends AppCompatActivity {
                 }
             }
         });
+        return v;
     }
 
-    private void initviews() {
-        btStart = findViewById(R.id.btStart);
-        btStop = findViewById(R.id.btStop);
-        app_video_lock = findViewById(R.id.app_video_lock);
-        app_video_box = findViewById(R.id.app_video_box);
-        txt_Sets = findViewById(R.id.txt_Sets);
-        txt_wrkOutTime = findViewById(R.id.txt_wrkOutTime);
-        txt_RestTime = findViewById(R.id.txt_RestTime);
-        lyt_Sets = findViewById(R.id.lyt_Sets);
-        lyt_WorkOutTime = findViewById(R.id.lyt_WorkOutTime);
-        lyt_RestTime = findViewById(R.id.lyt_RestTime);
-        txt_TotalWrkTime = findViewById(R.id.txt_TotalWrkTime);
-        txt_WrkOut_Name=findViewById(R.id.txt_WrkOut_Name);
+    private void initviews(View v) {
+        btStart = v.findViewById(R.id.btStart);
+        btStop = v.findViewById(R.id.btStop);
+        app_video_lock = v.findViewById(R.id.app_video_lock);
+        app_video_box = v.findViewById(R.id.app_video_box);
+        txt_Sets = v.findViewById(R.id.txt_Sets);
+        txt_wrkOutTime = v.findViewById(R.id.txt_wrkOutTime);
+        txt_RestTime = v.findViewById(R.id.txt_RestTime);
+        lyt_Sets = v.findViewById(R.id.lyt_Sets);
+        lyt_WorkOutTime = v.findViewById(R.id.lyt_WorkOutTime);
+        lyt_RestTime = v.findViewById(R.id.lyt_RestTime);
+        txt_TotalWrkTime = v.findViewById(R.id.txt_TotalWrkTime);
+        txt_WrkOut_Name=v.findViewById(R.id.txt_WrkOut_Name);
         lyt_RestTime.setVisibility(View.GONE);
     }
 
@@ -321,7 +317,7 @@ public class FreStyleVideoPlayerActivity extends AppCompatActivity {
                         stopTotTimer();
                         Toaster.showInfoMessage("Workouts Completed !");
                         mkplayer.stop();
-                        Intent intent = new Intent(getApplicationContext(), BottomNavigationActivity.class);
+                        Intent intent = new Intent(Objects.requireNonNull(getActivity()).getApplicationContext(), BottomNavigationActivity.class);
                         startActivity(intent);
                     }
                 } catch (Exception e) {
@@ -392,7 +388,7 @@ public class FreStyleVideoPlayerActivity extends AppCompatActivity {
     }
 
     private void runTimer() {
-        this.runOnUiThread(timerTick);
+        Objects.requireNonNull(this.getActivity()).runOnUiThread(timerTick);
     }
 
     private void updateMs() {
@@ -444,7 +440,7 @@ public class FreStyleVideoPlayerActivity extends AppCompatActivity {
     }
 
     private void runTotTimer() {
-        this.runOnUiThread(timerTotTick);
+        Objects.requireNonNull(getActivity()).runOnUiThread(timerTotTick);
     }
 
     private void updateTotMs() {
@@ -476,8 +472,8 @@ public class FreStyleVideoPlayerActivity extends AppCompatActivity {
     }
 
     @Override
-    public void onBackPressed() {
-        super.onBackPressed();
+    public void onDestroy() {
+        super.onDestroy();
         mkplayer.stop();
     }
 }

@@ -121,13 +121,12 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
 
     SessionManager session;
 
-    RequestQueue requestQueue; //  9866730401 sudan
+    RequestQueue requestQueue;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        //toolbarsetUp();
         progressDialog = new ProgressDialog(this);
         session = new SessionManager(getApplicationContext());
         requestQueue = Volley.newRequestQueue(this);
@@ -231,11 +230,9 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
         edtTxt_Pwd = findViewById(R.id.edtTxt_Pwd);
         btn_SignUp = findViewById(R.id.btn_SignUp);
         btn_sign_in=findViewById(R.id.btn_sign_in);
-
-
-        img_Profile = (CircleImageView) findViewById(R.id.img_Profile);
-        img_DOB = (AppCompatImageView) findViewById(R.id.img_DOB);
-        edt_Txt_DOB = (AppCompatEditText) findViewById(R.id.edt_Txt_DOB);
+        img_Profile = findViewById(R.id.img_Profile);
+        img_DOB =  findViewById(R.id.img_DOB);
+        edt_Txt_DOB = findViewById(R.id.edt_Txt_DOB);
 
     }
 

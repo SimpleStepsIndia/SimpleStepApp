@@ -85,6 +85,7 @@ public class DailyRoutineActivity extends AppCompatActivity {
     private Dialog dialog;
 
     public Integer[] imgArray_Qtns = {R.drawable.wakeup_icon, R.drawable.brushicon, R.drawable.colon, R.drawable.drining_water,
+            R.drawable.mental_fitness, R.drawable.physical_fitness, R.drawable.sun_shine, R.drawable.sun_shine,R.drawable.wakeup_icon, R.drawable.brushicon, R.drawable.colon, R.drawable.drining_water,
             R.drawable.mental_fitness, R.drawable.physical_fitness, R.drawable.sun_shine, R.drawable.sun_shine};
 
 
@@ -273,7 +274,7 @@ public class DailyRoutineActivity extends AppCompatActivity {
                     String a_Id = qstnrAryLstDlyRtne.get(nxt_Pos).get_id();
                     qAnsMdlAryLstDlyRtne.add(qAnswerModel);
                     ++nxt_Pos;
-                    if (nxt_Pos <= 7) {
+                    if (nxt_Pos <= qstnrAryLstDlyRtne.size()) {
                         dlyRtneAnsSubmit("", a_Id, slctd_TimeSlts, nxt_Pos);
                     }
                     /*if (nxt_Pos <= 6) {
@@ -319,10 +320,10 @@ public class DailyRoutineActivity extends AppCompatActivity {
                     @Override
                     public void onResponse(JSONObject response) {
                         Log.d("Res_Result", "" + response.toString());
-                        if (nxt_Pos <= 6) {
+                        if (nxt_Pos <= qstnrAryLstDlyRtne.size()-1) {
                             dialog_Brushing(nxt_Pos);
                         } else {
-                            Intent intent_FreStylWrk = new Intent(DailyRoutineActivity.this, DailyRtneFreStyleWrktActivity.class);
+                            Intent intent_FreStylWrk = new Intent(DailyRoutineActivity.this, BottomNavigationActivity.class);
                             startActivity(intent_FreStylWrk);
                         }
 
@@ -330,10 +331,10 @@ public class DailyRoutineActivity extends AppCompatActivity {
                 }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                if (nxt_Pos <= 6) {
+                if (nxt_Pos <= qstnrAryLstDlyRtne.size()-1) {
                     dialog_Brushing(nxt_Pos);
                 } else {
-                    Intent intent_FreStylWrk = new Intent(DailyRoutineActivity.this, DailyRtneFreStyleWrktActivity.class);
+                    Intent intent_FreStylWrk = new Intent(DailyRoutineActivity.this, BottomNavigationActivity.class);
                     startActivity(intent_FreStylWrk);
                 }
 

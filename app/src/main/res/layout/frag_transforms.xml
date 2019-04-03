@@ -2,38 +2,24 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    >
+    android:layout_height="match_parent">
 
-    <android.support.v7.widget.AppCompatImageView
-        android:id="@+id/imgViewTop"
+
+    <GridView
+        android:id="@+id/grid_Transform"
         android:layout_width="match_parent"
-        android:layout_height="150dp" />
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:columnWidth="10dp"
+        android:descendantFocusability="blocksDescendants"
+        android:gravity="center"
+        android:horizontalSpacing="10dp"
+        android:numColumns="3"
+        android:padding="5dp"
+        android:stretchMode="columnWidth"
+        android:verticalSpacing="10dp">
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/imgViewTop">
-
-            <GridView
-                android:id="@+id/grid_Transform"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:numColumns="2"
-                android:columnWidth="10dp"
-                android:gravity="center"
-                android:horizontalSpacing="10dp"
-                android:padding="5dp"
-                android:stretchMode="columnWidth"
-                android:verticalSpacing="10dp"
-                android:layout_margin="10dp"
-                android:descendantFocusability="blocksDescendants">
-
-            </GridView>
-
-
-        </LinearLayout>
-
+    </GridView>
 
 
 </RelativeLayout>
