@@ -3,9 +3,14 @@ package com.simplestepapp.utils;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.simplestepapp.activities.MainActivity;
 
+import java.lang.reflect.Type;
+import java.util.ArrayList;
 import java.util.HashMap;
 
 /**
@@ -159,5 +164,22 @@ public class SessionManager {
 
     public boolean isProfileSubmission() {
         return pref.getBoolean(IS_PROFILESUB, false);
+    }
+
+    public void saveVideoArrayList(ArrayList<String> list, String key){
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(_context);
+        SharedPreferences.Editor editor = prefs.edit();
+        Gson gson = new Gson();
+        String json = gson.toJson(list);
+        editor.putString(key, json);
+        editor.apply();
+    }
+
+    public ArrayList<String> getVideoArrayList(String key){
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(_context);
+        Gson gson = new Gson();
+        String json = prefs.getString(key, null);
+        Type type = new TypeToken<ArrayList<String>>() {}.getType();
+        return gson.fromJson(json, type);
     }
 }

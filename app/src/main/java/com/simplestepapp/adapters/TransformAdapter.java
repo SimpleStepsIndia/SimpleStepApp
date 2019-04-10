@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
+import android.support.v7.widget.AppCompatImageView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -24,6 +25,8 @@ public class TransformAdapter extends BaseAdapter {
     private ArrayList<String> list_Transforms;
     private Context context;
     private LayoutInflater inflater;
+    private Integer[] imgArray_TransForms = {R.drawable.vslzemrngrtne, R.drawable.trckmngrtne, R.drawable.pfrestylewrkt, R.drawable.peasyoga,
+            R.drawable.affermations, R.drawable.gratittude, R.drawable.sunbath,R.drawable.waterintake, R.drawable.to_do,R.drawable.to_do};
 
     public TransformAdapter(Context context, ArrayList<String> list_Transforms) {
         this.context=context;
@@ -55,11 +58,13 @@ public class TransformAdapter extends BaseAdapter {
             view = inflater.inflate(R.layout.list_frag_transforms, null);
             holder = new Holder();
             holder.txt_TransformText =view.findViewById(R.id.txt_TransForms);
+            holder.img_transforms =view.findViewById(R.id.img_transforms);
             view.setTag(holder);
         } else {
             holder = (Holder) view.getTag();
         }
         holder.txt_TransformText.setText(list_Transforms.get(position));
+        holder.img_transforms.setImageResource(imgArray_TransForms[position]);
         holder.txt_TransformText.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -88,6 +93,7 @@ public class TransformAdapter extends BaseAdapter {
     }
     private class Holder {
         TextView txt_TransformText;
+        AppCompatImageView img_transforms;
     }
 
 }

@@ -256,13 +256,13 @@ public class ProfileActivity extends AppCompatActivity implements DiscreteScroll
                 progressDialog.dismiss();
                 Log.d("Result", "" + response.toString());
                 sessionManager.profile_SubSession();
-                Intent intent_DlyRtne = new Intent(getApplicationContext(), DailyRtneFreStyleWrktActivity.class);
+                Intent intent_DlyRtne = new Intent(getApplicationContext(), BottomNavigationActivity.class);
                 startActivity(intent_DlyRtne);
             }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Intent intent_DlyRtne = new Intent(getApplicationContext(), DailyRtneFreStyleWrktActivity.class);
+                Intent intent_DlyRtne = new Intent(getApplicationContext(), BottomNavigationActivity.class);
                 startActivity(intent_DlyRtne);
             }
         }) {

@@ -9,7 +9,14 @@
     <com.khizar1556.mkvideoplayer.IjkVideoView
         android:id="@+id/video_view"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent"
+        android:visibility="gone" />
+
+    <VideoView
+        android:id="@+id/vdeoView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_centerInParent="true" />
 
     <RelativeLayout
         android:id="@+id/seekbar_Lyt"
@@ -353,12 +360,12 @@
             style="@style/style_profileInfo_Txt"
             android:layout_width="match_parent"
             android:layout_height="40dp"
-            android:gravity="center"
-            android:text="WorkOut Name :"
-            android:textColor="@color/background"
-            android:background="#E3E2E2"
             android:layout_margin="5dp"
-            android:maxLines="2"/>
+            android:background="#E3E2E2"
+            android:gravity="center"
+            android:maxLines="2"
+            android:text="WorkOut Name :"
+            android:textColor="@color/background" />
 
     </RelativeLayout>
 
@@ -367,8 +374,8 @@
         android:id="@+id/totalWrkTime"
         android:layout_width="match_parent"
         android:layout_height="50dp"
-        android:layout_toEndOf="@+id/lyt_fullScrn"
-        android:layout_below="@+id/WrktOutName">
+        android:layout_below="@+id/WrktOutName"
+        android:layout_toEndOf="@+id/lyt_fullScrn">
 
         <LinearLayout
             android:id="@+id/lyt_ttlWktTime"

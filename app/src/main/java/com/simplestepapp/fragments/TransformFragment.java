@@ -14,9 +14,12 @@ import android.widget.AdapterView;
 import android.widget.GridView;
 
 import com.simplestepapp.R;
+import com.simplestepapp.activities.DailyRtneFreStyleWrktActivity;
+import com.simplestepapp.activities.FreStyleVideoPlayerActivity;
 import com.simplestepapp.activities.UnityActivity;
 import com.simplestepapp.adapters.TransformAdapter;
 import com.simplestepapp.utils.MyGridView;
+import com.unity3d.player.UnityPlayer;
 
 import java.util.ArrayList;
 import java.util.Objects;
@@ -47,9 +50,28 @@ public class TransformFragment extends Fragment {
         grid_Transform.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Log.d("Positon", "" + position);
+               /* Log.d("Positon", "" + position);
                 Intent intent = new Intent(Objects.requireNonNull(getActivity()).getApplicationContext(), UnityActivity.class);
-                startActivity(intent);
+                startActivity(intent);*/
+
+                if (position==0) {
+                    Intent intent = new Intent(getActivity(), UnityActivity.class);
+                    UnityPlayer.UnitySendMessage("","","");
+                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                   startActivity(intent);
+                }else if (position==1){
+                    Intent intent = new Intent(getActivity(), UnityActivity.class);
+                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    startActivity(intent);
+                }else if (position==2){
+                    Intent intent = new Intent(getActivity(), FreStyleVideoPlayerActivity.class);
+                    intent.putExtra("sets", "3");
+                    intent.putExtra("reps", "5");
+                    intent.putExtra("selected_videos", "461665");
+                    intent.putExtra("master_id", "5545688655");
+                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    startActivity(intent);
+                }
             }
         });
 

@@ -2,11 +2,13 @@ package com.simplestepapp.utils;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
 import java.lang.reflect.Type;
+import java.util.ArrayList;
 
 public class SharedPrefsHelper {
 
@@ -63,4 +65,6 @@ public class SharedPrefsHelper {
         s_pref_Settings_Editer.remove(key);
         s_pref_Settings_Editer.apply();
     }
+
+
 }

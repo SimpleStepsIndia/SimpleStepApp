@@ -59,7 +59,7 @@ public class ConclusionActivity extends AppCompatActivity {
         submit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent_Profile = new Intent(ConclusionActivity.this, BottomNavigationActivity.class);
+                Intent intent_Profile = new Intent(ConclusionActivity.this, ProfileActivity.class);
                 startActivity(intent_Profile);
             }
         });
