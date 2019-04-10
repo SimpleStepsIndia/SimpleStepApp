@@ -1,0 +1,15 @@
+<component name="libraryTable">
+  <library name="Gradle: com.yarolegovich:discrete-scrollview:1.4.9@aar">
+    <ANNOTATIONS>
+      <root url="jar://$USER_HOME$/.gradle/caches/transforms-1/files-1.1/discrete-scrollview-1.4.9.aar/5fd7941f3ef4aed96d921a15f2909b36/annotations.zip!/" />
+    </ANNOTATIONS>
+    <CLASSES>
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-1/files-1.1/discrete-scrollview-1.4.9.aar/5fd7941f3ef4aed96d921a15f2909b36/res" />
+      <root url="jar://$USER_HOME$/.gradle/caches/transforms-1/files-1.1/discrete-scrollview-1.4.9.aar/5fd7941f3ef4aed96d921a15f2909b36/jars/classes.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.yarolegovich/discrete-scrollview/1.4.9/9222fe822dfaf67f250b094bd599848c156750e5/discrete-scrollview-1.4.9-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>
