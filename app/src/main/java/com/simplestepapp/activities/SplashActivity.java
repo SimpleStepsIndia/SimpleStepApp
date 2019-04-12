@@ -23,6 +23,8 @@ public class SplashActivity extends AppCompatActivity {
         setContentView(R.layout.activity_splash);
         sessionManager = new SessionManager(this);
         int SPLASH_TIME = 2000;
+
+        //dfgd
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
