@@ -59,7 +59,8 @@
         <activity android:name=".activities.PersonalInfoActivity" />
         <activity android:name=".activities.ConclusionActivity" />
         <activity android:name=".activities.ProfileActivity" />
-        <activity android:name=".activities.QuestionerActivity" />
+        <activity android:name=".activities.QuestionerActivity"
+            android:theme="@style/AppNoActionBarTheme"/>
         <activity android:name=".activities.DailyRoutineActivity" />
         <activity android:name=".activities.FreeStyleWorkActivity" />
         <activity android:name=".activities.DailyRtneFreStyleWrktActivity" />
@@ -75,10 +76,13 @@
             android:name=".activities.UnityActivity"
             android:launchMode="singleTask"
             android:process=":unityplayer" />
-        <activity android:name=".activities.FreStyleVideoPlayerActivity" />
+        <activity android:name=".activities.FreStyleVideoPlayerActivity"
+            android:theme="@style/AppNoActionBarTheme"/>
         <activity android:name=".activities.BottomNavigationActivity" />
         <activity android:name=".activities.VideoPlayerAcitivity" />
         <activity android:name="com.google.android.gms.auth.api.signin.internal.SignInHubActivity"/>
+        <activity android:name=".activities.IntroductionActivity"
+            android:theme="@style/AppNoActionBarTheme"/>
 
         <meta-data
             android:name="com.google.android.gms.version"

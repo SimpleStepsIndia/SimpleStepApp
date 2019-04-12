@@ -1,4 +1,4 @@
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
     <string name="app_name">SimpleStepApp</string>
 
     <string name="reg_Name">Enter Name</string>
@@ -6,7 +6,32 @@
     <string name="reg_Mobile">Enter Password</string>
     <string name="reg_Age">Enter DOB</string>
     <string name="slctTimeslot">Select Time Slot</string>
+    <string name="signup_Account" tools:ignore="ExtraTranslation">Don\'t have an Account ? <b><u>Sign Up</u></b>  </string>
 
+
+    <!--IntroDuction page Starts-->
+    <string name="next">NEXT</string>
+    <string name="skip">SKIP</string>
+    <string name="start">GOT IT</string>
+
+    <string name="slide_1_title">Hello Food!</string>
+    <string name="slide_1_desc">The easiest way to order food from your favourite restaurant!</string>
+
+    <string name="slide_2_title">Movie Tickets</string>
+    <string name="slide_2_desc">Book movie tickets for your family and friends!</string>
+
+    <string name="slide_3_title">Great Discounts</string>
+    <string name="slide_3_desc">Best discounts on every single service we offer!</string>
+
+    <string name="slide_4_title">World Travel</string>
+    <string name="slide_4_desc">Book tickets of any transportation and travel the world!</string>
+
+    <string name="play_again_desc">To see the welcome slider again, goto Settings -> apps -> welcome slider -> clear data</string>
+    <string name="play_again">Play Again</string>
+
+    <!--IntroDuction page Ends-->
+    <string name="txtHdngFreStyle">Free Style</string>
+    <string name="txtHdng">Your Morning Routine </string>
     <string name="txtHdng_Q1">Wakeup Time </string>
     <string name="txtHdng_Q2">Brushing</string>
     <string name="txtHdng_Q3">Colon cleansing</string>

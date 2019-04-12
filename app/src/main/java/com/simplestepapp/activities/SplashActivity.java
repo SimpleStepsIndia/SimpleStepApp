@@ -38,7 +38,7 @@ public class SplashActivity extends AppCompatActivity {
                             startActivity(intent_Sign);
                             finish();
                         }else {
-                            Intent intent_Sign = new Intent(getApplicationContext(), BottomNavigationActivity.class);
+                            Intent intent_Sign = new Intent(getApplicationContext(), ProfileActivity.class);
                             startActivity(intent_Sign);
                             finish();
                         }
@@ -49,14 +49,13 @@ public class SplashActivity extends AppCompatActivity {
                         finish();
                     }
                 } else {
-                    Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                    Intent intent = new Intent(getApplicationContext(), IntroductionActivity.class);
                     intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                     intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                     startActivity(intent);
                 }
-
-                //jjhg
             }
         }, SPLASH_TIME);
     }
+
 }

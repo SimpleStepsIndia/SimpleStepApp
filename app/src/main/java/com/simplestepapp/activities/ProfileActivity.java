@@ -56,7 +56,8 @@ public class ProfileActivity extends AppCompatActivity implements DiscreteScroll
     RulerValuePicker height_picker, weight_picker;
     AppCompatTextView txt_Name, txt_HtPicker, txt_WtPicker;
     String userName = "", eMailId = "", token = "", str_Gender = "", str_Surgery = "", str_WrktRtne = "", str_AimTo = "", str_Profsn = "", str_DOJ = "", str_DOB = "", str_ActId = "";
-    int sltd_Wt, sltd_Ht, slctd_Age, slctd_Ht , slctd_Wt;
+    int sltd_Wt, sltd_Ht, slctd_Age, slctd_Ht, slctd_Wt;
+
 
     @SuppressLint("SetTextI18n")
     @Override
@@ -64,6 +65,12 @@ public class ProfileActivity extends AppCompatActivity implements DiscreteScroll
         super.onCreate(savedInstanceState);
         setContentView(R.layout.profile_activity);
         initviews();
+        try {
+            int score = getIntent().getIntExtra("score", 0);
+            Log.d("UnityData", "" + String.valueOf(score));
+        }catch (Exception e){
+            e.printStackTrace();
+        }
         progressDialog = new ProgressDialog(this);
         requestQueue = Volley.newRequestQueue(this);
         sessionManager = new SessionManager(this);
@@ -193,8 +200,8 @@ public class ProfileActivity extends AppCompatActivity implements DiscreteScroll
         btn_PSubmit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                int ht_Squre=sltd_Ht * sltd_Ht;
-                int bmi = sltd_Wt / ht_Squre;
+                float ht_Squre = sltd_Ht * sltd_Ht;
+                float bmi = (sltd_Wt / ht_Squre) * 10000;
                 profileDataUpload(userName, slctd_Age, str_Gender, slctd_Ht, slctd_Wt, bmi, str_Surgery, str_WrktRtne, str_AimTo,
                         str_Profsn, str_DOJ, str_DOB, str_ActId);
             }

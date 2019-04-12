@@ -19,21 +19,34 @@ import com.simplestepapp.activities.FreStyleVideoPlayerActivity;
 import com.simplestepapp.activities.UnityActivity;
 import com.simplestepapp.adapters.TransformAdapter;
 import com.simplestepapp.utils.MyGridView;
+import com.simplestepapp.utils.SessionManager;
 import com.unity3d.player.UnityPlayer;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Objects;
 
 public class TransformFragment extends Fragment {
     GridView grid_Transform;
     ArrayList<String> list_Transforms;
     TransformAdapter transformAdapter;
+    SessionManager sessionManager;
+    String s_WkUpTime = "", s_WkUpQtnOption = "", s_WkUpWhyOptn = "", colorName = "", userName = "", eMailId = "", token = "";
+
 
     @Nullable
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+    public View onCreateView(@NonNull final LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.frag_transforms, container, false);
         initviews(v);
+        sessionManager = new SessionManager(getActivity());
+        if (sessionManager.isLoggedIn()) {
+            HashMap<String, String> user = sessionManager.getUserDetails();
+            userName = user.get(SessionManager.KEY_NAME);
+            eMailId = user.get(SessionManager.KEY_EMAIL);
+            token = user.get(SessionManager.KEY_TOKEN);
+            Log.d("Token",""+token);
+        }
         list_Transforms = new ArrayList<>();
         list_Transforms.add("Visualize Morning Routine");
         list_Transforms.add("Track your morning routine");
@@ -54,16 +67,16 @@ public class TransformFragment extends Fragment {
                 Intent intent = new Intent(Objects.requireNonNull(getActivity()).getApplicationContext(), UnityActivity.class);
                 startActivity(intent);*/
 
-                if (position==0) {
+                if (position == 0) {
                     Intent intent = new Intent(getActivity(), UnityActivity.class);
-                    UnityPlayer.UnitySendMessage("","","");
+                    intent.putExtra("AndroidValue", ""+token);
                     intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                   startActivity(intent);
-                }else if (position==1){
+                    startActivity(intent);
+                } else if (position == 1) {
                     Intent intent = new Intent(getActivity(), UnityActivity.class);
                     intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                     startActivity(intent);
-                }else if (position==2){
+                } else if (position == 2) {
                     Intent intent = new Intent(getActivity(), FreStyleVideoPlayerActivity.class);
                     intent.putExtra("sets", "3");
                     intent.putExtra("reps", "5");

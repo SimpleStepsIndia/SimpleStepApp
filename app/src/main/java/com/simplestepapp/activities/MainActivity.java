@@ -83,7 +83,6 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 
-import de.hdodenhof.circleimageview.CircleImageView;
 
 import static android.provider.Settings.Secure.LOCATION_MODE_HIGH_ACCURACY;
 
@@ -91,9 +90,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
 
     private AppCompatButton btn_SignUp;
 
-    private SignInButton btn_sign_in;
-
-    private AppCompatImageView img_DOB;
+    private AppCompatButton btn_sign_in;
 
     public AppCompatEditText edtTxt_Name, edtTxt_EmailId, edtTxt_Pwd, edt_Txt_DOB;
 
@@ -101,17 +98,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
 
     public static ArrayList<String> timeSlots = new ArrayList<>();
 
-    CircleImageView img_Profile;
-
-    public Uri outputFileUri;
-
-    public static Bitmap bitmapCaptredImg;
-
-    String imageStatus = "0", str_Date, str_UserName, str_Email;
-
-    Calendar calendar;
-
-    private int year, month, day, hour, minute;
+    String   str_UserName="", str_Email;
 
     private static final int RC_SIGN_IN = 7;
 
@@ -155,17 +142,11 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
                 .addApi(Auth.GOOGLE_SIGN_IN_API, gso)
                 .build();
 
-        btn_sign_in.setSize(SignInButton.SIZE_STANDARD);
-        btn_sign_in.setScopes(gso.getScopeArray());
-
         btn_SignUp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
-                if (edtTxt_Name.getText().toString().isEmpty()) {
-                    edtTxt_Name.setError("Please Enter the Name !");
-                    edtTxt_Name.requestFocus();
-                } else if (edtTxt_EmailId.getText().toString().isEmpty() ||
+               if (edtTxt_EmailId.getText().toString().isEmpty() ||
                         !ValidationUtils.isValidEmaillId(edtTxt_EmailId.getText().toString().trim())) {
                     edtTxt_EmailId.setError("Please Enter valid Email !");
                     edtTxt_EmailId.requestFocus();
@@ -192,35 +173,6 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
         });
 
 
-        img_Profile.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                requestPermissions();
-            }
-        });
-        img_DOB.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                calendar = Calendar.getInstance();
-                year = calendar.get(Calendar.YEAR);
-                month = calendar.get(Calendar.MONTH);
-                day = calendar.get(Calendar.DAY_OF_MONTH);
-
-                DatePickerDialog datePickerDialog = new DatePickerDialog(MainActivity.this,
-                        android.R.style.Theme_Holo_Light_Dialog, new DatePickerDialog.OnDateSetListener() {
-                    @Override
-                    public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
-                        str_Date = dayOfMonth + "-" + (month + 1) + "-" + year;
-                        edt_Txt_DOB.setText(str_Date);
-                    }
-                }, year, month, day);
-                datePickerDialog.getDatePicker().setSpinnersShown(true);
-                datePickerDialog.getDatePicker().setCalendarViewShown(false);
-                Objects.requireNonNull(datePickerDialog.getWindow()).setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-                datePickerDialog.setTitle("Please Select Date");
-                datePickerDialog.show();
-            }
-        });
     }
 
     private void initviews() {
@@ -230,10 +182,6 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
         edtTxt_Pwd = findViewById(R.id.edtTxt_Pwd);
         btn_SignUp = findViewById(R.id.btn_SignUp);
         btn_sign_in=findViewById(R.id.btn_sign_in);
-        img_Profile = findViewById(R.id.img_Profile);
-        img_DOB =  findViewById(R.id.img_DOB);
-        edt_Txt_DOB = findViewById(R.id.edt_Txt_DOB);
-
     }
 
     public void user_Registration(final String userName, final String eMailId, final String pwd) {
@@ -343,7 +291,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
                                 if (locationMode == LOCATION_MODE_HIGH_ACCURACY) {
                                     latitude = ConnectivityUtils.latitude;
                                     longitude = ConnectivityUtils.longitude;
-                                    selectImage();
+
                                     Toast.makeText(getApplicationContext(), "Enable" + ConnectivityUtils.latitude + "Enable" + ConnectivityUtils.longitude, Toast.LENGTH_LONG).show();
                                 } else {
                                     startActivity(new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS));
@@ -379,43 +327,6 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
                 });
     }
 
-    private void selectImage() {
-        new MaterialDialog.Builder(MainActivity.this).title(R.string.filetype).items(R.array.filetypes).itemsCallback(new MaterialDialog.ListCallback() {
-            @Override
-            public void onSelection(MaterialDialog dialog, View itemView, int position, CharSequence text) {
-                if (position == 0) {
-                    captureImagefrom_Camera();
-                } else if (position == 1) {
-                    selectImagefrom_Gallery();
-                }
-            }
-        }).show();
-    }
-
-    private void captureImagefrom_Camera() {
-
-        if (Build.VERSION.SDK_INT <= 23) {
-            Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-            File f = new File(android.os.Environment.getExternalStorageDirectory(), "temp.jpg");
-            intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(f));
-            startActivityForResult(intent, 1);
-
-        } else {
-            Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-            File f = new File(android.os.Environment.getExternalStorageDirectory(), "temp.jpg");
-            intent.putExtra(MediaStore.EXTRA_OUTPUT, FileProvider.getUriForFile(MainActivity.this,
-                    BuildConfig.APPLICATION_ID + ".provider", f));
-            intent.setFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
-            startActivityForResult(intent, 1);
-        }
-    }
-
-    private void selectImagefrom_Gallery() {
-        // TODO Auto-generated method stub
-        Intent intent = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-        startActivityForResult(intent, 2);
-    }
-
     @Override
     protected void onStart() {
         super.onStart();
@@ -438,84 +349,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
         super.onActivityResult(requestCode, resultCode, data);
 
         if (resultCode == RESULT_OK) {
-            imageStatus = "1";
-            String picturePath = "";
-            if (requestCode == 1) {
-                File f = new File(Environment.getExternalStorageDirectory().toString());
-                for (File temp : f.listFiles()) {
-                    if (temp.getName().equals("temp.jpg")) {
-                        f = temp;
-                        break;
-                    }
-                }
-                try {
-                    Bitmap bitmap;
-                    BitmapFactory.Options bitmapOptions = new BitmapFactory.Options();
-                    bitmap = BitmapFactory.decodeFile(f.getAbsolutePath(), bitmapOptions);
-                    String path = android.os.Environment.getExternalStorageDirectory() + File.separator + "SimpleSteps";
-                    File camerapath = new File(path);
 
-                    if (!camerapath.exists()) {
-                        camerapath.mkdirs();
-                    }
-                    f.delete();
-                    OutputStream outFile = null;
-                    File file = new File(camerapath, String.valueOf(System.currentTimeMillis()) + ".jpg");
-
-                    try {
-                        outFile = new FileOutputStream(file);
-                        outputFileUri = Uri.fromFile(file);
-                        Bitmap mutableBitmap = bitmap.copy(Bitmap.Config.ARGB_8888, true);
-                        mutableBitmap.compress(Bitmap.CompressFormat.JPEG, 20, outFile);
-                        outFile.flush();
-                        outFile.close();
-                        bitmapCaptredImg = mutableBitmap;
-                        img_Profile.setImageBitmap(mutableBitmap);
-                    } catch (FileNotFoundException e) {
-                        e.printStackTrace();
-                        bitmapCaptredImg = null;
-                        imageStatus = "0";
-
-                    }
-                } catch (Exception e) {
-                    e.printStackTrace();
-                    bitmapCaptredImg = null;
-                    imageStatus = "0";
-                }
-
-            } else if (requestCode == 2) {
-
-                try {
-                    Uri selectedImage = data.getData();
-                    String[] filePath = {MediaStore.Images.Media.DATA};
-                    Cursor c = getContentResolver().query(selectedImage, filePath, null, null, null);
-                    c.moveToFirst();
-                    int columnIndex = c.getColumnIndex(filePath[0]);
-                    picturePath = c.getString(columnIndex);
-                    c.close();
-                    Bitmap thumbnail = (BitmapFactory.decodeFile(picturePath));
-
-                    if (thumbnail != null) {
-                        Bitmap mutableBitmap = thumbnail.copy(Bitmap.Config.ARGB_8888, true);
-                        img_Profile.setImageBitmap(mutableBitmap);
-                        ByteArrayOutputStream bytes = new ByteArrayOutputStream();
-                        mutableBitmap.compress(Bitmap.CompressFormat.JPEG, 20, bytes);
-                        bitmapCaptredImg = mutableBitmap;
-
-                    } else if (thumbnail == null) {
-                        bitmapCaptredImg = null;
-                        imageStatus = "0";
-                    }
-                } catch (Exception e) {
-                    e.printStackTrace();
-                    bitmapCaptredImg = null;
-                    imageStatus = "0";
-
-                }
-            } else {
-                bitmapCaptredImg = null;
-                imageStatus = "0";
-            }
 
 
         }

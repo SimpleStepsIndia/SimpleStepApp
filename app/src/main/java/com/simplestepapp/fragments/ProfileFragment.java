@@ -198,8 +198,9 @@ public class ProfileFragment extends Fragment implements DiscreteScrollView.OnIt
         btn_PSubmit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                int ht_Squre=sltd_Ht * sltd_Ht;
-                int bmi = sltd_Wt / ht_Squre;
+                float ht_Squre=slctd_Ht * slctd_Ht;
+                float bmi =(sltd_Wt / ht_Squre)*10000;
+                Log.d("BMI",""+bmi);
                 profileDataUpload(userName, slctd_Age, str_Gender, slctd_Ht, slctd_Wt, bmi, str_Surgery, str_WrktRtne, str_AimTo,
                         str_Profsn, str_DOJ, str_DOB, str_ActId);
             }

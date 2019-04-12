@@ -22,4 +22,10 @@ public class UnityActivity extends UnityPlayerActivity {
         }
         return super.onKeyDown(keyCode, event);
     }
+    public void onGameFinish(int score) {
+
+       /* Intent resultIntent = new Intent(this, ProfileActivity.class);
+        resultIntent.putExtra("score", score);
+        startActivity(resultIntent);*/
+    }
 }

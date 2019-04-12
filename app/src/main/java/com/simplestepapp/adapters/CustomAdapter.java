@@ -82,10 +82,10 @@ public class CustomAdapter extends BaseAdapter {
         holder.txt_Timeslot.setText(timeSlots.get(position));
 
         if (selectedIndex!= -1 && position == selectedIndex) {
-            holder.txt_Timeslot.setBackgroundColor(Color.BLUE);
+            holder.txt_Timeslot.setBackgroundResource(R.drawable.txtblubg);
             holder.txt_Timeslot.setTextColor(Color.WHITE);
         } else {
-            holder.txt_Timeslot.setBackgroundColor(Color.WHITE);
+            holder.txt_Timeslot.setBackgroundResource(R.drawable.txtwhtbg);
             holder.txt_Timeslot.setTextColor(Color.BLUE);
         }
         if ( position<disable_Position){

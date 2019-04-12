@@ -97,7 +97,6 @@ public class QuestionerActivity extends AppCompatActivity {
 
     public static int dis_Position = 0;
 
-    GifImageView img_GifView;
 
     public Integer[] imgArray_Qtns = {R.drawable.wakeup_icon, R.drawable.brushicon, R.drawable.colon, R.drawable.drining_water,
             R.drawable.mental_fitness, R.drawable.physical_fitness, R.drawable.sun_shine,R.drawable.wakeup_icon, R.drawable.brushicon, R.drawable.colon, R.drawable.drining_water,
@@ -115,7 +114,6 @@ public class QuestionerActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.frag_wakeup);
         initviews();
-        toolbarsetUp();
         progressDialog = new ProgressDialog(this);
         requestQueue = Volley.newRequestQueue(this);
         sessionManager = new SessionManager(this);
@@ -126,7 +124,6 @@ public class QuestionerActivity extends AppCompatActivity {
             token = user.get(SessionManager.KEY_TOKEN);
         }
         get_QuestionsAll();
-        img_GifView.animate();
 
         rG_WakeUp.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
@@ -359,7 +356,6 @@ public class QuestionerActivity extends AppCompatActivity {
         lyt_QtnOptns = findViewById(R.id.lyt_QtnOptns);
         txt_Next = findViewById(R.id.txt_Next);
         scroll_View = findViewById(R.id.scroll_View);
-        img_GifView = findViewById(R.id.img_GifView);
 
         timeSlots = new ArrayList<>();
         timeSlots.add("< 5:00");
@@ -380,7 +376,7 @@ public class QuestionerActivity extends AppCompatActivity {
         timeSlots.add("8:30");
         timeSlots.add("8:45");
         timeSlots.add("9:00");
-        timeSlots.add("9:00 >");
+        timeSlots.add("> 9:00");
         timeSlots.add("None");
     }
 
@@ -404,17 +400,6 @@ public class QuestionerActivity extends AppCompatActivity {
         lyt_QtnOptns = dialog.findViewById(R.id.lyt_QtnOptns);
         txt_Next = dialog.findViewById(R.id.txt_Next);
         scroll_View = dialog.findViewById(R.id.scroll_View);
-        img_GifView = findViewById(R.id.img_GifView);
-    }
-
-    public void toolbarsetUp() {
-        ActionBar mActionBar = getSupportActionBar();
-        mActionBar.setDisplayShowHomeEnabled(false);
-        mActionBar.setDisplayShowTitleEnabled(false);
-        LayoutInflater mInflater = LayoutInflater.from(this);
-        View mCustomView = mInflater.inflate(R.layout.lyt_header, null);
-        mActionBar.setCustomView(mCustomView);
-        mActionBar.setDisplayShowCustomEnabled(true);
     }
 
     public void get_QuestionsAll() {
@@ -486,7 +471,16 @@ public class QuestionerActivity extends AppCompatActivity {
                 Toaster.longToast("Please check the Network And Try again!");
 
             }
-        });
+        }) {
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                HashMap<String, String> headers = new HashMap<String, String>();
+                headers.put("Content-Type", "application/json");
+                headers.put("Authorization", "token " + token);
+                return headers;
+            }
+        };
+        
 
         requestQueue.add(user_Login_Req);
     }
