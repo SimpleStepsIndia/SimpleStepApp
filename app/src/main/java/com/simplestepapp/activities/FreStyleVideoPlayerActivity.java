@@ -65,12 +65,12 @@ import java.util.TimerTask;
 import java.util.concurrent.TimeUnit;
 
 public class FreStyleVideoPlayerActivity extends AppCompatActivity {
-    int total_Sets = 3;
+    int total_Sets = 2;
     int sets = 1;
-    int playCount = 0, repsEntered = 0, setsCount = 0, repeatCount = 0;
+    int playCount = 0, repsEntered = 0, setsCount = 0, repeatCount = 0, noOfsets = 1;
     String mStrReps, mStrSets, mStrMasterId, mStrSelectedExercices, mStrSelectedVideo, mStrStartTime, mIntialStartTime, mStrEndTime, mStrGapTime, mStrRestpGapTime = "",
             mStrInitialStartTime, token;
-    AppCompatTextView txt_Sets, txt_wrkOutTime, txt_TotalWrkTime, txt_WrkOut_Name, txt_ElpsdTime,txt_Elpsd_Time;
+    AppCompatTextView txt_Sets, txt_Reps, txt_wrkOutTime, txt_TotalWrkTime, txt_WrkOut_Name, txt_ElpsdTime, txt_Elpsd_Time;
     AppCompatButton btStart, btStop;
     boolean totTimeStart = false;
 
@@ -92,6 +92,7 @@ public class FreStyleVideoPlayerActivity extends AppCompatActivity {
     AlertDialog alertDialog;
     ArrayList<String> list_UrlPaths;
     RelativeLayout lyt_Elpsd_Time;
+    int i = 0;
 
     @SuppressLint({"SetTextI18n", "DefaultLocale"})
     @Override
@@ -113,11 +114,9 @@ public class FreStyleVideoPlayerActivity extends AppCompatActivity {
         }
 
         getUserExcercises();
-        mStrReps = getIntent().getStringExtra("reps");
-        mStrSets = getIntent().getStringExtra("sets");
-        mStrMasterId = getIntent().getStringExtra("master_id");
-        mStrSelectedExercices = getIntent().getStringExtra("selected_videos");
-        repsEntered = Integer.parseInt(mStrReps);
+        //   mStrSets = getIntent().getStringExtra("sets");
+        //mStrMasterId = getIntent().getStringExtra("master_id");
+       // mStrSelectedExercices = getIntent().getStringExtra("selected_videos");
 
         updateTimerText();
         // updateTotalTimerText();
@@ -166,14 +165,19 @@ public class FreStyleVideoPlayerActivity extends AppCompatActivity {
                 //startTimer();
                 mStrEndTime = getDateTime();
                 mStrGapTime = getDiffDuration(mStrEndTime, mStrStartTime);
-                String uExr_Id = uExercise.getExerciseId().get_id();
+
                 try {
+                    String uExr_Id = list_Exercises.get(playCount).getExerciseId().get_id();
                     userExerciseId = list_Exercises.get(playCount).get_id();
-                    postWorkoutInfo(uExr_Id, userExerciseId, mStrStartTime, mStrEndTime);
+                    postWorkoutInfo(uExr_Id, userExerciseId, mStrStartTime, mStrEndTime, noOfsets);
                 } catch (Exception e) {
                     e.printStackTrace();
-                    userExerciseId = list_Exercises.get(0).get_id();
-                    postWorkoutInfo(uExr_Id, userExerciseId, mStrStartTime, mStrEndTime);
+                    if (playCount == -1) {
+                        String uExr_Id = list_Exercises.get(1).getExerciseId().get_id();
+                        userExerciseId = list_Exercises.get(1).get_id();
+                        postWorkoutInfo(uExr_Id, userExerciseId, mStrStartTime, mStrEndTime, 1);
+                    }
+
                 }
             }
         });
@@ -183,12 +187,13 @@ public class FreStyleVideoPlayerActivity extends AppCompatActivity {
         btStart = findViewById(R.id.btStart);
         btStop = findViewById(R.id.btStop);
         txt_Sets = findViewById(R.id.txt_Sets);
+        txt_Reps = findViewById(R.id.txt_Reps);
         txt_wrkOutTime = findViewById(R.id.txt_wrkOutTime);
         txt_TotalWrkTime = findViewById(R.id.txt_TotalWrkTime);
         txt_WrkOut_Name = findViewById(R.id.txt_WrkOut_Name);
         vdeoView = findViewById(R.id.vdeoView);
-        lyt_Elpsd_Time=findViewById(R.id.lyt_Elpsd_Time);
-        txt_Elpsd_Time=findViewById(R.id.txt_Elpsd_Time);
+        lyt_Elpsd_Time = findViewById(R.id.lyt_Elpsd_Time);
+        txt_Elpsd_Time = findViewById(R.id.txt_Elpsd_Time);
     }
 
     private void getUserExcercises() {
@@ -200,7 +205,7 @@ public class FreStyleVideoPlayerActivity extends AppCompatActivity {
         progressDialog.show();
 
         Map<String, String> params = new HashMap<>();
-        params.put("userid", "5c5e69c9bf1959001707f312");
+        params.put("userid", str_UserID);
         JSONObject jsonObject = new JSONObject(params);
 
         JsonObjectRequest request_Excercise = new JsonObjectRequest(Request.Method.GET, AppConfig.getUser_Excercises, jsonObject, new Response.Listener<JSONObject>() {
@@ -216,6 +221,8 @@ public class FreStyleVideoPlayerActivity extends AppCompatActivity {
                         txt_Sets.setText("" + (setsCount + 1) + "/" + total_Sets);
 
                         uExercise = list_Exercises.get(playCount);
+                        mStrSets = list_Exercises.get(playCount).getSets();
+                        txt_Reps.setText(list_Exercises.get(playCount).getReps());
                         txt_WrkOut_Name.setText(list_Exercises.get(playCount).getExerciseId().getName());
                         list_UrlPaths = new ArrayList<>();
                         list_UrlPaths = sessionManager.getVideoArrayList("FreStyleVideos");
@@ -230,6 +237,7 @@ public class FreStyleVideoPlayerActivity extends AppCompatActivity {
                                 }
                             });
                         } else {
+                            list_UrlPaths = new ArrayList<>();
                             downloadvideoFiles();
                         }
 
@@ -251,7 +259,7 @@ public class FreStyleVideoPlayerActivity extends AppCompatActivity {
             public Map<String, String> getHeaders() throws AuthFailureError {
                 HashMap<String, String> headers = new HashMap<String, String>();
                 headers.put("Content-Type", "application/json");
-                headers.put("Authorization", "token " + "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI1YzVlNjljOWJmMTk1OTAwMTcwN2YzMTIiLCJsb2NhbExvZ2luSWQiOiI1YzVlNjljOWJmMTk1OTAwMTcwN2YzMTIiLCJwYXNzcG9ydFR5cGUiOiJsb2NhbCIsImVtYWlsSWQiOiJydWRyYWRheWFuYW5kOEBnbWFpbC5jb20iLCJleHAiOjE1NTg3NjY4OTMzLCJpYXQiOjE1NTM1ODI4OTN9.R6txDzisJZYORX3obDDGxIiTHWfrOwC3oq-MBgN9tdI");
+                headers.put("Authorization", "token " + token);
                 return headers;
             }
         };
@@ -259,13 +267,12 @@ public class FreStyleVideoPlayerActivity extends AppCompatActivity {
     }
 
     private void downloadvideoFiles() {
-        list_UrlPaths = new ArrayList<>();
         for (int i = 0; i < list_Exercises.size(); i++) {
             new DownloadFile().execute(list_Exercises.get(i).getExerciseId().getExerciseUrl());
         }
     }
 
-    private void postWorkoutInfo(final String uExrId, final String userExerciseId, final String startTime, final String endTime) {
+    private void postWorkoutInfo(final String uExrId, final String userExerciseId, final String startTime, final String endTime, final int nOfsets) {
 
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
         StrictMode.setThreadPolicy(policy);
@@ -276,7 +283,7 @@ public class FreStyleVideoPlayerActivity extends AppCompatActivity {
         Map<String, String> params = new HashMap<>();
         params.put("userExerciseId", userExerciseId);
         params.put("exerciseId", uExrId);
-        params.put("setId", mStrSets);
+        params.put("setId", String.valueOf(nOfsets));
         params.put("durationInSec", String.valueOf(Math.abs(Integer.parseInt(mStrGapTime))));
         params.put("restDurationInSec", !mStrRestpGapTime.equals("") ? mStrRestpGapTime : "0");
         params.put("createdDate", getDateTime());
@@ -303,8 +310,8 @@ public class FreStyleVideoPlayerActivity extends AppCompatActivity {
                     Log.d("PlayCount", "" + playCount);
 
                     if (playCount < list_Exercises.size()) {
-                       // restTimeDialog(Integer.parseInt(list_Exercises.get(playCount).getRest()));
-                        countDownTimerStart(Integer.parseInt(list_Exercises.get(playCount).getRest())*1000);
+                        // restTimeDialog(Integer.parseInt(list_Exercises.get(playCount).getRest()));
+                        countDownTimerStart(Integer.parseInt(list_Exercises.get(playCount).getRest()) * 1000);
                         mStrSelectedVideo = list_UrlPaths.get(playCount);
                         txt_WrkOut_Name.setText(list_Exercises.get(playCount).getExerciseId().getName());
                         btStart.setVisibility(View.VISIBLE);
@@ -323,6 +330,7 @@ public class FreStyleVideoPlayerActivity extends AppCompatActivity {
                         if ((playCount + 1) % 2 == 0) {
                             setsCount++;
                             txt_Sets.setText("" + (setsCount) + "/" + total_Sets);
+                            noOfsets = setsCount;
                             if (setsCount < Integer.parseInt(mStrSets)) {
                                 playCount = playCount - 2;
 
@@ -334,12 +342,15 @@ public class FreStyleVideoPlayerActivity extends AppCompatActivity {
                             if (setsCount < Integer.parseInt(mStrSets)) {
                                 playCount = playCount - 1;
                                 txt_Sets.setText("" + (setsCount + 1) + "/" + total_Sets);
+                                noOfsets = setsCount + 1;
                             } else {
                                 setsCount = 0;
                                 txt_Sets.setText("" + (setsCount + 1) + "/" + total_Sets);
+                                noOfsets = setsCount + 1;
                             }
                         } else {
                             txt_Sets.setText("" + (setsCount + 1) + "/" + total_Sets);
+                            noOfsets = setsCount + 1;
                         }
 
                     } else {
@@ -362,7 +373,7 @@ public class FreStyleVideoPlayerActivity extends AppCompatActivity {
             public Map<String, String> getHeaders() throws AuthFailureError {
                 HashMap<String, String> headers = new HashMap<String, String>();
                 headers.put("Content-Type", "application/json");
-                headers.put("Authorization", "token " + "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI1YzVlNjljOWJmMTk1OTAwMTcwN2YzMTIiLCJsb2NhbExvZ2luSWQiOiI1YzVlNjljOWJmMTk1OTAwMTcwN2YzMTIiLCJwYXNzcG9ydFR5cGUiOiJsb2NhbCIsImVtYWlsSWQiOiJydWRyYWRheWFuYW5kOEBnbWFpbC5jb20iLCJleHAiOjE1NTg3NjY4OTMzLCJpYXQiOjE1NTM1ODI4OTN9.R6txDzisJZYORX3obDDGxIiTHWfrOwC3oq-MBgN9tdI");
+                headers.put("Authorization", "token " + token);
 
                 //"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI1YzU1OGY3NTQzZTMxMzAwMTcyMGYxNjIiLCJsb2NhbExvZ2luSWQiOiI1YzU1OGY3NTQzZTMxMzAwMTcyMGYxNjIiLCJwYXNzcG9ydFR5cGUiOiJsb2NhbCIsImVtYWlsSWQiOiJydWRyYXNoaXJpc2hhOUBnbWFpbC5jb20iLCJleHAiOjE1NTUzMTIzMTE4LCJpYXQiOjE1NTAxMjgzMTF9.30SMbAS6lZER5uTjD7cJeuQ7tyWhi4IwwcXpTiMM1pc");
                 return headers;
@@ -417,7 +428,6 @@ public class FreStyleVideoPlayerActivity extends AppCompatActivity {
     }
 
 
-
     @SuppressLint("StaticFieldLeak")
     private class DownloadFile extends AsyncTask<String, String, String> {
 
@@ -430,7 +440,8 @@ public class FreStyleVideoPlayerActivity extends AppCompatActivity {
         protected void onPreExecute() {
             super.onPreExecute();
             this.progressDialog = new ProgressDialog(FreStyleVideoPlayerActivity.this);
-            this.progressDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
+            //  this.progressDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
+            this.progressDialog.setMessage("Getting your Personalized workouts ! ");
             this.progressDialog.setCancelable(false);
             this.progressDialog.show();
         }
@@ -459,12 +470,13 @@ public class FreStyleVideoPlayerActivity extends AppCompatActivity {
                     total += count;
 
                     final long finalTotal = total;
-                    runOnUiThread(new Runnable() {
+                 /*   runOnUiThread(new Runnable() {
                         @Override
-                        public void run() {
-                            publishProgress("" + (int) ((finalTotal * 100) / lengthOfFile));
-                        }
-                    });
+                        public void run() {*/
+                  /*  publishProgress("" + (int) ((finalTotal * 100) / lengthOfFile));
+                    Log.d("Progress", "Progress: " + (int) ((total * 100) / lengthOfFile));*/
+                   /*     }
+                    });*/
                     output.write(data, 0, count);
 
                 }
@@ -483,16 +495,21 @@ public class FreStyleVideoPlayerActivity extends AppCompatActivity {
             return "Something went wrong";
         }
 
+      /*  @Override
         protected void onProgressUpdate(String... progress) {
             progressDialog.setProgress(Integer.parseInt(progress[0]));
-        }
+        }*/
 
 
         @Override
         protected void onPostExecute(String message) {
             this.progressDialog.dismiss();
+            //    i++;
             Toast.makeText(getApplicationContext(),
                     message, Toast.LENGTH_LONG).show();
+         /*   if (i<list_Exercises.size()) {
+                downloadvideoFiles(i);
+            }*/
             vdeoView.setVideoPath(list_UrlPaths.get(0));
             vdeoView.start();
             vdeoView.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {

@@ -9,6 +9,7 @@ public class QAnswerModel implements Serializable {
     private String answerOption;
     private String whyOption;
     private String colorCode;
+    private String qtnName;
     private int s_Position;
 
     public String getColorCode() {
@@ -49,6 +50,14 @@ public class QAnswerModel implements Serializable {
 
     public void setWhyOption(String whyOption) {
         this.whyOption = whyOption;
+    }
+
+    public String getQtnName() {
+        return qtnName;
+    }
+
+    public void setQtnName(String qtnName) {
+        this.qtnName = qtnName;
     }
 
     public int getS_Position() {

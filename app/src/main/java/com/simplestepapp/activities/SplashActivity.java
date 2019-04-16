@@ -26,20 +26,16 @@ public class SplashActivity extends AppCompatActivity {
 
         //dfgd
         new Handler().postDelayed(new Runnable() {
+
             @Override
             public void run() {
                 if (sessionManager.isLoggedIn()) {
-                   /* Intent intent_Sign = new Intent(getApplicationContext(), BottomNavigationActivity.class);
-                    startActivity(intent_Sign);
-                    finish();*/
-
-                    Log.d("Sessions","  "+sessionManager.isQstnSubmission()+"   "+sessionManager.isProfileSubmission());
                     if (sessionManager.isQstnSubmission()) {
-                        if (sessionManager.isProfileSubmission()){
-                            Intent intent_Sign = new Intent(getApplicationContext(), BottomNavigationActivity.class);
+                        if (sessionManager.isProfileSubmission()) {
+                            Intent intent_Sign = new Intent(getApplicationContext(), BottomNavigationActivity .class);
                             startActivity(intent_Sign);
                             finish();
-                        }else {
+                        } else {
                             Intent intent_Sign = new Intent(getApplicationContext(), ProfileActivity.class);
                             startActivity(intent_Sign);
                             finish();

@@ -34,6 +34,9 @@ import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.google.gson.Gson;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
+import com.google.gson.reflect.TypeToken;
 import com.simplestepapp.R;
 import com.simplestepapp.adapters.CustomAdapter;
 import com.simplestepapp.adapters.CustomWakeupAdapter;
@@ -55,6 +58,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 import pl.droidsonroids.gif.GifImageView;
 
@@ -73,7 +77,6 @@ public class QuestionerActivity extends AppCompatActivity {
     private ProgressDialog progressDialog;
     RequestQueue requestQueue;
 
-
     ScrollView scroll_View;
 
     MyGridView grid_view;
@@ -91,15 +94,15 @@ public class QuestionerActivity extends AppCompatActivity {
 
     RadioButton rBtn_WOne, rBtn_WTwo, rBtn_WThre, rBtn_WFur, rBtn_op1, rBtn_op2, rBtn_op3;
 
-    String s_WkUpTime = "", s_WkUpQtnOption = "", s_WkUpWhyOptn = "", colorName = "", userName = "", eMailId = "", token = "";
+    String s_WkUpTime = "", s_WkUpQtnOption = "", s_WkUpWhyOptn = "", colorName = "", userName = "", eMailId = "", token = "", jsonExData = "";
 
     int sPosition = -1, timeSlotMarks = 0, optionsMarks = 0, finalMarks = 0, nxt_Pos = 0;
 
     public static int dis_Position = 0;
 
 
-    public Integer[] imgArray_Qtns = {R.drawable.wakeup_icon, R.drawable.brushicon, R.drawable.colon, R.drawable.drining_water,
-            R.drawable.mental_fitness, R.drawable.physical_fitness, R.drawable.sun_shine,R.drawable.wakeup_icon, R.drawable.brushicon, R.drawable.colon, R.drawable.drining_water,
+    public Integer[] imgArray_Qtns = {R.drawable.wakeup_icon, R.drawable.brushicon, R.drawable.waterintake, R.drawable.colon,
+            R.drawable.physical_fitness, R.drawable.mental_fitness, R.drawable.sun_shine, R.drawable.affermations, R.drawable.gratittude, R.drawable.to_do,
             R.drawable.mental_fitness, R.drawable.physical_fitness, R.drawable.sun_shine};
 
     Animation anim_SlideLeft, anim_FadeIn, anim_SlideRight, anim_Bounce;
@@ -107,6 +110,7 @@ public class QuestionerActivity extends AppCompatActivity {
     SessionManager sessionManager;
 
     private Dialog dialog;
+    int slctdTimeSlotCount=0;
 
 
     @Override
@@ -124,6 +128,7 @@ public class QuestionerActivity extends AppCompatActivity {
             token = user.get(SessionManager.KEY_TOKEN);
         }
         get_QuestionsAll();
+        slctdTimeSlotCount=0;
 
         rG_WakeUp.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
@@ -184,7 +189,7 @@ public class QuestionerActivity extends AppCompatActivity {
                 if (finalMarks == 100) {
                     colorName = "G";
                 } else if (finalMarks == 75) {
-                    colorName = "B";
+                    colorName = "O";
                 } else if (finalMarks == 50) {
                     colorName = "O";
                 } else {
@@ -196,12 +201,13 @@ public class QuestionerActivity extends AppCompatActivity {
                 qAnswerModel.setWhyOption(s_WkUpWhyOptn);
                 qAnswerModel.setS_Position(sPosition);
                 qAnswerModel.setColorCode(colorName);
+                qAnswerModel.setQtnName(questionerArrayList.get(0).getQuestion());
                 qAnswerModel.setQuestionId(questionerArrayList.get(0).get_id());
                 qAnswerModelArrayList = new ArrayList<>();
                 qAnswerModelArrayList.add(qAnswerModel);
                 nxt_Pos = 1;
                 answer_Submission(questionerArrayList.get(0).get_id(), s_WkUpTime, s_WkUpQtnOption, s_WkUpWhyOptn, nxt_Pos);
-                // dialog_Brushing(nxt_Pos);
+                timeSlots.add("None");
 
 
             }
@@ -227,7 +233,7 @@ public class QuestionerActivity extends AppCompatActivity {
                 rBtn_WTwo.setText(answerOptions.get(1).getDescription());
                 rBtn_WThre.setText(!answerOptions.get(2).getDescription().equals("") ? answerOptions.get(2).getDescription() : "");
                 rBtn_WFur.setText(!(answerOptions.get(3).getDescription() == null) ? answerOptions.get(3).getDescription() : "");
-            }else {
+            } else {
                 rBtn_WOne.setText(answerOptions.get(0).getDescription());
                 rBtn_WTwo.setText(answerOptions.get(1).getDescription());
                 rBtn_WThre.setVisibility(View.GONE);
@@ -245,11 +251,24 @@ public class QuestionerActivity extends AppCompatActivity {
                 @Override
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                     customAdapter.setSelectedIndex(position);
-                    s_WkUpTime = (String) parent.getItemAtPosition(position);
-                    sPosition = position;
-                    customAdapter.notifyDataSetChanged();
-                    lyt_QtnOptns.setVisibility(View.VISIBLE);
-                    lyt_list_Why.startAnimation(anim_SlideRight);
+                    if (sPosition==position){
+                        slctdTimeSlotCount++;
+                    }else{
+                        slctdTimeSlotCount--;
+                    }
+                    if (slctdTimeSlotCount<4) {
+                        s_WkUpTime = (String) parent.getItemAtPosition(position);
+                        sPosition = position;
+                        customAdapter.notifyDataSetChanged();
+                        lyt_QtnOptns.setVisibility(View.VISIBLE);
+                        lyt_list_Why.startAnimation(anim_SlideRight);
+                        if (position == timeSlots.size() - 1) {
+                            rBtn_WFur.setChecked(true);
+                        }
+                    }else{
+                        Toaster.showWarningMessage("Already four Timeslots selected ! ");
+                        lyt_QtnOptns.setVisibility(View.GONE);
+                    }
                 }
             });
 
@@ -266,7 +285,7 @@ public class QuestionerActivity extends AppCompatActivity {
                             break;
                         case R.id.rBtn_WTwo:
                             s_WkUpQtnOption = rBtn_WTwo.getText().toString();
-                            colorName = "B";
+                            colorName = "O";
                             break;
                         case R.id.rBtn_WThre:
                             s_WkUpQtnOption = rBtn_WThre.getText().toString();
@@ -313,6 +332,8 @@ public class QuestionerActivity extends AppCompatActivity {
                     qAnswerModel.setS_Position(sPosition);
                     qAnswerModel.setColorCode(colorName);
                     qAnswerModel.setQuestionId(questionerArrayList.get(nxt_Pos).get_id());
+                    qAnswerModel.setQtnName(questionerArrayList.get(nxt_Pos).getQuestion()
+                    );
                     qAnswerModelArrayList.add(qAnswerModel);
                     ++nxt_Pos;
                     if (nxt_Pos <= questionerArrayList.size()) {
@@ -377,7 +398,7 @@ public class QuestionerActivity extends AppCompatActivity {
         timeSlots.add("8:45");
         timeSlots.add("9:00");
         timeSlots.add("> 9:00");
-        timeSlots.add("None");
+
     }
 
     private void initviews(Dialog dialog) {
@@ -480,7 +501,7 @@ public class QuestionerActivity extends AppCompatActivity {
                 return headers;
             }
         };
-        
+
 
         requestQueue.add(user_Login_Req);
     }
@@ -510,22 +531,57 @@ public class QuestionerActivity extends AppCompatActivity {
                         String status = response.getString("message");
                         if ("SUCCESS".equals(status)) {
 
-                            if (nxt_Pos <= questionerArrayList.size()-1) {
+                            if (nxt_Pos <= questionerArrayList.size() - 1) {
                                 dialog_Brushing(nxt_Pos);
                             } else {
                                 sessionManager.questn_SubSession();
-                                Intent intent = new Intent(getApplicationContext(), ConclusionActivity.class);
+                                Gson gson = new Gson();
+                                String listString = gson.toJson(
+                                        qAnswerModelArrayList,
+                                        new TypeToken<ArrayList<QAnswerModel>>() {
+                                        }.getType());
+                                JSONArray jsonArray = null;
+                                try {
+                                    jsonArray = new JSONArray(listString);
+                                    jsonExData = jsonArray.toString();
+                                } catch (Exception e) {
+                                    e.printStackTrace();
+                                    jsonExData = "No Data";
+                                }
+                                Intent intent = new Intent(getApplicationContext(), UnityActivity.class);
+                                intent.putExtra("ScreenKey", "SummaryForQuestions");
+                                intent.putExtra("JsonArrayValue", "" + jsonExData);
+                                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                                 startActivity(intent);
                             }
                         } else {
                             Toaster.showWarningMessage("" + status);
-                            if (nxt_Pos <= questionerArrayList.size()-1) {
+                            if (nxt_Pos <= questionerArrayList.size() - 1) {
                                 dialog_Brushing(nxt_Pos);
                             } else {
                                 dialog.dismiss();
                                 sessionManager.questn_SubSession();
-                                Intent intent = new Intent(getApplicationContext(), ConclusionActivity.class);
+                                Gson gson = new Gson();
+                                String listString = gson.toJson(
+                                        qAnswerModelArrayList,
+                                        new TypeToken<ArrayList<QAnswerModel>>() {
+                                        }.getType());
+                                JSONArray jsonArray = null;
+                                try {
+                                    jsonArray = new JSONArray(listString);
+                                    jsonExData = jsonArray.toString();
+                                } catch (Exception e) {
+                                    e.printStackTrace();
+                                    jsonExData = "No Data";
+                                }
+                                Log.d("JsonArrayValue", "" + Objects.requireNonNull(jsonArray).toString());
+                                Intent intent = new Intent(getApplicationContext(), UnityActivity.class);
+                                intent.putExtra("ScreenKey", "SummaryForQuestions");
+                                intent.putExtra("JsonArrayValue", "" + jsonExData);
+                                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                                 startActivity(intent);
+                              /*  Intent intent = new Intent(getApplicationContext(), ConclusionActivity.class);
+                                startActivity(intent);*/
                             }
                         }
                     } else {
@@ -539,11 +595,28 @@ public class QuestionerActivity extends AppCompatActivity {
             @Override
             public void onErrorResponse(VolleyError error) {
                 Log.w("error in response", "Error: " + error.getMessage());
-                if (nxt_Pos <= questionerArrayList.size()-1) {
+                if (nxt_Pos <= questionerArrayList.size() - 1) {
                     dialog_Brushing(nxt_Pos);
                 } else {
                     sessionManager.questn_SubSession();
-                    Intent intent = new Intent(getApplicationContext(), ConclusionActivity.class);
+                    Gson gson = new Gson();
+                    String listString = gson.toJson(
+                            qAnswerModelArrayList,
+                            new TypeToken<ArrayList<QAnswerModel>>() {
+                            }.getType());
+                    JSONArray jsonArray = null;
+                    try {
+                        jsonArray = new JSONArray(listString);
+                        jsonExData = jsonArray.toString();
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                        jsonExData = "No Data";
+                    }
+                    Log.d("JsonArrayValue", "" + Objects.requireNonNull(jsonArray).toString());
+                    Intent intent = new Intent(getApplicationContext(), UnityActivity.class);
+                    intent.putExtra("ScreenKey", "SummaryForQuestions");
+                    intent.putExtra("JsonArrayValue", "" + jsonExData);
+                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                     startActivity(intent);
                 }
             }

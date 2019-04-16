@@ -53,27 +53,30 @@ public class TransformFragment extends Fragment {
         list_Transforms.add("Personalized freestyle workout");
         list_Transforms.add("Personalized easy yoga");
         list_Transforms.add("Affirmations");
-        list_Transforms.add("Grattitude");
+    /*    list_Transforms.add("Grattitude");
         list_Transforms.add("SunBath");
         list_Transforms.add("Water Intake");
-        list_Transforms.add("To - Do");
-        transformAdapter = new TransformAdapter(Objects.requireNonNull(getActivity()).getApplicationContext(), list_Transforms);
+        list_Transforms.add("To - Do");*/
+        transformAdapter = new TransformAdapter(Objects.requireNonNull(getActivity()).getApplicationContext(), list_Transforms,token);
         grid_Transform.setAdapter(transformAdapter);
 
         grid_Transform.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-               /* Log.d("Positon", "" + position);
-                Intent intent = new Intent(Objects.requireNonNull(getActivity()).getApplicationContext(), UnityActivity.class);
+                Log.d("Positonfra", "" + position);
+                /*Intent intent = new Intent(Objects.requireNonNull(getActivity()).getApplicationContext(), UnityActivity.class);
                 startActivity(intent);*/
 
                 if (position == 0) {
                     Intent intent = new Intent(getActivity(), UnityActivity.class);
+                    intent.putExtra("ScreenKey","visualization");
                     intent.putExtra("AndroidValue", ""+token);
                     intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                     startActivity(intent);
                 } else if (position == 1) {
                     Intent intent = new Intent(getActivity(), UnityActivity.class);
+                    intent.putExtra("ScreenKey","visualizationMrt");
+                    intent.putExtra("AndroidValue", ""+token);
                     intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                     startActivity(intent);
                 } else if (position == 2) {

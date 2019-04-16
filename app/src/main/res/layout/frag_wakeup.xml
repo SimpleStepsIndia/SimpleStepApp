@@ -60,7 +60,7 @@
                     android:layout_width="30dp"
                     android:layout_height="30dp"
                     android:layout_margin="10dp"
-                    app:srcCompat="@drawable/wakeup_icon" />
+                    android:src="@drawable/wakeup_icon"/>
 
                 <android.support.v7.widget.AppCompatTextView
                     android:id="@+id/txt_QtnHdng"

@@ -46,8 +46,8 @@ public class ProfileActivity extends AppCompatActivity implements DiscreteScroll
     ProgressDialog progressDialog;
     RequestQueue requestQueue;
     AppCompatButton btn_PSubmit;
-    public RadioGroup rBtnGrp_Surgens, rGrpGender, rG_WrkRtne, rG_AimTo, rgp_Profsion;
-    public RadioButton rBtn_SYes, rBtn_SNo, rBtn_Male, rBtn_Female, rBtn_others;
+    public RadioGroup rBtnGrp_Surgens, rGrpGender, rG_WrkRtne, rG_AimTo, rgp_Profsion, rBtnGrp_SurgensYes;
+    public RadioButton rBtn_SYes, rBtn_SMajor, rBtn_SMinor, rBtn_SNo, rBtn_Male, rBtn_Female, rBtn_others;
     DiscreteScrollView age_picker;
     ArrayList<Integer> age_Lst;
     AgeAdapter ageAdapter;
@@ -68,7 +68,7 @@ public class ProfileActivity extends AppCompatActivity implements DiscreteScroll
         try {
             int score = getIntent().getIntExtra("score", 0);
             Log.d("UnityData", "" + String.valueOf(score));
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
         progressDialog = new ProgressDialog(this);
@@ -79,7 +79,7 @@ public class ProfileActivity extends AppCompatActivity implements DiscreteScroll
             userName = user.get(SessionManager.KEY_NAME);
             eMailId = user.get(SessionManager.KEY_EMAIL);
             token = user.get(SessionManager.KEY_TOKEN);
-            txt_Name.setText(userName);
+            // txt_Name.setText(userName);
         }
         for (int i = 10; i <= 60; i++) {
             age_Lst.add(i);
@@ -156,6 +156,22 @@ public class ProfileActivity extends AppCompatActivity implements DiscreteScroll
             }
         });
 
+        rBtnGrp_SurgensYes.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(RadioGroup group, int checkedId) {
+                switch (checkedId) {
+                    case R.id.rBtn_SMajor:
+                        str_Surgery = "MAJOR";
+                        break;
+                    case R.id.rBtn_SMinor:
+                        str_Surgery = "MINOR";
+                        break;
+                    default:
+                        break;
+                }
+            }
+        });
+
         rGrpGender.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(RadioGroup group, @IdRes int checkedId) {
@@ -200,8 +216,9 @@ public class ProfileActivity extends AppCompatActivity implements DiscreteScroll
         btn_PSubmit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                float ht_Squre = sltd_Ht * sltd_Ht;
+                float ht_Squre = slctd_Ht * slctd_Ht;
                 float bmi = (sltd_Wt / ht_Squre) * 10000;
+                Log.d("BMI", "" + bmi);
                 profileDataUpload(userName, slctd_Age, str_Gender, slctd_Ht, slctd_Wt, bmi, str_Surgery, str_WrktRtne, str_AimTo,
                         str_Profsn, str_DOJ, str_DOB, str_ActId);
             }
@@ -218,7 +235,10 @@ public class ProfileActivity extends AppCompatActivity implements DiscreteScroll
         txt_WtPicker = findViewById(R.id.txt_WtPicker);
         lyt_SurYes = findViewById(R.id.lyt_SurYes);
         rBtnGrp_Surgens = findViewById(R.id.rBtnGrp_Surgens);
+        rBtnGrp_SurgensYes = findViewById(R.id.rBtnGrp_SurgensYes);
         rBtn_SYes = findViewById(R.id.rBtn_SYes);
+        rBtn_SMajor = findViewById(R.id.rBtn_SMajor);
+        rBtn_SMinor = findViewById(R.id.rBtn_SMinor);
         rBtn_SNo = findViewById(R.id.rBtn_SNo);
         rGrpGender = findViewById(R.id.rGrpGender);
         rBtn_Male = findViewById(R.id.rBtn_Male);

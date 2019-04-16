@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools">
-    <color name="colorPrimary">#c28449</color>
-    <color name="colorPrimaryDark">#9f652e</color>
+    <color name="colorPrimary">#2D324F</color>
+    <color name="colorPrimaryDark">#2D324F</color>
     <color name="colorAccent">#FF4081</color>
     <color name="txt_Hint">#ffffff</color>
     <color name="txt_Color">#ffffff</color>
 
     <color name="selected_color">#0000FF</color>
     <color name="bnvgng_color">#087af7</color>
-    <color name="nvgnbackground">#333333</color>
+    <color name="nvgnbackground">#2D324F</color>
     <color name="selected_color_white">#FFFFFF</color>
     <color name="background">#f56432</color>
     <color name="grey">#f4f3f3</color>

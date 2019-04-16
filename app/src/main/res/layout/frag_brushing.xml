@@ -59,8 +59,7 @@
                     android:id="@+id/img_QtnHdng"
                     android:layout_width="30dp"
                     android:layout_height="30dp"
-                    android:layout_margin="10dp"
-                    app:srcCompat="@drawable/wakeup_icon" />
+                    android:layout_margin="10dp" />
 
                 <android.support.v7.widget.AppCompatTextView
                     android:id="@+id/txt_QtnHdng"
@@ -159,7 +158,8 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_margin="5dp"
-                        android:text="@string/brush_Q1" />
+                        android:text="@string/brush_Q1"
+                        android:textSize="13sp"/>
 
                     <RadioGroup
                         android:id="@+id/rG_WakeUp"
@@ -172,27 +172,29 @@
                             android:id="@+id/rBtn_WOne"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:text="2" />
+                            android:text="2"
+                            android:textSize="13sp"/>
 
                         <RadioButton
                             android:id="@+id/rBtn_WTwo"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:text="1" />
+                            android:text="1"
+                            android:textSize="13sp"/>
 
                         <RadioButton
                             android:id="@+id/rBtn_WThre"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:text="0" />
+                            android:text="0"
+                            android:textSize="13sp"/>
 
                         <RadioButton
                             android:id="@+id/rBtn_WFur"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:text="0" />
-
-
+                            android:text="0"
+                            android:textSize="13sp"/>
                     </RadioGroup>
                 </android.support.v7.widget.CardView>
 
@@ -239,21 +241,24 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:text="@string/rBtnTxtOption1"
-                                android:textColor="@color/white"/>
+                                android:textColor="@color/white"
+                                android:textSize="13sp"/>
 
                             <RadioButton
                                 android:id="@+id/rBtn_op2"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:text="@string/rBtnTxtOption2"
-                                android:textColor="@color/white"/>
+                                android:textColor="@color/white"
+                                android:textSize="13sp"/>
 
                             <RadioButton
                                 android:id="@+id/rBtn_op3"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:text="@string/rBtnTxtOption3"
-                                android:textColor="@color/white"/>
+                                android:textColor="@color/white"
+                                android:textSize="13sp"/>
 
                         </RadioGroup>
                     </LinearLayout>

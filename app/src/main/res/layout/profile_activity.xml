@@ -13,9 +13,9 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center"
-        android:text="Srinivas"
+        android:text="Tell us a little bit about you"
         android:textColor="@color/colorPrimaryDark"
-        android:textSize="25sp" />
+        android:textSize="14sp" />
 
     <ScrollView
         android:layout_width="match_parent"
@@ -110,7 +110,7 @@
                         android:id="@+id/height_picker"
                         android:layout_width="match_parent"
                         android:layout_height="60dp"
-                        android:background="@android:color/holo_orange_dark"
+                        android:background="@color/nvgnbackground"
                         app:indicator_color="@android:color/white"
                         app:indicator_interval="10dp"
                         app:indicator_width="2dp"
@@ -156,7 +156,7 @@
                         android:id="@+id/weight_picker"
                         android:layout_width="match_parent"
                         android:layout_height="60dp"
-                        android:background="@android:color/holo_orange_dark"
+                        android:background="@color/nvgnbackground"
                         app:indicator_color="@android:color/white"
                         app:indicator_interval="10dp"
                         app:indicator_width="2dp"
@@ -508,6 +508,7 @@
                 android:layout_gravity="center"
                 android:layout_marginTop="20dp"
                 android:layout_marginBottom="80dp"
+                android:background="@drawable/button_bg"
                 android:text="Submit" />
 
         </LinearLayout>

@@ -27,10 +27,12 @@ public class TransformAdapter extends BaseAdapter {
     private LayoutInflater inflater;
     private Integer[] imgArray_TransForms = {R.drawable.vslzemrngrtne, R.drawable.trckmngrtne, R.drawable.pfrestylewrkt, R.drawable.peasyoga,
             R.drawable.affermations, R.drawable.gratittude, R.drawable.sunbath,R.drawable.waterintake, R.drawable.to_do,R.drawable.to_do};
+    String token;
 
-    public TransformAdapter(Context context, ArrayList<String> list_Transforms) {
+    public TransformAdapter(Context context, ArrayList<String> list_Transforms,String token) {
         this.context=context;
         this.list_Transforms=list_Transforms;
+        this.token=token;
         inflater = (LayoutInflater) context
                 .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     }
@@ -69,22 +71,26 @@ public class TransformAdapter extends BaseAdapter {
             @Override
             public void onClick(View v) {
                 Log.d("Positon", "" + position);
-                if (position==0) {
+                if (position == 0) {
                     Intent intent = new Intent(context, UnityActivity.class);
+                    intent.putExtra("ScreenKey","visualization");
+                    intent.putExtra("AndroidValue", ""+token);
                     intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                     context.startActivity(intent);
-                }else if (position==1){
-                    Intent intent = new Intent(context, DailyRtneFreStyleWrktActivity.class);
+                } else if (position == 1) {
+                    Intent intent = new Intent(context, UnityActivity.class);
+                    intent.putExtra("ScreenKey","visualizationMrt");
+                    intent.putExtra("AndroidValue", ""+token);
                     intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                     context.startActivity(intent);
-                }else if (position==2){
+                } else if (position == 2) {
                     Intent intent = new Intent(context, FreStyleVideoPlayerActivity.class);
                     intent.putExtra("sets", "3");
                     intent.putExtra("reps", "5");
                     intent.putExtra("selected_videos", "461665");
                     intent.putExtra("master_id", "5545688655");
                     intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                    context.startActivity(intent);
+                   context.startActivity(intent);
                 }
             }
         });

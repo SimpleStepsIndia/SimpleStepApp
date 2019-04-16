@@ -67,7 +67,7 @@ public class ProfileFragment extends Fragment implements DiscreteScrollView.OnIt
     int sltd_Wt, sltd_Ht, slctd_Age, slctd_Ht , slctd_Wt;
 
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        final View v = inflater.inflate(R.layout.profile_activity, container, false);
+      /*  final View v = inflater.inflate(R.layout.profile_activity, container, false);
         initviews(v);
         progressDialog = new ProgressDialog(getActivity());
         requestQueue = Volley.newRequestQueue(Objects.requireNonNull(getActivity()).getApplicationContext());
@@ -204,8 +204,8 @@ public class ProfileFragment extends Fragment implements DiscreteScrollView.OnIt
                 profileDataUpload(userName, slctd_Age, str_Gender, slctd_Ht, slctd_Wt, bmi, str_Surgery, str_WrktRtne, str_AimTo,
                         str_Profsn, str_DOJ, str_DOB, str_ActId);
             }
-        });
-        return v;
+        });*/
+        return null;
     }
 
     private void initviews(View v) {
