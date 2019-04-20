@@ -1,10 +1,13 @@
 package com.simplestepapp.activities;
 
+import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.StrictMode;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.AppCompatButton;
+import android.support.v7.widget.AppCompatTextView;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -35,9 +38,12 @@ import com.simplestepapp.utils.SessionManager;
 
 import org.json.JSONObject;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.TimeZone;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -45,70 +51,51 @@ import butterknife.ButterKnife;
 
 public class ExerciseResultActivity extends AppCompatActivity {
 
-    RestClient mRestClient;
-    String mStrReps, mStrSets, mStrMasterId, mStrSelectedExercices, mStrStartTime, mStrEndTime, str_wrkFeel, str_HwWrkFl, mIntialStartTime;
+
+    String mStrReps, mStrSets, mStrMasterId, mStrSelectedExercices, mStrStartTime, mStrEndTime, str_wrkFeel, str_HwWrkFl, mIntialStartTime, mStrrestTime, mStrtotalTime;
     int totalTime = 0, workoutTime = 0, restTime = 0;
 
-    @Bind(R.id.tvExercise)
-    TextView tvExercises;
-
-    @Bind(R.id.tvSets)
-    TextView tvSets;
-
-    @Bind(R.id.tvReps)
-    TextView tvReps;
-
-    @Bind(R.id.tvTotalTime)
-    TextView tvTotalTime;
-
-    @Bind(R.id.tvWorkOutTime)
-    TextView tvWorkoutTime;
-
-    @Bind(R.id.tvRestTime)
-    TextView tvRestTime;
-
-    @Bind(R.id.listExercise)
-    ListView list_exercises;
-
-    @Bind(R.id.btProceed)
-    Button btnProceed;
-
-    @Bind(R.id.rg_HwYuFel)
-    RadioGroup rg_HwYuFel;
-
-    @Bind(R.id.rg_wrkFeel)
-    RadioGroup rg_wrkFeel;
-
+    AppCompatTextView tvTotalTime, tvWorkoutTime, tvRestTime;
+    AppCompatButton btnProceed;
+    RadioGroup rg_HwYuFel, rg_wrkFeel;
     ProgressDialog progressDialog;
     RequestQueue requestQueue;
     SessionManager sessionManager;
     String token;
 
+    @SuppressLint("SetTextI18n")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_exercise_result);
-        ButterKnife.bind(this);
+        initviews();
         progressDialog = new ProgressDialog(this);
         requestQueue = Volley.newRequestQueue(this);
         sessionManager = new SessionManager(this);
         if (sessionManager.isLoggedIn()) {
             HashMap<String, String> user_Info = sessionManager.getUserDetails();
             token = user_Info.get(SessionManager.KEY_TOKEN);
+            mStrMasterId = user_Info.get(SessionManager.KEY_USERID);
         }
-        mRestClient = new RestClient();
+        try {
+            mStrStartTime = getIntent().getStringExtra("mStrInitialStartTime");
+            mStrEndTime = getIntent().getStringExtra("finalEndTime");
+            mStrrestTime = getIntent().getStringExtra("totalRestTime");
+            mStrtotalTime = getDiffDuration(mStrStartTime, mStrEndTime);
+            workoutTime = Math.abs(Integer.parseInt(mStrtotalTime) - Integer.parseInt(mStrrestTime));
+            Log.d("ExResult", "mStrStartTime " + mStrStartTime + "mStrEndTime " + mStrEndTime + "mStrrestTime " + mStrrestTime);
+            int totTime = Integer.parseInt(mStrtotalTime);
+            String toTime = totTime / 60 + " Mins " + totTime % 60 + " Sec";
+            int totRTime = Integer.parseInt(mStrrestTime);
+            String toRTime = totRTime / 60 + " Mins " + totRTime % 60 + " Sec";
 
-        mStrReps = getIntent().getStringExtra("reps");
-        mStrSets = getIntent().getStringExtra("sets");
-        mStrMasterId = getIntent().getStringExtra("master_id");
-        mStrSelectedExercices = getIntent().getStringExtra("selected_videos");
-        mStrStartTime = getIntent().getStringExtra("mStrStartTime");
-        mStrEndTime = getIntent().getStringExtra("mStrEndTime");
-        mIntialStartTime = getIntent().getStringExtra("mIntialStartTime");
+            tvTotalTime.setText("" + toTime);
+            tvWorkoutTime.setText("" + String.valueOf(workoutTime / 60 + " Mins " + workoutTime % 60 + " Sec"));
+            tvRestTime.setText("" + toRTime);
 
-        tvExercises.setText(String.valueOf(mStrSelectedExercices.split(",").length));
-        tvReps.setText(mStrReps);
-        tvSets.setText(mStrSets);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
         btnProceed.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -135,6 +122,15 @@ public class ExerciseResultActivity extends AppCompatActivity {
 
     }
 
+    private void initviews() {
+        tvTotalTime = findViewById(R.id.tvTotalTime);
+        tvWorkoutTime = findViewById(R.id.tvWorkoutTime);
+        tvRestTime = findViewById(R.id.tvRestTime);
+        btnProceed = findViewById(R.id.btnProceed);
+        rg_HwYuFel = findViewById(R.id.rg_HwYuFel);
+        rg_wrkFeel = findViewById(R.id.rg_wrkFeel);
+    }
+
     private void postExrCseFeedback() {
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
         StrictMode.setThreadPolicy(policy);
@@ -144,7 +140,7 @@ public class ExerciseResultActivity extends AppCompatActivity {
 
         Map<String, String> params = new HashMap<>();
         params.put("userExerciseId", mStrMasterId);
-        params.put("startTime", mIntialStartTime);
+        params.put("startTime", mStrStartTime);
         params.put("endTime", mStrEndTime);
         params.put("feedback1", "How you sweat during workout");
         params.put("feedbackResp1", str_HwWrkFl);
@@ -157,13 +153,24 @@ public class ExerciseResultActivity extends AppCompatActivity {
             public void onResponse(JSONObject response) {
                 progressDialog.dismiss();
                 Log.d("EResultInfo", "" + response.toString());
-                Intent intent = new Intent(getApplicationContext(), DailyRtneFreStyleWrktActivity.class);
-                startActivity(intent);
+                if (FreStyleVideoPlayerActivity.screnFrom.equalsIgnoreCase("Unity")){
+                    Intent intent = new Intent(getApplicationContext(), UnityActivity.class);
+                    intent.putExtra("ScreenKey","visualizationMrt");
+                    intent.putExtra("AndroidValue", ""+token);
+                    intent.putExtra("GetMinutes", "45");
+                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    startActivity(intent);
+                }else {
+                    Intent intent = new Intent(getApplicationContext(), BottomNavigationActivity.class);
+                    startActivity(intent);
+                }
             }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-
+                error.printStackTrace();
+                Intent intent = new Intent(getApplicationContext(), BottomNavigationActivity.class);
+                startActivity(intent);
             }
         }) {
             @Override
@@ -177,4 +184,24 @@ public class ExerciseResultActivity extends AppCompatActivity {
         };
         requestQueue.add(request);
     }
+
+    public static String getDiffDuration(String StartTime, String EndTime) {
+        SimpleDateFormat myFormat = new SimpleDateFormat("yyyy-MM-dd'T'hh:mm:ss.SSS'Z'");
+        myFormat.setTimeZone(TimeZone.getTimeZone("GMT"));
+        try {
+            Date dt1 = myFormat.parse(StartTime);
+            Date dt2 = myFormat.parse(EndTime);
+            long diff = dt2.getTime() - dt1.getTime();
+            long diffSeconds = diff / 1000 % 60;
+            long diffMinutes = diff / (60 * 1000) % 60;
+            long diffHours = diff / (60 * 60 * 1000);
+            int diffInDays = (int) ((dt2.getTime() - dt1.getTime()) / (1000 * 60 * 60 * 24));
+
+            return String.valueOf(diffSeconds);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return "";
+    }
+
 }

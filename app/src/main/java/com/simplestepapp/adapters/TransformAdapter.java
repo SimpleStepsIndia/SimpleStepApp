@@ -89,6 +89,7 @@ public class TransformAdapter extends BaseAdapter {
                     intent.putExtra("reps", "5");
                     intent.putExtra("selected_videos", "461665");
                     intent.putExtra("master_id", "5545688655");
+                    intent.putExtra("FreStyleFrom","Android");
                     intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                    context.startActivity(intent);
                 }

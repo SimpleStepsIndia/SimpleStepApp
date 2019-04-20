@@ -34,6 +34,7 @@ import com.google.gson.Gson;
 import com.simplestepapp.R;
 import com.simplestepapp.adapters.UserExerciseAdapter;
 import com.simplestepapp.models.exercise.ExerciseModel;
+import com.simplestepapp.models.exercise.UExerSummaryModel;
 import com.simplestepapp.models.exercise.UExercise;
 import com.simplestepapp.utils.AppConfig;
 import com.simplestepapp.utils.SessionManager;
@@ -69,7 +70,8 @@ public class FreStyleVideoPlayerActivity extends AppCompatActivity {
     int sets = 1;
     int playCount = 0, repsEntered = 0, setsCount = 0, repeatCount = 0, noOfsets = 1;
     String mStrReps, mStrSets, mStrMasterId, mStrSelectedExercices, mStrSelectedVideo, mStrStartTime, mIntialStartTime, mStrEndTime, mStrGapTime, mStrRestpGapTime = "",
-            mStrInitialStartTime, token;
+            token;
+    public String mStrInitialStartTime, finalEndTime;
     AppCompatTextView txt_Sets, txt_Reps, txt_wrkOutTime, txt_TotalWrkTime, txt_WrkOut_Name, txt_ElpsdTime, txt_Elpsd_Time;
     AppCompatButton btStart, btStop;
     boolean totTimeStart = false;
@@ -93,6 +95,9 @@ public class FreStyleVideoPlayerActivity extends AppCompatActivity {
     ArrayList<String> list_UrlPaths;
     RelativeLayout lyt_Elpsd_Time;
     int i = 0;
+    public static ArrayList<UExerSummaryModel> list_uExerSummaryModel;
+    public int totalRestTime = 0;
+    public static String screnFrom="";
 
     @SuppressLint({"SetTextI18n", "DefaultLocale"})
     @Override
@@ -112,11 +117,13 @@ public class FreStyleVideoPlayerActivity extends AppCompatActivity {
             token = user.get(SessionManager.KEY_TOKEN);
             str_UserID = user.get(SessionManager.KEY_USERID);
         }
+        list_uExerSummaryModel = new ArrayList<>();
 
         getUserExcercises();
         //   mStrSets = getIntent().getStringExtra("sets");
         //mStrMasterId = getIntent().getStringExtra("master_id");
-       // mStrSelectedExercices = getIntent().getStringExtra("selected_videos");
+        // mStrSelectedExercices = getIntent().getStringExtra("selected_videos");
+        screnFrom=getIntent().getStringExtra("FreStyleFrom");
 
         updateTimerText();
         // updateTotalTimerText();
@@ -170,6 +177,12 @@ public class FreStyleVideoPlayerActivity extends AppCompatActivity {
                     String uExr_Id = list_Exercises.get(playCount).getExerciseId().get_id();
                     userExerciseId = list_Exercises.get(playCount).get_id();
                     postWorkoutInfo(uExr_Id, userExerciseId, mStrStartTime, mStrEndTime, noOfsets);
+                    UExerSummaryModel uExerSummaryModel = new UExerSummaryModel();
+                    uExerSummaryModel.setSets(String.valueOf(noOfsets));
+                    uExerSummaryModel.setWkt_Time(String.valueOf(Math.abs(Integer.parseInt(mStrGapTime))));
+                    uExerSummaryModel.setRest_Time(!mStrRestpGapTime.equals("") ? mStrRestpGapTime : "0");
+                    uExerSummaryModel.setExerCount(playCount);
+                    list_uExerSummaryModel.add(uExerSummaryModel);
                 } catch (Exception e) {
                     e.printStackTrace();
                     if (playCount == -1) {
@@ -252,6 +265,8 @@ public class FreStyleVideoPlayerActivity extends AppCompatActivity {
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
+                error.printStackTrace();
+
 
             }
         }) {
@@ -260,6 +275,7 @@ public class FreStyleVideoPlayerActivity extends AppCompatActivity {
                 HashMap<String, String> headers = new HashMap<String, String>();
                 headers.put("Content-Type", "application/json");
                 headers.put("Authorization", "token " + token);
+                // eyJ1c2VySWQiOiI1Y2I1N2I0NTUyMWQ2ODAwMTc4ODg4NGUiLCJsb2NhbExvZ2luSWQiOiI1Y2I1N2I0NTUyMWQ2ODAwMTc4ODg4NGUiLCJwYXNzcG9ydFR5cGUiOiJsb2NhbCIsImVtYWlsSWQiOiJ0c3BjZ2hvbGljZXRhYkBnbWFpbC5jb20iLCJleHAiOjE1NjA1ODE0NDU3LCJpYXQiOjE1NTUzOTc0NDV9.ZrMQYP4YmrBszqQTc2SHJeGczJccPVDxZS1ZD0QQpko
                 return headers;
             }
         };
@@ -305,13 +321,14 @@ public class FreStyleVideoPlayerActivity extends AppCompatActivity {
                 progressDialog.dismiss();
 
                 try {
-
                     playCount++;
                     Log.d("PlayCount", "" + playCount);
-
                     if (playCount < list_Exercises.size()) {
                         // restTimeDialog(Integer.parseInt(list_Exercises.get(playCount).getRest()));
+                        totalRestTime = totalRestTime + Integer.parseInt(list_Exercises.get(playCount).getRest());
                         countDownTimerStart(Integer.parseInt(list_Exercises.get(playCount).getRest()) * 1000);
+                        /*totalRestTime = totalRestTime + 3;
+                        countDownTimerStart(3* 1000);*/
                         mStrSelectedVideo = list_UrlPaths.get(playCount);
                         txt_WrkOut_Name.setText(list_Exercises.get(playCount).getExerciseId().getName());
                         btStart.setVisibility(View.VISIBLE);
@@ -352,11 +369,23 @@ public class FreStyleVideoPlayerActivity extends AppCompatActivity {
                             txt_Sets.setText("" + (setsCount + 1) + "/" + total_Sets);
                             noOfsets = setsCount + 1;
                         }
+                        UExerSummaryModel uExerSummaryModel = new UExerSummaryModel();
+                        uExerSummaryModel.setSets(String.valueOf(noOfsets));
+                        uExerSummaryModel.setWkt_Time(String.valueOf(Math.abs(Integer.parseInt(mStrGapTime))));
+                        uExerSummaryModel.setRest_Time(!mStrRestpGapTime.equals("") ? mStrRestpGapTime : "0");
+                        uExerSummaryModel.setExerCount(playCount);
+                        list_uExerSummaryModel.add(uExerSummaryModel);
 
                     } else {
                         stopTotTimer();
+                        finalEndTime = getDateTime();
+
                         Toaster.showInfoMessage("Workouts Completed !");
-                        Intent intent = new Intent(getApplicationContext(), BottomNavigationActivity.class);
+                        Intent intent = new Intent(getApplicationContext(), ExerciseResultActivity.class);
+                        intent.putExtra("mStrInitialStartTime", mStrInitialStartTime);
+                        intent.putExtra("finalEndTime", finalEndTime);
+                        intent.putExtra("totalWorkOutTime", getDiffDuration(finalEndTime,mStrInitialStartTime));
+                        intent.putExtra("totalRestTime", String.valueOf(totalRestTime));
                         startActivity(intent);
                     }
                 } catch (Exception e) {
@@ -426,7 +455,6 @@ public class FreStyleVideoPlayerActivity extends AppCompatActivity {
         txt_ElpsdTime = view.findViewById(R.id.txt_ElpsdTime);
         countTimer(restTime * 1000);
     }
-
 
     @SuppressLint("StaticFieldLeak")
     private class DownloadFile extends AsyncTask<String, String, String> {
@@ -654,4 +682,5 @@ public class FreStyleVideoPlayerActivity extends AppCompatActivity {
     public void onBackPressed() {
         super.onBackPressed();
     }
+
 }

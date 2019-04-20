@@ -40,7 +40,8 @@
                     style="@style/style_EditText"
                     android:layout_width="match_parent"
                     android:layout_height="50dp"
-                    android:hint="@string/reg_Name" />
+                    android:hint="@string/reg_Name"
+                    android:visibility="gone"/>
 
                 <android.support.v7.widget.AppCompatEditText
                     android:id="@+id/edtTxt_EmailId"
@@ -62,12 +63,12 @@
 
 
                 <android.support.v7.widget.AppCompatButton
-                    android:id="@+id/btn_SignUp"
+                    android:id="@+id/btn_SignIn"
                     android:layout_width="match_parent"
                     android:layout_height="50dp"
                     android:layout_marginTop="20dp"
                     android:background="@drawable/button_bg"
-                    android:text="Sign In"
+                    android:text="Log In"
                     android:textColor="#FFFFFF" />
 
                 <android.support.v7.widget.AppCompatTextView
@@ -88,10 +89,12 @@
                     android:text="Sign In with Google"
                     android:background="@drawable/btn_sign_email_bg"
                     android:textColor="#FFFFFF"
+                    android:visibility="gone"
                     />
 
 
                 <android.support.v7.widget.AppCompatTextView
+                    android:id="@+id/txt_SignUp"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_margin="15dp"

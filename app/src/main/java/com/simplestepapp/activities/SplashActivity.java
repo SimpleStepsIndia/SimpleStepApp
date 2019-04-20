@@ -10,9 +10,6 @@ import android.util.Log;
 import com.simplestepapp.R;
 import com.simplestepapp.utils.SessionManager;
 
-/**
- * Created by Srinivas on 12/18/2018.
- */
 
 public class SplashActivity extends AppCompatActivity {
     SessionManager sessionManager;
@@ -23,10 +20,7 @@ public class SplashActivity extends AppCompatActivity {
         setContentView(R.layout.activity_splash);
         sessionManager = new SessionManager(this);
         int SPLASH_TIME = 2000;
-
-        //dfgd
         new Handler().postDelayed(new Runnable() {
-
             @Override
             public void run() {
                 if (sessionManager.isLoggedIn()) {

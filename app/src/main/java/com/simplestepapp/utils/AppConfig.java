@@ -20,6 +20,8 @@ public class AppConfig {
 
     public static String user_REGISTER="https://evening-river-50305.herokuapp.com/user";
 
+    public static String user_LOGIN="https://evening-river-50305.herokuapp.com/login-local";
+
     public static String post_ProfileInfo="https://evening-river-50305.herokuapp.com/user/profile";
 
     public static String getUser_Excercises="https://evening-river-50305.herokuapp.com/exercise/getUserExercise";

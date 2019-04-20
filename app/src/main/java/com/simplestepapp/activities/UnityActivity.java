@@ -34,10 +34,10 @@ public class UnityActivity extends UnityPlayerActivity {
         startActivity(resultIntent);
     }
 
-    public void OnWorkOutEntry(String physicalFitness) {
-        Log.d("physicalFitness", "" + physicalFitness);
-        Intent intent = new Intent(getApplicationContext(), FreStyleVideoPlayerActivity.class);
-        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+    public void OnWorkOutEntry(String PhysicalFitness) {
+        Log.d("JsonUnity", "" + PhysicalFitness);
+        Intent intent = new Intent(this, FreStyleVideoPlayerActivity.class);
+        intent.putExtra("FreStyleFrom","Unity");
         startActivity(intent);
     }
 
